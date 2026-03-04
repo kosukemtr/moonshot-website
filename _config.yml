@@ -1,0 +1,20 @@
+﻿title: ムーンショット目標6 誤り耐性量子コンピュータ アプリケーション研究開発
+list_title: News
+timezone: Asia/Tokyo
+description: >
+  ムーンショット目標6「誤り耐性量子コンピュータのアプリケーション研究開発」プロジェクトの公式ページです。
+
+remote_theme: "jekyll/minima@8106bd4"
+
+markdown: kramdown
+kramdown:
+  math_engine: mathjax
+
+minima:
+  date_format: "%Y-%m-%d"
+
+nav_pages:
+  - about.md
+  - members.md
+  - publications.md
+  - archive.md
