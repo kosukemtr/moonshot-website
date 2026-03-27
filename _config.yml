@@ -16,5 +16,6 @@ minima:
 nav_pages:
   - about.md
   - members.md
+  - events.md
   - publications.md
   - archive.md
