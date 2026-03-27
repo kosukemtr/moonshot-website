@@ -4,7 +4,7 @@ list_title: News
 ---
 
 <div class="homepage-banner">
-  <img src="/assets/images/banner.png" alt="Moonshot Project Banner">
+  <img src="{{ '/assets/images/banner.png' | relative_url }}" alt="Moonshot Project Banner">
 </div>
 
 # プロジェクト概要
@@ -16,4 +16,6 @@ list_title: News
 量子CAE・計算物質科学を中心に、誤り訂正が可能な将来の量子計算を前提とした
 End-to-Endの計算手順と資源見積もりを整備し、古典計算との比較を検証可能な形で提示します。
 
-詳細は [About](/about) をご覧ください。
+助成番号: JPMJMS256J
+
+詳細は [About]({{ '/about/' | relative_url }}) をご覧ください。
