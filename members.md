@@ -4,6 +4,8 @@ title: Members
 permalink: /members/
 ---
 
+本プロジェクトの助成番号 / Grant Number: `JPMJMS256J`
+
 ## Project Management
 
 | Name | Role | Affiliation |
