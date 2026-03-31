@@ -1,7 +1,7 @@
 ﻿---
 layout: post
 title: "キックオフミーティング開催のお知らせ"
-date: 2026-03-31 15:00:00 +0900
+date: 2026-03-30 15:00:00 +0900
 categories: news events
 ---
 
