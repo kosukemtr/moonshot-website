@@ -19,3 +19,6 @@ nav_pages:
   - events.md
   - publications.md
   - archive.md
+
+exclude:
+  - AGENTS.md
