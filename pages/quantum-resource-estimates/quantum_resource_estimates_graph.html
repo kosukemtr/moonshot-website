@@ -156,14 +156,15 @@ function legendShape(kind, x, y, color) {
   if (kind === "experiment") return `<circle cx="${x}" cy="${y}" r="6" fill="#fff" stroke="#111827" stroke-width="3"></circle>`;
   return `<path d="M ${x} ${y-6} L ${x+6.5} ${y+6} L ${x-6.5} ${y+6} Z" fill="${color}" stroke="${color}" stroke-width="1.4"></path>`;
 }
-function renderSvgLegend(x, y, isNarrow) {
+function renderSvgLegend(x, y, isNarrow, data) {
   const entries = [
     ["chemistry", "量子化学・量子シミュレーション", colors.chemistry],
     ["crypto", "素因数分解・暗号系", colors.crypto],
     ["other", "その他", colors.other],
-    ["subroutine", "サブルーチンのみ", "#475467"],
-    ["experiment", "実験実現あり", "#111827"],
-  ];
+  ].filter(([kind]) => state.categories.has(kind) && data.some(d => d.category === kind));
+  if (data.some(d => d.isSubroutineOnly)) entries.push(["subroutine", "サブルーチンのみ", "#475467"]);
+  if (data.some(d => d.isExperiment)) entries.push(["experiment", "実験実現あり", "#111827"]);
+  if (!entries.length) return "";
   const rowH = 18;
   const width = isNarrow ? 204 : 268;
   const height = 14 + entries.length * rowH;
@@ -228,7 +229,7 @@ function render() {
     const r = d.isExperiment ? 8 : (d.isSubroutineOnly ? 7 : (d.gateSource === "t" ? 5.5 : 6.5));
     html += `<g data-i="${DATA.indexOf(d)}" style="fill:${colors[d.category] || colors.other};stroke:${colors[d.category] || colors.other}">${categoryShape(d,x,y,r)}</g>`;
   });
-  html += renderSvgLegend(margin.left + 12, margin.top + 12, isNarrow);
+  html += renderSvgLegend(margin.left + 12, margin.top + 12, isNarrow, data);
   plot.innerHTML = html;
   plot.querySelectorAll("g[data-i]").forEach(g => {
     g.addEventListener("mouseenter", e => showTip(DATA[+g.dataset.i], e));

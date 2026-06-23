@@ -961,6 +961,34 @@ function categoryShape(d, x, y, r) {{
   if (d.category === "chemistry") return `<rect class="${{cls}}" x="${{x-r}}" y="${{y-r}}" width="${{2*r}}" height="${{2*r}}" rx="2"></rect>`;
   return `<path class="${{cls}}" d="M ${{x}} ${{y-r}} L ${{x+r}} ${{y+r}} L ${{x-r}} ${{y+r}} Z"></path>`;
 }}
+function legendShape(kind, x, y, color) {{
+  if (kind === "crypto") return `<circle cx="${{x}}" cy="${{y}}" r="5.5" fill="${{color}}" stroke="${{color}}" stroke-width="1.4"></circle>`;
+  if (kind === "chemistry") return `<rect x="${{x-5.5}}" y="${{y-5.5}}" width="11" height="11" rx="2" fill="${{color}}" stroke="${{color}}" stroke-width="1.4"></rect>`;
+  if (kind === "subroutine") return `<path d="M ${{x}} ${{y-6.5}} L ${{x+6.5}} ${{y}} L ${{x}} ${{y+6.5}} L ${{x-6.5}} ${{y}} Z" fill="#fff" stroke="${{color}}" stroke-width="2.2"></path>`;
+  if (kind === "experiment") return `<circle cx="${{x}}" cy="${{y}}" r="6" fill="#fff" stroke="#111827" stroke-width="3"></circle>`;
+  return `<path d="M ${{x}} ${{y-6}} L ${{x+6.5}} ${{y+6}} L ${{x-6.5}} ${{y+6}} Z" fill="${{color}}" stroke="${{color}}" stroke-width="1.4"></path>`;
+}}
+function renderSvgLegend(x, y, isNarrow, data) {{
+  const entries = [
+    ["chemistry", "量子化学・量子シミュレーション", colors.chemistry],
+    ["crypto", "素因数分解・暗号系", colors.crypto],
+    ["other", "その他", colors.other],
+  ].filter(([kind]) => state.categories.has(kind) && data.some(d => d.category === kind));
+  if (data.some(d => d.isSubroutineOnly)) entries.push(["subroutine", "サブルーチンのみ", "#475467"]);
+  if (data.some(d => d.isExperiment)) entries.push(["experiment", "実験実現あり", "#111827"]);
+  if (!entries.length) return "";
+  const rowH = 18;
+  const width = isNarrow ? 204 : 268;
+  const height = 14 + entries.length * rowH;
+  let html = `<g class="svg-legend" pointer-events="none"><rect class="svg-legend-bg" x="${{x}}" y="${{y}}" width="${{width}}" height="${{height}}" rx="6" fill="#fff" fill-opacity=".94" stroke="#d0d5dd" stroke-width="1"></rect>`;
+  entries.forEach((entry, i) => {{
+    const [kind, label, color] = entry;
+    const yy = y + 17 + i * rowH;
+    const labelText = isNarrow && label.length > 12 ? label.replace("・量子シミュレーション", "") : label;
+    html += `<g class="svg-legend-row">${{legendShape(kind, x + 15, yy - 3, color)}}<text x="${{x + 30}}" y="${{yy + 1}}" fill="#344054" font-size="12" font-weight="650" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">${{labelText}}</text></g>`;
+  }});
+  return html + `</g>`;
+}}
 function visibleData() {{
   return DATA.filter(d =>
     state.categories.has(d.category) &&
@@ -1013,6 +1041,7 @@ function render() {{
     const r = d.isExperiment ? 8 : 6.4;
     html += `<g data-i="${{DATA.indexOf(d)}}" style="fill:${{colors[d.category] || colors.other}}">${{categoryShape(d,x,y,r)}}</g>`;
   }});
+  html += renderSvgLegend(margin.left + 12, margin.top + 12, isNarrow, data);
   plot.innerHTML = html;
   plot.querySelectorAll("g[data-i]").forEach(g => {{
     g.addEventListener("mouseenter", e => showTip(DATA[+g.dataset.i], e));
@@ -1662,14 +1691,15 @@ function legendShape(kind, x, y, color) {{
   if (kind === "experiment") return `<circle cx="${{x}}" cy="${{y}}" r="6" fill="#fff" stroke="#111827" stroke-width="3"></circle>`;
   return `<path d="M ${{x}} ${{y-6}} L ${{x+6.5}} ${{y+6}} L ${{x-6.5}} ${{y+6}} Z" fill="${{color}}" stroke="${{color}}" stroke-width="1.4"></path>`;
 }}
-function renderSvgLegend(x, y, isNarrow) {{
+function renderSvgLegend(x, y, isNarrow, data) {{
   const entries = [
     ["chemistry", "量子化学・量子シミュレーション", colors.chemistry],
     ["crypto", "素因数分解・暗号系", colors.crypto],
     ["other", "その他", colors.other],
-    ["subroutine", "サブルーチンのみ", "#475467"],
-    ["experiment", "実験実現あり", "#111827"],
-  ];
+  ].filter(([kind]) => state.categories.has(kind) && data.some(d => d.category === kind));
+  if (data.some(d => d.isSubroutineOnly)) entries.push(["subroutine", "サブルーチンのみ", "#475467"]);
+  if (data.some(d => d.isExperiment)) entries.push(["experiment", "実験実現あり", "#111827"]);
+  if (!entries.length) return "";
   const rowH = 18;
   const width = isNarrow ? 204 : 268;
   const height = 14 + entries.length * rowH;
@@ -1734,7 +1764,7 @@ function render() {{
     const r = d.isExperiment ? 8 : (d.isSubroutineOnly ? 7 : (d.gateSource === "t" ? 5.5 : 6.5));
     html += `<g data-i="${{DATA.indexOf(d)}}" style="fill:${{colors[d.category] || colors.other}};stroke:${{colors[d.category] || colors.other}}">${{categoryShape(d,x,y,r)}}</g>`;
   }});
-  html += renderSvgLegend(margin.left + 12, margin.top + 12, isNarrow);
+  html += renderSvgLegend(margin.left + 12, margin.top + 12, isNarrow, data);
   plot.innerHTML = html;
   plot.querySelectorAll("g[data-i]").forEach(g => {{
     g.addEventListener("mouseenter", e => showTip(DATA[+g.dataset.i], e));
