@@ -22,3 +22,13 @@ nav_pages:
 
 exclude:
   - AGENTS.md
+  - README.md
+  - pages/quantum-resource-estimates/AGENTS.md
+  - pages/quantum-resource-estimates/build_resource_estimates.sh
+  - pages/quantum-resource-estimates/content/
+  - pages/quantum-resource-estimates/previews/
+  - pages/quantum-resource-estimates/references/
+  - pages/quantum-resource-estimates/scripts/
+  - pages/quantum-resource-estimates/quantum_resource_estimates.md
+  - pages/quantum-resource-estimates/quantum_resource_estimates.html
+  - pages/quantum-resource-estimates/quantum_resource_estimates_physical_graph.html
