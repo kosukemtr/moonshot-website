@@ -17,8 +17,10 @@ MAIN_ALIGN: list[str] | None = None
 
 NUMERIC_JSON_NAME = "resource_estimates_numeric.json"
 GRAPH_HTML_NAME = "quantum_resource_estimates_graph.html"
+GRAPH_HTML_EN_NAME = "quantum_resource_estimates_graph_en.html"
 PHYSICAL_GRAPH_HTML_NAME = "quantum_resource_estimates_physical_graph.html"
 SPEEDUP_GRAPH_HTML_NAME = "quantum_resource_estimates_speedup_graph.html"
+SPEEDUP_GRAPH_HTML_EN_NAME = "quantum_resource_estimates_speedup_graph_en.html"
 PREVIEW_DIR_NAME = "previews"
 FEEDBACK_ISSUE_URL = (
     "https://github.com/kosukemtr/moonshot-website/issues/new"
@@ -30,6 +32,11 @@ AI_EXTRACTION_NOTICE = (
     f'データは論文を確認しながら整備していますが、AIによる情報抽出を含むため、'
     f'一部に誤りがある可能性があります。間違いを見つけた場合は '
     f'<a href="{FEEDBACK_ISSUE_HREF}" target="_blank" rel="noopener">下書き入りのGitHub Issue</a> からお知らせください。'
+)
+AI_EXTRACTION_NOTICE_EN = (
+    f'The dataset is curated from the papers, but it includes AI-assisted extraction '
+    f'and may contain errors. Please report corrections via '
+    f'<a href="{FEEDBACK_ISSUE_HREF}" target="_blank" rel="noopener">this prefilled GitHub Issue</a>.'
 )
 PDF_SOURCE_MAP = {
     "1208.0928": "fowler_etal_2012_surface_codes.pdf",
@@ -2324,6 +2331,123 @@ def validate_html(base: Path, rendered: str) -> None:
         raise ValueError("rendered HTML appears to contain no table rows")
 
 
+def english_public_graph_html(html_text: str) -> str:
+    replacements = [
+        ('<html lang="ja">', '<html lang="en">'),
+        (AI_EXTRACTION_NOTICE, AI_EXTRACTION_NOTICE_EN),
+        ("量子リソース見積もりグラフ", "Quantum Resource Estimate Graph"),
+        ("量子・古典計算時間比と生デバイス性能指標", "Quantum-Classical Runtime Ratio and Raw Device Performance"),
+        (
+            "横軸は報告論理量子ビット数、縦軸はToffoli換算ゲート数または論文が報告した論理ゲート数。どちらも対数軸で、論理量子ビット数は1e9以下を表示しています。",
+            "The x-axis shows reported logical qubits, and the y-axis shows Toffoli-equivalent gates or reported logical gate counts. Both axes are logarithmic, and entries with at most 1e9 logical qubits are shown.",
+        ),
+        (
+            "横軸は物理量子ビット数 / 物理エラー率、縦軸は古典計算時間 / 量子計算時間です。RSA系の古典時間はGNFS主項をRSA-250実績に合わせて外挿しています。",
+            "The x-axis shows physical qubits divided by physical error rate, and the y-axis shows classical runtime divided by quantum runtime. RSA classical runtimes are extrapolated from the GNFS leading term normalized to RSA-250.",
+        ),
+        ("SVG保存", "Save SVG"),
+        ("PNG保存", "Save PNG"),
+        ("TSV保存", "Save TSV"),
+        ("Tゲート換算", "T-gate conversion"),
+        ("量子化学・量子シミュレーション", "Quantum chemistry and simulation"),
+        ("素因数分解・暗号系", "Factoring and cryptography"),
+        ("その他", "Other"),
+        ("サブルーチンのみ", "Subroutine only"),
+        ("実験実現あり", "Experiment performed"),
+        ("表示できる点がありません。", "No points to display."),
+        ("このグラフの読み方", "How to Read This Graph"),
+        (
+            "横軸は各論文が報告した論理量子ビット数、縦軸は原則としてToffoli換算ゲート数です。Toffoli/T/CCZのいずれも報告されていない場合は、論文が報告した論理ゲート数を換算せずに表示します。論理量子ビット数が報告されていない見積もりと、論理量子ビット数が1e6を超える見積もりは表示していません。",
+            "The x-axis is the number of logical qubits reported by each paper. The y-axis is generally a Toffoli-equivalent gate count. If no Toffoli, T, or CCZ count is reported, the reported logical gate count is plotted without conversion. Estimates without reported logical qubits and estimates above 1e6 logical qubits are not shown in this view.",
+        ),
+        ("Toffoli数がある場合は、その値をそのまま使います。", "If a Toffoli count is available, it is used directly."),
+        ("Toffoli数がなくTゲート数がある場合は、既定ではT/4でToffoli換算します。この換算は", "If no Toffoli count is available but a T-gate count is, the default conversion is T/4. This convention follows descriptions in"),
+        ("の記述に沿ったものです。", "."),
+        ("T/2は", "T/2 is included as an alternative view closer to surface-code cost assumptions such as"),
+        ("のようなsurface-codeコスト寄りの見方を確認するための参考表示です。", "."),
+        ("CCZ数が明示されている場合は、1 CCZを1 Toffoli相当として扱っています。", "If a CCZ count is explicitly reported, 1 CCZ is treated as 1 Toffoli equivalent."),
+        ("中抜きの菱形は、block-encodingやQSVTなどのサブルーチン単体の資源見積もりで、問題全体のend-to-end資源ではない点です。", "Open diamonds mark subroutine-only resource estimates, such as block-encoding or QSVT subroutines, rather than end-to-end resources for the full problem."),
+        ("Pauli rotation数、RZZ数、その他の論理ゲート数しか報告されていない行は、換算せずに報告値をそのまま縦軸に置いています。", "Rows that only report Pauli rotations, RZZ gates, or other logical gate counts are plotted as reported without conversion."),
+        ("論理量子ビット数は論文内の報告値です。レジスタ、ancilla、layout、routing、factoryなどの含まれ方は論文により異なります。", "Logical qubit counts are the values reported in the papers. What is included, such as registers, ancillae, layout, routing, or factories, differs by paper."),
+        ("上部のToffoli/usに処理レートを入れると、各点の縦軸値をそのレートで割った概算時間を右軸とホバー詳細に表示します。換算なしの報告論理ゲート数に対する時間表示は参考値です。", "Enter a processing rate in Toffoli/us to show an approximate runtime on the right axis and in the hover details. Runtime labels for unconverted reported logical gate counts are only rough references."),
+        ("点にマウスを合わせると、論文、対象サイズ、見積もり種別、物理量子ビット数、実行時間、備考などの詳細を表示します。", "Hover over a point to see the paper, target size, estimate type, physical qubits, runtime, notes, and related details."),
+        ("誤りや追加情報の報告は ", "Please report corrections or additional information via "),
+        (" からお願いします。", "."),
+        ("下書き入りのGitHub Issue", "this prefilled GitHub Issue"),
+        ("注: このグラフは論文間の大まかな位置関係を見るためのものです。読みやすさのため、論理量子ビット数が1e6を超える点は表示範囲外にしています。換算や報告値の粒度が異なる点に注意してください。", "Note: this graph is meant to show broad relationships across papers. For readability, points above 1e6 logical qubits are outside the displayed range. Conversion rules and reporting granularity differ across papers."),
+        ("RSA古典時間の概算", "RSA Classical Runtime Estimate"),
+        ("RSA系の古典計算時間は、General Number Field Sieve (GNFS) の主項を使って概算しています。RSA modulusのbit長を b とし、N ≃ 2^b と近似します。", "Classical runtimes for RSA entries are estimated using the leading term of the General Number Field Sieve (GNFS). The RSA modulus bit length is b, with N approximated as 2^b."),
+        ("基準点は ", "The reference point is "),
+        ("です。RSA-250 は250 decimal digits、約829 bitsで、公開報告の約2700 core-yearsを T_829 として使います。", ". RSA-250 has 250 decimal digits, about 829 bits, and the public report of about 2700 core-years is used as T_829."),
+        ("グラフの古典計算時間は、このcore-year値を100万 coreで並列実行した壁時計時間として秒へ換算しています。実際の古典実行時間は実装、ハードウェア、並列化、メモリ、線形代数部の扱いで変わります。", "The graph converts this core-year estimate to wall-clock seconds assuming parallel execution on one million cores. Actual classical runtimes depend on implementation, hardware, parallelism, memory, and the treatment of the linear-algebra stage."),
+        ("参考値", "Reference Values"),
+        ("bit長", "bits"),
+        ("100万 core 秒換算", "seconds at 1M cores"),
+        ("表示する点", "Displayed Points"),
+        ("量子計算時間、物理量子ビット数、物理エラー率がある行だけを表示します。", "Only rows with quantum runtime, physical qubits, and physical error rate are shown."),
+        ("RSA系は上記GNFS外挿で古典時間を生成します。", "For RSA entries, classical runtimes are generated using the GNFS extrapolation above."),
+        ("RSA以外は、元データに古典計算時間または古典/量子時間比がある場合だけ表示します。", "For non-RSA entries, rows are shown only when the source data includes a classical runtime or a classical/quantum runtime ratio."),
+        ("黒い太枠で強調した点は、元論文で実際に実験として実施されたエントリです。", "Points with a thick black outline are entries actually performed as experiments in the source paper."),
+        ("横軸は誤り訂正前の生デバイス性能を粗く表す補助指標として、物理量子ビット数を物理エラー率で割った値を使っています。誤り訂正なしのランダム量子回路サンプリング実験では、論文記載の代表的な同時2量子ビットゲートエラーを物理エラー率として使っています。点にマウスを合わせると、論文、対象、量子計算時間、古典計算時間、比、古典時間の扱いを表示します。", "The x-axis uses physical qubits divided by physical error rate as a rough auxiliary indicator of raw, pre-error-correction device performance. For random-circuit-sampling experiments without error correction, the representative simultaneous two-qubit gate error reported in the paper is used as the physical error rate. Hover over a point to see the paper, target, quantum runtime, classical runtime, ratio, and classical-runtime treatment."),
+        ("注: この図は古典/量子の大まかな速度比を見るための補助図です。RSAの古典時間は論文記載値ではなく、GNFS漸近主項をRSA-250実績に正規化した概算です。縦軸は10^25で表示を打ち切り、これを超える点は非表示にしています。縦軸の下限は表示対象データに合わせて自動で決まります。", "Note: this figure is an auxiliary view of rough classical/quantum speed ratios. RSA classical runtimes are not paper-reported values; they are estimates from the GNFS asymptotic leading term normalized to RSA-250. The y-axis is capped at 10^25, and points above this value are hidden. The lower y-axis bound is chosen automatically from the displayed data."),
+        ("報告論理量子ビット数", "Reported logical qubits"),
+        ("Toffoli換算または報告論理ゲート数", "Toffoli-equivalent or reported logical gates"),
+        ("概算時間", "Approx. runtime"),
+        ("物理量子ビット数 / 物理エラー率", "Physical qubits / physical error rate"),
+        ("古典計算時間 / 量子計算時間", "Classical runtime / quantum runtime"),
+        ("物理量子ビット数/物理エラー率と古典計算時間/量子計算時間比の散布図", "Scatter plot of physical qubits divided by physical error rate and classical/quantum runtime ratio"),
+        ("論理量子ビット数と論理ゲート数の散布図", "Scatter plot of logical qubits and logical gate counts"),
+        ("古典=量子", "classical = quantum"),
+        ("分類", "Category"),
+        ("問題", "Problem"),
+        ("対象", "Target"),
+        ("見積もり", "Estimate"),
+        ("粒度", "Granularity"),
+        ("実験実施", "Experiment"),
+        ("論文報告粒度", "Paper-reported granularity"),
+        ("論理量子ビット", "Logical qubits"),
+        ("縦軸値", "Y-axis value"),
+        ("レート換算時間", "Runtime from rate"),
+        ("物理量子ビット/物理エラー率", "Physical qubits / physical error rate"),
+        ("物理量子ビット", "Physical qubits"),
+        ("量子計算時間", "Quantum runtime"),
+        ("古典計算時間", "Classical runtime"),
+        ("古典/量子比", "Classical/quantum ratio"),
+        ("古典時間の扱い", "Classical runtime treatment"),
+        ("物理エラー率", "Physical error rate"),
+        ("cycle/測定時間", "cycle/measurement time"),
+        ("実行時間(s)", "Runtime (s)"),
+        ("デバイス", "Device"),
+        ("誤り訂正符号", "Error-correction code"),
+        ("物理量子ビット種", "Physical qubit type"),
+        ("Toffoli数", "Toffoli count"),
+        ("Tゲート数から換算", "Converted from T-gate count"),
+        ("Tゲート数", "T-gate count"),
+        ("CCZ数", "CCZ count"),
+        ("報告論理ゲート数（換算なし）", "Reported logical gates (unconverted)"),
+        ("元データ/論文記載", "source data / paper-reported"),
+        ("GNFS外挿", "GNFS extrapolation"),
+        ("RSA-250 の分解実績", "RSA-250 factorization record"),
+        ("</a>、<a", "</a>, <a"),
+        ("</a> .", "</a>."),
+        (
+            '<a href="https://arxiv.org/pdf/2605.30967#page=4">Abe et al. 2026</a> のPauli/RZ rotation数とRZ layer depthは、<a href="https://github.com/HIROMU1015/Evaluation-of-gate-numbers-for-ground-state-energy-calculations-using-higher-order-product-formulae/pull/2">HIROMU1015 PR #2</a> のBETA=1.56、target error=CA/10、DECOMPO_NUM、PF_RZ_LAYER、alpha cacheに基づく再計算値を使っています。T-gate countは <a href="https://arxiv.org/abs/1403.2975">Ross-Selinger 2014</a> のancillaなしClifford+TによるRz合成を仮定し、epsilon=1e-10で平均99.6578428466209 T/Rzとして換算しています。',
+            '<a href="https://arxiv.org/pdf/2605.30967#page=4">Abe et al. 2026</a>\'s Pauli/RZ rotation counts and RZ layer depth use recalculated values from <a href="https://github.com/HIROMU1015/Evaluation-of-gate-numbers-for-ground-state-energy-calculations-using-higher-order-product-formulae/pull/2">HIROMU1015 PR #2</a>, with BETA=1.56, target error=CA/10, DECOMPO_NUM, PF_RZ_LAYER, and alpha cache. T-gate counts assume <a href="https://arxiv.org/abs/1403.2975">Ross-Selinger 2014</a>\'s ancilla-free Clifford+T Rz synthesis, using an average 99.6578428466209 T gates per Rz at epsilon=1e-10.',
+        ),
+        (
+            "Pauli rotation数、RZZ数、Otherの論理ゲート数しか報告されていない行は、換算せずに報告値をそのまま縦軸に置いています。",
+            "Rows that only report Pauli rotations, RZZ gates, or other logical gate counts are plotted as reported without conversion.",
+        ),
+        ('label.replace("・量子シミュレーション", "")', 'label.replace(" and simulation", "")'),
+        ('d.isSubroutineOnly ? "Subroutine only" : "論文報告Granularity"', 'd.isSubroutineOnly ? "subroutine only" : "paper-reported granularity"'),
+        ('d.isExperiment ? "あり" : "なし"', 'd.isExperiment ? "yes" : "no"'),
+        ('d.isSubroutineOnly ? "サブルーチンのみ" : "論文報告粒度"', 'd.isSubroutineOnly ? "subroutine only" : "paper-reported granularity"'),
+    ]
+    for old, new in replacements:
+        html_text = html_text.replace(old, new)
+    return html_text
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--base", type=Path, default=Path(__file__).resolve().parents[1])
@@ -2337,17 +2461,23 @@ def main() -> None:
     graph_html = build_graph_html(base, main_header, main_rows)
     physical_graph_html = build_physical_graph_html(base, main_header, main_rows)
     speedup_graph_html = build_speedup_graph_html(base, main_header, main_rows)
+    graph_html_en = english_public_graph_html(graph_html)
+    speedup_graph_html_en = english_public_graph_html(speedup_graph_html)
     validate_html(base, html_text)
 
     (base / "quantum_resource_estimates.html").write_text(html_text, encoding="utf-8")
     (base / GRAPH_HTML_NAME).write_text(graph_html, encoding="utf-8")
+    (base / GRAPH_HTML_EN_NAME).write_text(graph_html_en, encoding="utf-8")
     (base / PHYSICAL_GRAPH_HTML_NAME).write_text(physical_graph_html, encoding="utf-8")
     (base / SPEEDUP_GRAPH_HTML_NAME).write_text(speedup_graph_html, encoding="utf-8")
+    (base / SPEEDUP_GRAPH_HTML_EN_NAME).write_text(speedup_graph_html_en, encoding="utf-8")
     print(f"wrote {base / 'data' / NUMERIC_JSON_NAME}")
     print(f"wrote {base / 'quantum_resource_estimates.html'}")
     print(f"wrote {base / GRAPH_HTML_NAME}")
+    print(f"wrote {base / GRAPH_HTML_EN_NAME}")
     print(f"wrote {base / PHYSICAL_GRAPH_HTML_NAME}")
     print(f"wrote {base / SPEEDUP_GRAPH_HTML_NAME}")
+    print(f"wrote {base / SPEEDUP_GRAPH_HTML_EN_NAME}")
 
 
 if __name__ == "__main__":
