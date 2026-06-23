@@ -1796,7 +1796,6 @@ function showTip(d, event) {{
       <dt>問題</dt><dd>${{esc(d.problem)}}</dd>
       <dt>対象</dt><dd>${{esc(d.target)}}</dd>
       <dt>見積もり</dt><dd>${{esc(d.estimateType)}}</dd>
-      <dt>粒度</dt><dd>${{d.isSubroutineOnly ? "サブルーチンのみ" : "論文報告粒度"}}</dd>
       <dt>実験実施</dt><dd>${{d.isExperiment ? "あり" : "なし"}}</dd>
       <dt>論理量子ビット</dt><dd>${{fmt(d.logicalQubits)}}</dd>
       <dt>縦軸値</dt><dd>${{fmt(y)}} (${{esc(sourceLabels[d.gateSource] || d.gateSource)}})</dd>
@@ -2002,6 +2001,7 @@ render();
     <aside class="side">
       <h2>このグラフの読み方</h2>
       <p>横軸は各論文が報告した論理量子ビット数、縦軸は原則としてToffoli換算ゲート数です。Toffoli/T/CCZのいずれも報告されていない場合は、論文が報告した論理ゲート数を換算せずに表示します。論理量子ビット数が報告されていない見積もりと、論理量子ビット数が1e6を超える見積もりは表示していません。</p>
+      <p>この図は、論文が報告した論理リソース見積もりを比較しやすく配置したものです。各点は量子計算が古典計算より速いことや、実用的な量子加速が得られることを示すものではありません。量子加速の有無は、問題設定、入出力、精度、状態準備、読み出し、古典アルゴリズム、ハードウェア仮定などを含めて別途評価する必要があります。</p>
       <ul>
         <li>Toffoli数がある場合は、その値をそのまま使います。</li>
         <li>Toffoli数がなくTゲート数がある場合は、既定ではT/4でToffoli換算します。この換算は <a href="https://arxiv.org/pdf/2602.11457#page=18">Webster et al. 2026</a>、<a href="https://arxiv.org/pdf/2404.16351#page=5">QREChem 2024</a>、<a href="https://arxiv.org/pdf/2007.14460#page=49">von Burg et al. 2020</a> の記述に沿ったものです。</li>
@@ -2017,7 +2017,7 @@ render();
       <p>誤りや追加情報の報告は <a href="https://github.com/kosukemtr/moonshot-website/issues/new?title=%E9%87%8F%E5%AD%90%E3%83%AA%E3%82%BD%E3%83%BC%E3%82%B9%E8%A6%8B%E7%A9%8D%E3%82%82%E3%82%8A%E3%82%B0%E3%83%A9%E3%83%95%E3%81%AE%E4%BF%AE%E6%AD%A3%E6%8F%90%E6%A1%88&amp;body=%23%23+%E4%BF%AE%E6%AD%A3%E3%81%97%E3%81%9F%E3%81%84%E7%82%B9%0A%0A%E4%BE%8B%3A+%E8%AB%96%E6%96%87%E5%90%8D%E3%80%81%E3%83%97%E3%83%AD%E3%83%83%E3%83%88%E7%82%B9%E3%80%81%E6%95%B0%E5%80%A4%E3%80%81%E6%8F%9B%E7%AE%97%E3%83%AB%E3%83%BC%E3%83%AB%E3%81%AA%E3%81%A9%0A%0A%23%23+%E8%A9%B2%E5%BD%93%E3%81%99%E3%82%8B%E8%AB%96%E6%96%87%E3%83%BB%E3%83%87%E3%83%BC%E3%82%BF%0A%0A-+%E8%AB%96%E6%96%87%3A%0A-+%E5%AF%BE%E8%B1%A1%E3%82%B5%E3%82%A4%E3%82%BA%3A%0A-+%E7%8F%BE%E5%9C%A8%E8%A1%A8%E7%A4%BA%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B%E5%80%A4%3A%0A-+%E6%AD%A3%E3%81%97%E3%81%84%E3%81%A8%E6%80%9D%E3%81%86%E5%80%A4%3A%0A%0A%23%23+%E6%A0%B9%E6%8B%A0%0A%0A%E8%AB%96%E6%96%87%E4%B8%AD%E3%81%AE%E3%83%9A%E3%83%BC%E3%82%B8%E3%80%81%E8%A1%A8%E3%80%81%E5%BC%8F%E3%80%81%E3%81%BE%E3%81%9F%E3%81%AF%E8%A3%9C%E8%B6%B3%E8%AA%AC%E6%98%8E%E3%81%B8%E3%81%AE%E3%83%AA%E3%83%B3%E3%82%AF%E3%82%92%E8%B2%BC%E3%81%A3%E3%81%A6%E3%81%8F%E3%81%A0%E3%81%95%E3%81%84%E3%80%82%0A%0A%23%23+%E8%A3%9C%E8%B6%B3%0A%0A%E5%BF%85%E8%A6%81%E3%81%AA%E3%82%89%E8%87%AA%E7%94%B1%E3%81%AB%E8%BF%BD%E8%A8%98%E3%81%97%E3%81%A6%E3%81%8F%E3%81%A0%E3%81%95%E3%81%84%E3%80%82%0A" target="_blank" rel="noopener">下書き入りのGitHub Issue</a> からお願いします。</p>
     </aside>
   </div>
-  <p class="footer-note">注: このグラフは論文間の大まかな位置関係を見るためのものです。読みやすさのため、論理量子ビット数が1e6を超える点は表示範囲外にしています。換算や報告値の粒度が異なる点に注意してください。</p>
+  <p class="footer-note">注: このグラフは論文間の大まかな位置関係を見るためのものです。読みやすさのため、論理量子ビット数が1e6を超える点は表示範囲外にしています。換算方法や報告値に含まれる前提が異なる点に注意してください。</p>
 </main>
 <div class="tooltip" role="tooltip"></div>
 {script}
@@ -2360,6 +2360,10 @@ def english_public_graph_html(html_text: str) -> str:
             "横軸は各論文が報告した論理量子ビット数、縦軸は原則としてToffoli換算ゲート数です。Toffoli/T/CCZのいずれも報告されていない場合は、論文が報告した論理ゲート数を換算せずに表示します。論理量子ビット数が報告されていない見積もりと、論理量子ビット数が1e6を超える見積もりは表示していません。",
             "The x-axis is the number of logical qubits reported by each paper. The y-axis is generally a Toffoli-equivalent gate count. If no Toffoli, T, or CCZ count is reported, the reported logical gate count is plotted without conversion. Estimates without reported logical qubits and estimates above 1e6 logical qubits are not shown in this view.",
         ),
+        (
+            "この図は、論文が報告した論理リソース見積もりを比較しやすく配置したものです。各点は量子計算が古典計算より速いことや、実用的な量子加速が得られることを示すものではありません。量子加速の有無は、問題設定、入出力、精度、状態準備、読み出し、古典アルゴリズム、ハードウェア仮定などを含めて別途評価する必要があります。",
+            "This figure is intended to make reported logical resource estimates easier to compare. A point on the graph does not imply that the quantum computation is faster than a classical computation, nor that practical quantum speedup is achieved. Quantum speedup must be evaluated separately, including the problem setting, input/output model, precision, state preparation, readout, classical algorithms, and hardware assumptions.",
+        ),
         ("Toffoli数がある場合は、その値をそのまま使います。", "If a Toffoli count is available, it is used directly."),
         ("Toffoli数がなくTゲート数がある場合は、既定ではT/4でToffoli換算します。この換算は", "If no Toffoli count is available but a T-gate count is, the default conversion is T/4. This convention follows descriptions in"),
         ("の記述に沿ったものです。", "."),
@@ -2374,7 +2378,7 @@ def english_public_graph_html(html_text: str) -> str:
         ("誤りや追加情報の報告は ", "Please report corrections or additional information via "),
         (" からお願いします。", "."),
         ("下書き入りのGitHub Issue", "this prefilled GitHub Issue"),
-        ("注: このグラフは論文間の大まかな位置関係を見るためのものです。読みやすさのため、論理量子ビット数が1e6を超える点は表示範囲外にしています。換算や報告値の粒度が異なる点に注意してください。", "Note: this graph is meant to show broad relationships across papers. For readability, points above 1e6 logical qubits are outside the displayed range. Conversion rules and reporting granularity differ across papers."),
+        ("注: このグラフは論文間の大まかな位置関係を見るためのものです。読みやすさのため、論理量子ビット数が1e6を超える点は表示範囲外にしています。換算方法や報告値に含まれる前提が異なる点に注意してください。", "Note: this graph is meant to show broad relationships across papers. For readability, points above 1e6 logical qubits are outside the displayed range. Conversion rules and reporting assumptions differ across papers."),
         ("RSA古典時間の概算", "RSA Classical Runtime Estimate"),
         ("RSA系の古典計算時間は、General Number Field Sieve (GNFS) の主項を使って概算しています。RSA modulusのbit長を b とし、N ≃ 2^b と近似します。", "Classical runtimes for RSA entries are estimated using the leading term of the General Number Field Sieve (GNFS). The RSA modulus bit length is b, with N approximated as 2^b."),
         ("基準点は ", "The reference point is "),
@@ -2402,9 +2406,7 @@ def english_public_graph_html(html_text: str) -> str:
         ("問題", "Problem"),
         ("対象", "Target"),
         ("見積もり", "Estimate"),
-        ("粒度", "Granularity"),
         ("実験実施", "Experiment"),
-        ("論文報告粒度", "Paper-reported granularity"),
         ("論理量子ビット", "Logical qubits"),
         ("縦軸値", "Y-axis value"),
         ("レート換算時間", "Runtime from rate"),
@@ -2439,9 +2441,7 @@ def english_public_graph_html(html_text: str) -> str:
             "Rows that only report Pauli rotations, RZZ gates, or other logical gate counts are plotted as reported without conversion.",
         ),
         ('label.replace("・量子シミュレーション", "")', 'label.replace(" and simulation", "")'),
-        ('d.isSubroutineOnly ? "Subroutine only" : "論文報告Granularity"', 'd.isSubroutineOnly ? "subroutine only" : "paper-reported granularity"'),
         ('d.isExperiment ? "あり" : "なし"', 'd.isExperiment ? "yes" : "no"'),
-        ('d.isSubroutineOnly ? "サブルーチンのみ" : "論文報告粒度"', 'd.isSubroutineOnly ? "subroutine only" : "paper-reported granularity"'),
     ]
     for old, new in replacements:
         html_text = html_text.replace(old, new)
