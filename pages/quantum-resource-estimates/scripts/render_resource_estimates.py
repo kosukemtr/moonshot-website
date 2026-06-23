@@ -2336,13 +2336,11 @@ def main() -> None:
     speedup_graph_html = build_speedup_graph_html(base, main_header, main_rows)
     validate_html(base, html_text)
 
-    (base / "quantum_resource_estimates.md").write_text(markdown, encoding="utf-8")
     (base / "quantum_resource_estimates.html").write_text(html_text, encoding="utf-8")
     (base / GRAPH_HTML_NAME).write_text(graph_html, encoding="utf-8")
     (base / PHYSICAL_GRAPH_HTML_NAME).write_text(physical_graph_html, encoding="utf-8")
     (base / SPEEDUP_GRAPH_HTML_NAME).write_text(speedup_graph_html, encoding="utf-8")
     print(f"wrote {base / 'data' / NUMERIC_JSON_NAME}")
-    print(f"wrote {base / 'quantum_resource_estimates.md'}")
     print(f"wrote {base / 'quantum_resource_estimates.html'}")
     print(f"wrote {base / GRAPH_HTML_NAME}")
     print(f"wrote {base / PHYSICAL_GRAPH_HTML_NAME}")
