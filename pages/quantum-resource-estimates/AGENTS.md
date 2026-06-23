@@ -17,6 +17,8 @@
 ./build_resource_estimates.sh
 ```
 
+- 入力データの一次管理ファイルは `data/resource_estimates_rows.json` です。
+- 生成時には `data/resource_estimates_rows.json` から `data/resource_estimates.tsv` を逆生成し、そのTSV相当の行データからHTMLと数値JSONを作ります。
 - 生成時には `data/resource_estimates_numeric.json` も作られます。これはインタラクティブなグラフ表示に使うための機械可読な数値データです。
 - 数値として表現できる値は、表示用TSVの文字列だけに閉じ込めず、生成スクリプトで必ず `resource_estimates_numeric.json` に抽出・標準化されるようにしてください。
 - 生成後は、表の行数、リンク、表示崩れに加えて、数値JSONが生成され、`physical_qubits`、`logical_qubits`、`runtime_seconds`、`spacetime_volume_qubit_days` などの主要指標が入っているか確認してください。
@@ -29,9 +31,10 @@
 
 ## 主要ファイルと公開対象
 
-- 入力データは `data/resource_estimates.tsv` です。原則として新規エントリ追加・修正はここに入れてください。
+- 入力データは `data/resource_estimates_rows.json` です。原則として新規エントリ追加・修正はここに入れてください。
+- `data/resource_estimates.tsv` は生成物です。HTML生成時に `data/resource_estimates_rows.json` から逆変換されます。直接編集した場合は、同じ内容を必ずJSONへ反映してください。
 - 生成スクリプトは `scripts/render_resource_estimates.py` です。列の追加、グラフ仕様、換算ルール、表示ロジックを変える場合はここを更新してください。
-- `data/resource_estimates_numeric.json` は生成物ですが、公開グラフで使うためGit管理対象です。TSV更新後は必ず再生成して差分に含めてください。
+- `data/resource_estimates_numeric.json` は生成物ですが、公開グラフで使うためGit管理対象です。JSON更新後は必ず再生成して差分に含めてください。
 - 公開対象のHTMLは原則として次の2つです。
 - `quantum_resource_estimates_graph.html`: 論理量子ビット数とToffoli換算または論理ゲート数のグラフ。
 - `quantum_resource_estimates_speedup_graph.html`: 生デバイス指標と古典/量子時間比のグラフ。
@@ -41,7 +44,8 @@
 
 ## データ入力の基本方針
 
-- TSVの各行は「論文が報告した1つの条件・1つの見積もり」を表してください。
+- `data/resource_estimates_rows.json` の `records` 配列の各オブジェクトは「論文が報告した1つの条件・1つの見積もり」を表してください。
+- `columns` 配列はTSVへ逆変換するときの列順です。列を追加・削除・改名するときは、全recordのキーと生成スクリプト側の処理をそろえてください。
 - 1つの論文表セルに複数の数値がある場合、グラフ化できるように原則として別行に分けてください。例: 実行時間、物理量子ビット数、対象サイズ、アルゴリズム条件が複数ある場合。
 - 数値で表せる列には、必ず数値だけを入れてください。単位、`p=`、説明文、約物、範囲説明は入れないでください。
 - 不明値は `NA` を使ってください。空欄、`-`、`unknown`、説明文の混在は避けてください。
@@ -79,10 +83,10 @@
 
 ## 生成と検証の手順
 
-1. `data/resource_estimates.tsv` を編集します。
+1. `data/resource_estimates_rows.json` を編集します。
 2. 必要なら `scripts/render_resource_estimates.py` を編集します。
 3. `./build_resource_estimates.sh` を実行します。
-4. `data/resource_estimates_numeric.json` と公開HTMLが再生成されたことを確認します。
+4. `data/resource_estimates.tsv`、`data/resource_estimates_numeric.json`、公開HTMLが再生成されたことを確認します。
 5. `git diff --check` を実行し、空白や構文上の問題がないことを確認します。
 6. `git status --short` を確認し、公開対象外の確認用HTML、PDF、プレビュー、`.DS_Store` をstageしないようにします。
 7. 公開する場合は、公開対象ファイルだけをstageしてcommit/pushします。
@@ -96,6 +100,6 @@
 ## 公開時の注意
 
 - ユーザーが「公開してOK」と明示したときだけcommit/pushしてください。
-- 公開対象は通常、`data/resource_estimates.tsv`、`data/resource_estimates_numeric.json`、`quantum_resource_estimates_graph.html`、`quantum_resource_estimates_speedup_graph.html`、`scripts/render_resource_estimates.py`、必要なら `content/*.md` と `data/physical_conversion_calibration.tsv` です。
+- 公開対象は通常、`data/resource_estimates_rows.json`、`data/resource_estimates.tsv`、`data/resource_estimates_numeric.json`、`quantum_resource_estimates_graph.html`、`quantum_resource_estimates_speedup_graph.html`、`scripts/render_resource_estimates.py`、必要なら `content/*.md` と `data/physical_conversion_calibration.tsv` です。
 - 確認用表HTML/Markdown、物理グラフ試作HTML、参照PDF、プレビュー画像、一時ファイルはstageしないでください。
 - 公開後は、commit hash、公開したページ、まだローカルに残っている未追跡ファイルがあればその扱いを短く報告してください。

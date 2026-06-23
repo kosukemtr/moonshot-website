@@ -16,6 +16,7 @@ from urllib.parse import urlparse
 MAIN_ALIGN: list[str] | None = None
 
 NUMERIC_JSON_NAME = "resource_estimates_numeric.json"
+ROWS_JSON_NAME = "resource_estimates_rows.json"
 GRAPH_HTML_NAME = "quantum_resource_estimates_graph.html"
 GRAPH_HTML_EN_NAME = "quantum_resource_estimates_graph_en.html"
 PHYSICAL_GRAPH_HTML_NAME = "quantum_resource_estimates_physical_graph.html"
@@ -210,6 +211,72 @@ def read_tsv(path: Path) -> tuple[list[str], list[list[str]]]:
         sample = ", ".join(f"line {line}: {cols} cols" for line, cols in bad[:10])
         raise ValueError(f"{path} has rows with wrong column count: {sample}")
     return header, body
+
+
+def rows_json_payload(header: list[str], rows: list[list[str]], source: str) -> dict[str, object]:
+    return {
+        "schema_version": 1,
+        "description": "Primary row-object data for quantum resource estimate entries.",
+        "source": source,
+        "columns": header,
+        "row_count": len(rows),
+        "records": [dict(zip(header, row)) for row in rows],
+    }
+
+
+def write_rows_json(path: Path, header: list[str], rows: list[list[str]], source: str) -> None:
+    path.write_text(
+        json.dumps(rows_json_payload(header, rows, source), ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+
+def write_tsv(path: Path, header: list[str], rows: list[list[str]]) -> None:
+    with path.open("w", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f, delimiter="\t", lineterminator="\n")
+        writer.writerow(header)
+        writer.writerows(rows)
+
+
+def read_rows_json(path: Path) -> tuple[list[str], list[list[str]]]:
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if payload.get("schema_version") != 1:
+        raise ValueError(f"{path} has unsupported schema_version: {payload.get('schema_version')}")
+    header = payload.get("columns")
+    records = payload.get("records")
+    if not isinstance(header, list) or not all(isinstance(column, str) for column in header):
+        raise ValueError(f"{path} has invalid columns")
+    if not isinstance(records, list):
+        raise ValueError(f"{path} has invalid records")
+    rows: list[list[str]] = []
+    expected = set(header)
+    for index, record in enumerate(records, start=1):
+        if not isinstance(record, dict):
+            raise ValueError(f"{path} record {index} is not an object")
+        keys = set(record)
+        if keys != expected:
+            missing = sorted(expected - keys)
+            extra = sorted(keys - expected)
+            raise ValueError(f"{path} record {index} column mismatch: missing={missing[:5]}, extra={extra[:5]}")
+        row = []
+        for column in header:
+            value = record[column]
+            if not isinstance(value, str):
+                raise ValueError(f"{path} record {index} column {column} is not a string")
+            row.append(value)
+        rows.append(row)
+    row_count = payload.get("row_count")
+    if row_count != len(rows):
+        raise ValueError(f"{path} row_count mismatch: declared {row_count}, actual {len(rows)}")
+    return header, rows
+
+
+def load_main_rows(base: Path) -> tuple[list[str], list[list[str]]]:
+    tsv_path = base / "data" / "resource_estimates.tsv"
+    json_path = base / "data" / ROWS_JSON_NAME
+    header, rows = read_rows_json(json_path)
+    write_tsv(tsv_path, header, rows)
+    return header, rows
 
 
 def strip_markdown_links(text: str) -> str:
@@ -553,8 +620,8 @@ def write_numeric_json(base: Path, header: list[str], rows: list[list[str]]) -> 
     validate_numeric_coverage(header, rows, observations)
     payload = {
         "schema_version": 1,
-        "description": "Machine-readable numeric values extracted from resource_estimates.tsv for plotting.",
-        "source": "data/resource_estimates.tsv",
+        "description": "Machine-readable numeric values extracted from resource_estimates_rows.json for plotting.",
+        "source": f"data/{ROWS_JSON_NAME}",
         "checked_columns": NUMERIC_CHECK_COLUMNS,
         "row_count": len(rows),
         "observation_count": len(observations),
@@ -2041,11 +2108,10 @@ def markdown_table(header: list[str], rows: list[list[str]], align: list[str] | 
     return "\n".join(lines)
 
 
-def build_markdown(base: Path) -> str:
+def build_markdown(base: Path, main_header: list[str], main_rows: list[list[str]]) -> str:
     preamble = read_text(base / "content" / "preamble.md")
     between = read_text(base / "content" / "between_tables.md")
     after = read_text(base / "content" / "after_calibration_table.md")
-    main_header, main_rows = read_tsv(base / "data" / "resource_estimates.tsv")
     cal_header, cal_rows = read_tsv(base / "data" / "physical_conversion_calibration.tsv")
     validate_numeric_only_columns(cal_header, cal_rows)
     validate_numeric_semantics(cal_header, cal_rows)
@@ -2456,8 +2522,8 @@ def main() -> None:
     args = parser.parse_args()
     base = args.base.resolve()
 
-    markdown = build_markdown(base)
-    main_header, main_rows = read_tsv(base / "data" / "resource_estimates.tsv")
+    main_header, main_rows = load_main_rows(base)
+    markdown = build_markdown(base, main_header, main_rows)
     write_numeric_json(base, main_header, main_rows)
     html_text = markdown_to_html(markdown)
     graph_html = build_graph_html(base, main_header, main_rows)
@@ -2473,6 +2539,8 @@ def main() -> None:
     (base / PHYSICAL_GRAPH_HTML_NAME).write_text(physical_graph_html, encoding="utf-8")
     (base / SPEEDUP_GRAPH_HTML_NAME).write_text(speedup_graph_html, encoding="utf-8")
     (base / SPEEDUP_GRAPH_HTML_EN_NAME).write_text(speedup_graph_html_en, encoding="utf-8")
+    print(f"read {base / 'data' / ROWS_JSON_NAME}")
+    print(f"wrote {base / 'data' / 'resource_estimates.tsv'}")
     print(f"wrote {base / 'data' / NUMERIC_JSON_NAME}")
     print(f"wrote {base / 'quantum_resource_estimates.html'}")
     print(f"wrote {base / GRAPH_HTML_NAME}")

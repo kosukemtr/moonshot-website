@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "description": "Machine-readable numeric values extracted from resource_estimates.tsv for plotting.",
-  "source": "data/resource_estimates.tsv",
+  "description": "Machine-readable numeric values extracted from resource_estimates_rows.json for plotting.",
+  "source": "data/resource_estimates_rows.json",
   "checked_columns": [
     "対象サイズ",
     "見積もりの種類",
