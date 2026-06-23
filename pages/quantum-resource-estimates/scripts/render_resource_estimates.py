@@ -979,7 +979,7 @@ def build_speedup_graph_html(base: Path, header: list[str], rows: list[list[str]
     points_json = json.dumps(speedup_graph_points(header, rows), ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
     refs_json = json.dumps(speedup_reference_values(), ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
     css = """
-html{box-sizing:border-box;overflow-x:hidden}*,*:before,*:after{box-sizing:inherit}body{margin:0;overflow-x:hidden;background:#f7f7f5;color:#17202f;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}.page{min-height:100vh;width:100%;max-width:100vw;overflow-x:hidden;padding:22px clamp(14px,2.4vw,34px)}.topbar{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin:0 0 14px;width:100%;min-width:0}.title{margin:0;font-size:24px;letter-spacing:0}.subtitle{margin:4px 0 0;color:#667085;font-size:13px;overflow-wrap:anywhere}.controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px;max-width:100%}.action,.check{border:1px solid #cfd6e2;border-radius:8px;background:#fff;color:#344054;font:inherit;font-size:13px}.action{padding:8px 10px;cursor:pointer}.action:hover{border-color:#98a2b3;background:#f8fafc}.check{display:inline-flex;align-items:center;gap:6px;padding:7px 9px;white-space:nowrap}.check input{margin:0}.marker{display:inline-block;width:11px;height:11px;flex:0 0 auto}.marker.chemistry{background:#b6423a;border-radius:2px}.marker.crypto{background:#2454a6;border-radius:50%}.marker.other{width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:11px solid #d39b18}.layout{display:grid;grid-template-columns:minmax(0,1fr) 370px;gap:14px;align-items:start;width:100%;min-width:0}.chart-card,.side{max-width:100%;background:#fff;border:1px solid #d6d6d6;border-radius:8px}.chart-card{min-width:0;overflow:hidden}.chart-wrap{position:relative;height:calc(100vh - 168px);min-height:560px}.chart{display:block;width:100%;height:100%;touch-action:none}.plot-bg{fill:#fff}.axis-label{fill:#111827;font-size:14px;font-weight:700}.tick text{fill:#374151;font-size:12px}.tick line{stroke:#e7e7e7;stroke-width:1}.runtime-guide line{stroke:#5f6b7a;stroke-width:1.15;stroke-dasharray:4 5;opacity:.72}.runtime-guide text{fill:#344054;font-size:12px;font-weight:650;paint-order:stroke;stroke:#fff;stroke-width:3px}.domain{stroke:#111827;stroke-width:1.35}.point{cursor:pointer;stroke:#fff;stroke-width:1.5;opacity:.9}.point.is-experiment{stroke:#111827;stroke-width:3;opacity:1}.point.is-hovered{stroke:#111827;stroke-width:2.5;opacity:1}.ratio-one{stroke:#7a8699;stroke-width:1.2;stroke-dasharray:5 5}.ratio-one-label{fill:#667085;font-size:12px}.side{padding:14px;min-height:360px}.side h2{margin:0 0 8px;font-size:16px}.side h3{margin:16px 0 6px;font-size:14px}.side p{margin:8px 0;color:#475467;font-size:13px}.side ul{margin:8px 0 0;padding-left:18px;color:#475467;font-size:13px}.side li{margin:6px 0}.side a{color:#184e77;text-decoration-thickness:1px;text-underline-offset:2px}.formula{display:block;overflow:auto;background:#f8fafc;border:1px solid #e4e7ec;border-radius:6px;padding:8px;font-size:12px;color:#344054;white-space:nowrap}.ref-table{width:100%;border-collapse:collapse;margin-top:8px;font-size:12px}.ref-table th,.ref-table td{border-bottom:1px solid #e4e7ec;padding:5px 4px;text-align:right}.ref-table th:first-child,.ref-table td:first-child{text-align:left}.tooltip{position:fixed;z-index:20;width:min(440px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:auto;display:none;background:#fff;border:1px solid #aeb8c8;border-radius:8px;box-shadow:0 18px 48px rgba(20,31,50,.24);padding:12px;pointer-events:auto}.tooltip.is-open{display:block}.tip-title{font-weight:700;margin:0 0 6px}.tip-title a{color:#2454a6;text-decoration-thickness:1px;text-underline-offset:2px}.tip-grid{display:grid;grid-template-columns:140px 1fr;gap:4px 8px;font-size:12px}.tip-grid dt{color:#667085}.tip-grid dd{margin:0;color:#17202f;overflow-wrap:anywhere}.tip-note{margin:8px 0 0;color:#475467;font-size:12px;white-space:normal;overflow-wrap:anywhere}.empty{display:none;position:absolute;inset:0;align-items:center;justify-content:center;color:#667085;font-size:14px}.empty.is-open{display:flex}.footer-note{max-width:1120px;margin:14px 0 0;color:#667085;font-size:12px}@media(max-width:1240px){.topbar{align-items:flex-start;flex-direction:column}.topbar>div{min-width:0;max-width:100%}.layout{grid-template-columns:minmax(0,1fr)}.side{max-width:none}.page{overflow-x:hidden}}@media(max-width:720px){.page{padding:16px 10px}.chart-card,.side{border-radius:6px}.chart-wrap{height:62vh;min-height:430px}.title{font-size:21px}.controls{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;width:100%;align-items:stretch}.action,.check{justify-content:center;min-width:0;font-size:12px;white-space:normal}.check{justify-content:flex-start}.side{min-width:0}.axis-label{font-size:13px}.tick text{font-size:11px}.tip-grid{grid-template-columns:118px 1fr}}
+html{box-sizing:border-box;overflow-x:hidden}*,*:before,*:after{box-sizing:inherit}body{margin:0;overflow-x:hidden;background:#f7f7f5;color:#17202f;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}.page{min-height:100vh;width:100%;max-width:100vw;overflow-x:hidden;padding:22px clamp(14px,2.4vw,34px)}.topbar{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin:0 0 14px;width:100%;min-width:0}.title{margin:0;font-size:24px;letter-spacing:0}.subtitle{margin:4px 0 0;color:#667085;font-size:13px;overflow-wrap:anywhere}.controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px;max-width:100%}.action,.check{border:1px solid #cfd6e2;border-radius:8px;background:#fff;color:#344054;font:inherit;font-size:13px}.action{padding:8px 10px;cursor:pointer}.action:hover{border-color:#98a2b3;background:#f8fafc}.check{display:inline-flex;align-items:center;gap:6px;padding:7px 9px;white-space:nowrap}.check input{margin:0}.marker{display:inline-block;width:11px;height:11px;flex:0 0 auto}.marker.chemistry{background:#b6423a;border-radius:2px}.marker.crypto{background:#2454a6;border-radius:50%}.marker.other{width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:11px solid #d39b18}.layout{display:grid;grid-template-columns:minmax(0,1fr) 370px;gap:14px;align-items:start;width:100%;min-width:0}.chart-card,.side{max-width:100%;background:#fff;border:1px solid #d6d6d6;border-radius:8px}.chart-card{min-width:0;overflow:hidden}.chart-wrap{position:relative;height:calc(100vh - 168px);min-height:560px}.chart{display:block;width:100%;height:100%;touch-action:none}.plot-bg{fill:#fff}.axis-label{fill:#111827;font-size:14px;font-weight:700}.tick text{fill:#374151;font-size:12px}.tick line{stroke:#e7e7e7;stroke-width:1}.runtime-guide line{stroke:#5f6b7a;stroke-width:1.15;stroke-dasharray:4 5;opacity:.72}.runtime-guide text{fill:#344054;font-size:12px;font-weight:650;paint-order:stroke;stroke:#fff;stroke-width:3px}.domain{stroke:#111827;stroke-width:1.35}.point{cursor:pointer;stroke:#fff;stroke-width:1.5;opacity:.9}.point.is-experiment{stroke:#111827;stroke-width:3;opacity:1}.point.is-hovered,.point.is-pinned{stroke:#111827;stroke-width:2.5;opacity:1}.ratio-one{stroke:#7a8699;stroke-width:1.2;stroke-dasharray:5 5}.ratio-one-label{fill:#667085;font-size:12px}.side{padding:14px;min-height:360px}.side h2{margin:0 0 8px;font-size:16px}.side h3{margin:16px 0 6px;font-size:14px}.side p{margin:8px 0;color:#475467;font-size:13px}.side ul{margin:8px 0 0;padding-left:18px;color:#475467;font-size:13px}.side li{margin:6px 0}.side a{color:#184e77;text-decoration-thickness:1px;text-underline-offset:2px}.formula{display:block;overflow:auto;background:#f8fafc;border:1px solid #e4e7ec;border-radius:6px;padding:8px;font-size:12px;color:#344054;white-space:nowrap}.ref-table{width:100%;border-collapse:collapse;margin-top:8px;font-size:12px}.ref-table th,.ref-table td{border-bottom:1px solid #e4e7ec;padding:5px 4px;text-align:right}.ref-table th:first-child,.ref-table td:first-child{text-align:left}.tooltip{position:fixed;z-index:20;width:min(440px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:auto;display:none;background:#fff;border:1px solid #aeb8c8;border-radius:8px;box-shadow:0 18px 48px rgba(20,31,50,.24);padding:12px;pointer-events:auto}.tooltip.is-open{display:block}.tooltip.is-pinned{border-color:#2454a6}.tip-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin:0 0 6px}.tip-title{font-weight:700;margin:0;min-width:0}.tip-title a{color:#2454a6;text-decoration-thickness:1px;text-underline-offset:2px}.tip-close{flex:0 0 auto;width:26px;height:26px;border:1px solid #cfd6e2;border-radius:50%;background:#fff;color:#344054;font-size:18px;line-height:20px;cursor:pointer}.tip-close:hover{background:#f8fafc;border-color:#98a2b3}.tip-grid{display:grid;grid-template-columns:140px 1fr;gap:4px 8px;font-size:12px}.tip-grid dt{color:#667085}.tip-grid dd{margin:0;color:#17202f;overflow-wrap:anywhere}.tip-note{margin:8px 0 0;color:#475467;font-size:12px;white-space:normal;overflow-wrap:anywhere}.empty{display:none;position:absolute;inset:0;align-items:center;justify-content:center;color:#667085;font-size:14px}.empty.is-open{display:flex}.footer-note{max-width:1120px;margin:14px 0 0;color:#667085;font-size:12px}@media(max-width:1240px){.topbar{align-items:flex-start;flex-direction:column}.topbar>div{min-width:0;max-width:100%}.layout{grid-template-columns:minmax(0,1fr)}.side{max-width:none}.page{overflow-x:hidden}}@media(max-width:720px){.page{padding:16px 10px}.chart-card,.side{border-radius:6px}.chart-wrap{height:62vh;min-height:430px}.title{font-size:21px}.controls{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;width:100%;align-items:stretch}.action,.check{justify-content:center;min-width:0;font-size:12px;white-space:normal}.check{justify-content:flex-start}.side{min-width:0}.axis-label{font-size:13px}.tick text{font-size:11px}.tip-grid{grid-template-columns:118px 1fr}}
 """
     css += "\n.point.is-experiment{stroke:#111827;stroke-width:3;opacity:1}\n"
     script = f"""
@@ -995,6 +995,7 @@ const tooltip = document.querySelector(".tooltip");
 const empty = document.querySelector(".empty");
 const refTableBody = document.querySelector("[data-ref-table]");
 let tooltipHideTimer;
+let pinnedTip = false;
 function esc(value) {{
   return String(value ?? "").replace(/[&<>"']/g, ch => ({{"&":"&amp;","<":"&lt;",">":"&gt;","\\"":"&quot;","'":"&#39;"}}[ch]));
 }}
@@ -1126,19 +1127,41 @@ function render() {{
   plot.innerHTML = html;
   plot.querySelectorAll("g[data-i]").forEach(g => {{
     g.addEventListener("mouseenter", e => showTip(DATA[+g.dataset.i], e));
-    g.addEventListener("mousemove", e => positionTip(e));
+    g.addEventListener("mousemove", e => {{ if (!pinnedTip) positionTip(e); }});
     g.addEventListener("mouseleave", hideTip);
     g.addEventListener("focusin", e => showTip(DATA[+g.dataset.i], e));
+    g.addEventListener("click", e => pinTip(DATA[+g.dataset.i], e));
     g.setAttribute("tabindex", "0");
   }});
 }}
-function showTip(d, event) {{
+function clearPinnedPoint() {{
+  document.querySelectorAll(".point.is-pinned").forEach(point => point.classList.remove("is-pinned"));
+}}
+function setPinnedPoint(d) {{
+  clearPinnedPoint();
+  const index = DATA.indexOf(d);
+  document.querySelectorAll(`g[data-i="${{index}}"] .point`).forEach(point => point.classList.add("is-pinned"));
+}}
+function pinTip(d, event) {{
+  event.preventDefault();
+  event.stopPropagation();
+  pinnedTip = true;
+  setPinnedPoint(d);
+  showTip(d, event, true);
+}}
+function closeTip() {{
+  pinnedTip = false;
+  clearPinnedPoint();
+  tooltip.classList.remove("is-open", "is-pinned");
+}}
+function showTip(d, event, force = false) {{
+  if (pinnedTip && !force) return;
   clearTimeout(tooltipHideTimer);
   const paperTitle = d.paperHref
     ? `<a href="${{esc(d.paperHref)}}" target="_blank" rel="noopener">${{esc(d.paper)}}</a>`
     : esc(d.paper);
   const source = d.classicalRuntimeSource === "gnfs-rsa250" ? `GNFS外挿 (RSA-${{d.rsaBits}})` : "元データ/論文記載";
-  tooltip.innerHTML = `<p class="tip-title">${{paperTitle}}</p>
+  tooltip.innerHTML = `<div class="tip-header"><p class="tip-title">${{paperTitle}}</p><button type="button" class="tip-close" data-close-tip aria-label="詳細を閉じる">×</button></div>
     <dl class="tip-grid">
       <dt>分類</dt><dd>${{esc(d.categoryLabel)}}</dd>
       <dt>問題</dt><dd>${{esc(d.problem)}}</dd>
@@ -1159,6 +1182,7 @@ function showTip(d, event) {{
     </dl>
     <p class="tip-note">${{esc(d.classicalAssumptions || d.note || d.evidence || "")}}</p>`;
   tooltip.classList.add("is-open");
+  tooltip.classList.toggle("is-pinned", pinnedTip);
   positionTip(event);
 }}
 function positionTip(event) {{
@@ -1172,6 +1196,7 @@ function positionTip(event) {{
   tooltip.style.top = Math.max(pad, y) + "px";
 }}
 function hideTip() {{
+  if (pinnedTip) return;
   clearTimeout(tooltipHideTimer);
   tooltipHideTimer = setTimeout(() => tooltip.classList.remove("is-open"), 180);
 }}
@@ -1239,6 +1264,9 @@ function downloadCurrentTsv() {{
 }}
 tooltip.addEventListener("mouseenter", () => clearTimeout(tooltipHideTimer));
 tooltip.addEventListener("mouseleave", hideTip);
+tooltip.addEventListener("click", event => {{
+  if (event.target.closest("[data-close-tip]")) closeTip();
+}});
 document.querySelectorAll("[data-download]").forEach(btn => {{
   btn.addEventListener("click", () => downloadGraph(btn.dataset.download));
 }});
@@ -1307,7 +1335,7 @@ render();
         <li>RSA以外は、元データに古典計算時間または古典/量子時間比がある場合だけ表示します。</li>
         <li>黒い太枠で強調した点は、元論文で実際に実験として実施されたエントリです。</li>
       </ul>
-      <p>横軸は誤り訂正前の生デバイス性能を粗く表す補助指標として、物理量子ビット数を物理エラー率で割った値を使っています。誤り訂正なしのランダム量子回路サンプリング実験では、論文記載の代表的な同時2量子ビットゲートエラーを物理エラー率として使っています。点にマウスを合わせると、論文、対象、量子計算時間、古典計算時間、比、古典時間の扱いを表示します。</p>
+      <p>横軸は誤り訂正前の生デバイス性能を粗く表す補助指標として、物理量子ビット数を物理エラー率で割った値を使っています。誤り訂正なしのランダム量子回路サンプリング実験では、論文記載の代表的な同時2量子ビットゲートエラーを物理エラー率として使っています。点にマウスを合わせると詳細を表示し、クリックすると表示を固定できます。固定表示は×ボタンで閉じられます。</p>
     </aside>
   </div>
   <p class="footer-note">注: この図は古典/量子の大まかな速度比を見るための補助図です。RSAの古典時間は論文記載値ではなく、GNFS漸近主項をRSA-250実績に正規化した概算です。縦軸は10^25で表示を打ち切り、これを超える点は非表示にしています。縦軸の下限は表示対象データに合わせて自動で決まります。</p>
@@ -1322,7 +1350,7 @@ render();
 def build_physical_graph_html(base: Path, header: list[str], rows: list[list[str]]) -> str:
     points_json = json.dumps(physical_graph_points(header, rows), ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
     css = """
-html{box-sizing:border-box;overflow-x:hidden}*,*:before,*:after{box-sizing:inherit}body{margin:0;overflow-x:hidden;background:#f7f7f5;color:#17202f;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}.page{min-height:100vh;width:100%;max-width:100vw;overflow-x:hidden;padding:22px clamp(14px,2.4vw,34px)}.topbar{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin:0 0 14px;width:100%;min-width:0}.title{margin:0;font-size:24px;letter-spacing:0}.subtitle{margin:4px 0 0;color:#667085;font-size:13px;overflow-wrap:anywhere;word-break:break-all}.controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px;max-width:100%}.action,.check{border:1px solid #cfd6e2;border-radius:8px;background:#fff;color:#344054;font:inherit;font-size:13px}.action{padding:8px 10px;cursor:pointer}.action:hover{border-color:#98a2b3;background:#f8fafc}.check{display:inline-flex;align-items:center;gap:6px;padding:7px 9px;white-space:nowrap}.check input{margin:0}.marker{display:inline-block;width:11px;height:11px;flex:0 0 auto}.marker.chemistry{background:#b6423a;border-radius:2px}.marker.crypto{background:#2454a6;border-radius:50%}.marker.other{width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:11px solid #d39b18}.layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:14px;align-items:start;width:100%;min-width:0}.chart-stack{display:grid;gap:14px;min-width:0}.chart-card,.side{max-width:100%;background:#fff;border:1px solid #d6d6d6;border-radius:8px}.chart-card{min-width:0;overflow:hidden}.chart-heading{margin:14px 16px 0;font-size:15px}.chart-note{margin:4px 16px 0;color:#667085;font-size:12px}.chart-wrap{position:relative;height:calc(100vh - 188px);min-height:500px}.chart{display:block;width:100%;height:100%;touch-action:none}.plot-bg{fill:#fff}.axis-label{fill:#111827;font-size:14px;font-weight:700}.tick text{fill:#374151;font-size:12px}.tick line{stroke:#e7e7e7;stroke-width:1}.domain{stroke:#111827;stroke-width:1.35}.point{cursor:pointer;stroke:#fff;stroke-width:1.5;opacity:.88}.point.is-hovered{stroke:#111827;stroke-width:2.5;opacity:1}.side{padding:14px;min-height:360px}.side h2{margin:0 0 8px;font-size:16px}.side p{margin:8px 0;color:#475467;font-size:13px}.side ul{margin:8px 0 0;padding-left:18px;color:#475467;font-size:13px}.side li{margin:6px 0}.side a{color:#184e77;text-decoration-thickness:1px;text-underline-offset:2px}.tooltip{position:fixed;z-index:20;width:min(430px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:auto;display:none;background:#fff;border:1px solid #aeb8c8;border-radius:8px;box-shadow:0 18px 48px rgba(20,31,50,.24);padding:12px;pointer-events:auto}.tooltip.is-open{display:block}.tip-title{font-weight:700;margin:0 0 6px}.tip-title a{color:#2454a6;text-decoration-thickness:1px;text-underline-offset:2px}.tip-grid{display:grid;grid-template-columns:132px 1fr;gap:4px 8px;font-size:12px}.tip-grid dt{color:#667085}.tip-grid dd{margin:0;color:#17202f;overflow-wrap:anywhere}.tip-note{margin:8px 0 0;color:#475467;font-size:12px;white-space:normal;overflow-wrap:anywhere}.empty{display:none;position:absolute;inset:0;align-items:center;justify-content:center;color:#667085;font-size:14px}.empty.is-open{display:flex}.footer-note{max-width:1120px;margin:14px 0 0;color:#667085;font-size:12px}@media(max-width:1240px){.topbar{align-items:flex-start;flex-direction:column}.topbar>div{min-width:0;max-width:100%}.layout{grid-template-columns:minmax(0,1fr)}.side{max-width:none}.page{overflow-x:hidden}}@media(max-width:720px){.page{padding:16px 10px}.chart-card,.side{border-radius:6px}.chart-heading{margin:12px 12px 0}.chart-note{margin:4px 12px 0}.chart-wrap{height:62vh;min-height:420px}.title{font-size:21px}.controls{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;width:100%;align-items:stretch}.action,.check{justify-content:center;min-width:0;font-size:12px;white-space:normal}.check{justify-content:flex-start}.side{min-width:0}.axis-label{font-size:13px}.tick text{font-size:11px}}
+html{box-sizing:border-box;overflow-x:hidden}*,*:before,*:after{box-sizing:inherit}body{margin:0;overflow-x:hidden;background:#f7f7f5;color:#17202f;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}.page{min-height:100vh;width:100%;max-width:100vw;overflow-x:hidden;padding:22px clamp(14px,2.4vw,34px)}.topbar{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin:0 0 14px;width:100%;min-width:0}.title{margin:0;font-size:24px;letter-spacing:0}.subtitle{margin:4px 0 0;color:#667085;font-size:13px;overflow-wrap:anywhere;word-break:break-all}.controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px;max-width:100%}.action,.check{border:1px solid #cfd6e2;border-radius:8px;background:#fff;color:#344054;font:inherit;font-size:13px}.action{padding:8px 10px;cursor:pointer}.action:hover{border-color:#98a2b3;background:#f8fafc}.check{display:inline-flex;align-items:center;gap:6px;padding:7px 9px;white-space:nowrap}.check input{margin:0}.marker{display:inline-block;width:11px;height:11px;flex:0 0 auto}.marker.chemistry{background:#b6423a;border-radius:2px}.marker.crypto{background:#2454a6;border-radius:50%}.marker.other{width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:11px solid #d39b18}.layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:14px;align-items:start;width:100%;min-width:0}.chart-stack{display:grid;gap:14px;min-width:0}.chart-card,.side{max-width:100%;background:#fff;border:1px solid #d6d6d6;border-radius:8px}.chart-card{min-width:0;overflow:hidden}.chart-heading{margin:14px 16px 0;font-size:15px}.chart-note{margin:4px 16px 0;color:#667085;font-size:12px}.chart-wrap{position:relative;height:calc(100vh - 188px);min-height:500px}.chart{display:block;width:100%;height:100%;touch-action:none}.plot-bg{fill:#fff}.axis-label{fill:#111827;font-size:14px;font-weight:700}.tick text{fill:#374151;font-size:12px}.tick line{stroke:#e7e7e7;stroke-width:1}.domain{stroke:#111827;stroke-width:1.35}.point{cursor:pointer;stroke:#fff;stroke-width:1.5;opacity:.88}.point.is-hovered,.point.is-pinned{stroke:#111827;stroke-width:2.5;opacity:1}.side{padding:14px;min-height:360px}.side h2{margin:0 0 8px;font-size:16px}.side p{margin:8px 0;color:#475467;font-size:13px}.side ul{margin:8px 0 0;padding-left:18px;color:#475467;font-size:13px}.side li{margin:6px 0}.side a{color:#184e77;text-decoration-thickness:1px;text-underline-offset:2px}.tooltip{position:fixed;z-index:20;width:min(430px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:auto;display:none;background:#fff;border:1px solid #aeb8c8;border-radius:8px;box-shadow:0 18px 48px rgba(20,31,50,.24);padding:12px;pointer-events:auto}.tooltip.is-open{display:block}.tooltip.is-pinned{border-color:#2454a6}.tip-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin:0 0 6px}.tip-title{font-weight:700;margin:0;min-width:0}.tip-title a{color:#2454a6;text-decoration-thickness:1px;text-underline-offset:2px}.tip-close{flex:0 0 auto;width:26px;height:26px;border:1px solid #cfd6e2;border-radius:50%;background:#fff;color:#344054;font-size:18px;line-height:20px;cursor:pointer}.tip-close:hover{background:#f8fafc;border-color:#98a2b3}.tip-grid{display:grid;grid-template-columns:132px 1fr;gap:4px 8px;font-size:12px}.tip-grid dt{color:#667085}.tip-grid dd{margin:0;color:#17202f;overflow-wrap:anywhere}.tip-note{margin:8px 0 0;color:#475467;font-size:12px;white-space:normal;overflow-wrap:anywhere}.empty{display:none;position:absolute;inset:0;align-items:center;justify-content:center;color:#667085;font-size:14px}.empty.is-open{display:flex}.footer-note{max-width:1120px;margin:14px 0 0;color:#667085;font-size:12px}@media(max-width:1240px){.topbar{align-items:flex-start;flex-direction:column}.topbar>div{min-width:0;max-width:100%}.layout{grid-template-columns:minmax(0,1fr)}.side{max-width:none}.page{overflow-x:hidden}}@media(max-width:720px){.page{padding:16px 10px}.chart-card,.side{border-radius:6px}.chart-heading{margin:12px 12px 0}.chart-note{margin:4px 12px 0}.chart-wrap{height:62vh;min-height:420px}.title{font-size:21px}.controls{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;width:100%;align-items:stretch}.action,.check{justify-content:center;min-width:0;font-size:12px;white-space:normal}.check{justify-content:flex-start}.side{min-width:0}.axis-label{font-size:13px}.tick text{font-size:11px}}
 """
     css += "\n.point.is-experiment{stroke:#111827;stroke-width:3;opacity:1}\n"
     script = f"""
@@ -1338,6 +1366,7 @@ const gateEmpty = document.querySelector(".empty-gates");
 const tooltip = document.querySelector(".tooltip");
 const empty = document.querySelector(".empty");
 let tooltipHideTimer;
+let pinnedTip = false;
 function esc(value) {{
   return String(value ?? "").replace(/[&<>"']/g, ch => ({{"&":"&amp;","<":"&lt;",">":"&gt;","\\"":"&quot;","'":"&#39;"}}[ch]));
 }}
@@ -1425,9 +1454,10 @@ function render() {{
   plot.innerHTML = html;
   plot.querySelectorAll("g[data-i]").forEach(g => {{
     g.addEventListener("mouseenter", e => showTip(DATA[+g.dataset.i], e));
-    g.addEventListener("mousemove", e => positionTip(e));
+    g.addEventListener("mousemove", e => {{ if (!pinnedTip) positionTip(e); }});
     g.addEventListener("mouseleave", hideTip);
     g.addEventListener("focusin", e => showTip(DATA[+g.dataset.i], e));
+    g.addEventListener("click", e => pinTip(DATA[+g.dataset.i], e));
     g.setAttribute("tabindex", "0");
   }});
 }}
@@ -1469,9 +1499,10 @@ function renderGateChart() {{
   gatePlot.innerHTML = html;
   gatePlot.querySelectorAll("g[data-i]").forEach(g => {{
     g.addEventListener("mouseenter", e => showTip(DATA[+g.dataset.i], e));
-    g.addEventListener("mousemove", e => positionTip(e));
+    g.addEventListener("mousemove", e => {{ if (!pinnedTip) positionTip(e); }});
     g.addEventListener("mouseleave", hideTip);
     g.addEventListener("focusin", e => showTip(DATA[+g.dataset.i], e));
+    g.addEventListener("click", e => pinTip(DATA[+g.dataset.i], e));
     g.setAttribute("tabindex", "0");
   }});
 }}
@@ -1479,12 +1510,33 @@ function renderAll() {{
   render();
   renderGateChart();
 }}
-function showTip(d, event) {{
+function clearPinnedPoint() {{
+  document.querySelectorAll(".point.is-pinned").forEach(point => point.classList.remove("is-pinned"));
+}}
+function setPinnedPoint(d) {{
+  clearPinnedPoint();
+  const index = DATA.indexOf(d);
+  document.querySelectorAll(`g[data-i="${{index}}"] .point`).forEach(point => point.classList.add("is-pinned"));
+}}
+function pinTip(d, event) {{
+  event.preventDefault();
+  event.stopPropagation();
+  pinnedTip = true;
+  setPinnedPoint(d);
+  showTip(d, event, true);
+}}
+function closeTip() {{
+  pinnedTip = false;
+  clearPinnedPoint();
+  tooltip.classList.remove("is-open", "is-pinned");
+}}
+function showTip(d, event, force = false) {{
+  if (pinnedTip && !force) return;
   clearTimeout(tooltipHideTimer);
   const paperTitle = d.paperHref
     ? `<a href="${{esc(d.paperHref)}}" target="_blank" rel="noopener">${{esc(d.paper)}}</a>`
     : esc(d.paper);
-  tooltip.innerHTML = `<p class="tip-title">${{paperTitle}}</p>
+  tooltip.innerHTML = `<div class="tip-header"><p class="tip-title">${{paperTitle}}</p><button type="button" class="tip-close" data-close-tip aria-label="詳細を閉じる">×</button></div>
     <dl class="tip-grid">
       <dt>分類</dt><dd>${{esc(d.categoryLabel)}}</dd>
       <dt>問題</dt><dd>${{esc(d.problem)}}</dd>
@@ -1507,6 +1559,7 @@ function showTip(d, event) {{
     </dl>
     <p class="tip-note">${{esc(d.classicalAssumptions || d.note || d.evidence || "")}}</p>`;
   tooltip.classList.add("is-open");
+  tooltip.classList.toggle("is-pinned", pinnedTip);
   positionTip(event);
 }}
 function positionTip(event) {{
@@ -1520,6 +1573,7 @@ function positionTip(event) {{
   tooltip.style.top = Math.max(pad, y) + "px";
 }}
 function hideTip() {{
+  if (pinnedTip) return;
   clearTimeout(tooltipHideTimer);
   tooltipHideTimer = setTimeout(() => tooltip.classList.remove("is-open"), 180);
 }}
@@ -1589,6 +1643,9 @@ function downloadCurrentTsv() {{
 }}
 tooltip.addEventListener("mouseenter", () => clearTimeout(tooltipHideTimer));
 tooltip.addEventListener("mouseleave", hideTip);
+tooltip.addEventListener("click", event => {{
+  if (event.target.closest("[data-close-tip]")) closeTip();
+}});
 document.querySelectorAll("[data-download]").forEach(btn => {{
   btn.addEventListener("click", () => downloadGraph(btn.dataset.download));
 }});
@@ -1655,9 +1712,9 @@ renderAll();
         <li>物理量子ビット数は、論文が報告した総数または表中の対応する物理量子ビット総数です。</li>
         <li>実行時間は論文内の報告値です。shot数、並列化、factory数、cycle/測定時間などの仮定は論文により異なります。</li>
         <li>論理ゲート数は、Toffoli数、Tゲート数、Cliffordゲート数、その他論理ゲート数の順に、表にある最初の報告値をそのまま使っています。</li>
-        <li>物理エラー率、routing、factory、memory、module間通信などの含まれ方はホバー詳細で確認できます。</li>
+        <li>物理エラー率、routing、factory、memory、module間通信などの含まれ方は詳細表示で確認できます。</li>
       </ul>
-      <p>点にマウスを合わせると、論文、対象サイズ、見積もり種別、code distance、cycle/測定時間、実行時間、備考などの詳細を表示します。</p>
+      <p>点にマウスを合わせると詳細を表示し、クリックすると表示を固定できます。固定表示は×ボタンで閉じられます。</p>
       <p>誤りや追加情報の報告は <a href="https://github.com/kosukemtr/moonshot-website/issues/new?title=%E9%87%8F%E5%AD%90%E3%83%AA%E3%82%BD%E3%83%BC%E3%82%B9%E8%A6%8B%E7%A9%8D%E3%82%82%E3%82%8A%E3%82%B0%E3%83%A9%E3%83%95%E3%81%AE%E4%BF%AE%E6%AD%A3%E6%8F%90%E6%A1%88&amp;body=%23%23+%E4%BF%AE%E6%AD%A3%E3%81%97%E3%81%9F%E3%81%84%E7%82%B9%0A%0A%E4%BE%8B%3A+%E8%AB%96%E6%96%87%E5%90%8D%E3%80%81%E3%83%97%E3%83%AD%E3%83%83%E3%83%88%E7%82%B9%E3%80%81%E6%95%B0%E5%80%A4%E3%80%81%E6%8F%9B%E7%AE%97%E3%83%AB%E3%83%BC%E3%83%AB%E3%81%AA%E3%81%A9%0A%0A%23%23+%E8%A9%B2%E5%BD%93%E3%81%99%E3%82%8B%E8%AB%96%E6%96%87%E3%83%BB%E3%83%87%E3%83%BC%E3%82%BF%0A%0A-+%E8%AB%96%E6%96%87%3A%0A-+%E5%AF%BE%E8%B1%A1%E3%82%B5%E3%82%A4%E3%82%BA%3A%0A-+%E7%8F%BE%E5%9C%A8%E8%A1%A8%E7%A4%BA%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B%E5%80%A4%3A%0A-+%E6%AD%A3%E3%81%97%E3%81%84%E3%81%A8%E6%80%9D%E3%81%86%E5%80%A4%3A%0A%0A%23%23+%E6%A0%B9%E6%8B%A0%0A%0A%E8%AB%96%E6%96%87%E4%B8%AD%E3%81%AE%E3%83%9A%E3%83%BC%E3%82%B8%E3%80%81%E8%A1%A8%E3%80%81%E5%BC%8F%E3%80%81%E3%81%BE%E3%81%9F%E3%81%AF%E8%A3%9C%E8%B6%B3%E8%AA%AC%E6%98%8E%E3%81%B8%E3%81%AE%E3%83%AA%E3%83%B3%E3%82%AF%E3%82%92%E8%B2%BC%E3%81%A3%E3%81%A6%E3%81%8F%E3%81%A0%E3%81%95%E3%81%84%E3%80%82%0A%0A%23%23+%E8%A3%9C%E8%B6%B3%0A%0A%E5%BF%85%E8%A6%81%E3%81%AA%E3%82%89%E8%87%AA%E7%94%B1%E3%81%AB%E8%BF%BD%E8%A8%98%E3%81%97%E3%81%A6%E3%81%8F%E3%81%A0%E3%81%95%E3%81%84%E3%80%82%0A" target="_blank" rel="noopener">下書き入りのGitHub Issue</a> からお願いします。</p>
     </aside>
   </div>
@@ -1673,7 +1730,7 @@ renderAll();
 def build_graph_html(base: Path, header: list[str], rows: list[list[str]]) -> str:
     points_json = json.dumps(graph_points(header, rows), ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
     css = """
-html{box-sizing:border-box;overflow-x:hidden}*,*:before,*:after{box-sizing:inherit}body{margin:0;overflow-x:hidden;background:#f7f7f5;color:#17202f;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}.page{min-height:100vh;width:100%;max-width:100vw;overflow-x:hidden;padding:22px clamp(14px,2.4vw,34px)}.topbar{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin:0 0 14px;width:100%;min-width:0}.title{margin:0;font-size:24px;letter-spacing:0}.subtitle{margin:4px 0 0;color:#667085;font-size:13px;overflow-wrap:anywhere;word-break:break-all}.controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px;max-width:100%}.segmented{display:inline-flex;border:1px solid #cfd6e2;border-radius:8px;overflow:hidden;background:#fff}.segmented button{border:0;border-right:1px solid #cfd6e2;background:#fff;color:#344054;padding:8px 10px;font:inherit;font-size:13px;cursor:pointer}.segmented button:last-child{border-right:0}.segmented button[aria-pressed=true]{background:#2454a6;color:#fff}.rate-control{display:inline-flex;align-items:center;gap:6px;border:1px solid #cfd6e2;border-radius:8px;background:#fff;color:#344054;padding:6px 8px;font-size:13px;white-space:nowrap}.rate-control input{width:9.5ch;border:0;border-bottom:1px solid #cfd6e2;border-radius:0;padding:2px 0;font:inherit;text-align:right;color:#17202f;background:transparent}.rate-control input:focus{outline:0;border-bottom-color:#2454a6}.action{border:1px solid #cfd6e2;border-radius:8px;background:#fff;color:#344054;padding:8px 10px;font:inherit;font-size:13px;cursor:pointer}.action:hover{border-color:#98a2b3;background:#f8fafc}.check,.legend-key{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #cfd6e2;border-radius:8px;padding:7px 9px;font-size:13px;white-space:nowrap}.check input{margin:0}.legend-key{color:#344054}.marker{display:inline-block;width:11px;height:11px;flex:0 0 auto}.marker.chemistry{background:#b6423a;border-radius:2px}.marker.crypto{background:#2454a6;border-radius:50%}.marker.other{width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:11px solid #d39b18}.marker.subroutine{width:12px;height:12px;background:#fff;border:2px solid #475467;transform:rotate(45deg)}.layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:14px;align-items:start;width:100%;min-width:0}.chart-card,.side{max-width:100%;background:#fff;border:1px solid #d6d6d6;border-radius:8px}.chart-card{min-width:0;overflow:hidden}.chart-wrap{position:relative;height:calc(100vh - 166px);min-height:560px}.chart{display:block;width:100%;height:100%;touch-action:none}.plot-bg{fill:#fff}.axis-label{fill:#111827;font-size:14px;font-weight:700}.tick text{fill:#374151;font-size:12px}.tick line{stroke:#e7e7e7;stroke-width:1}.runtime-guide line{stroke:#5f6b7a;stroke-width:1.15;stroke-dasharray:4 5;opacity:.72}.runtime-guide text{fill:#344054;font-size:12px;font-weight:650;paint-order:stroke;stroke:#fff;stroke-width:3px}.domain{stroke:#111827;stroke-width:1.35}.point{cursor:pointer;stroke:#fff;stroke-width:1.5;transition:r .12s ease,opacity .12s ease}.point.is-subroutine{fill:#fff;stroke:inherit;stroke-width:2.4;opacity:1}.point.is-muted{opacity:.18}.point.is-hovered{stroke:#111827;stroke-width:2.5}.side{padding:14px;min-height:360px}.side h2{margin:0 0 8px;font-size:16px}.side p{margin:8px 0;color:#475467;font-size:13px}.side ul{margin:8px 0 0;padding-left:18px;color:#475467;font-size:13px}.side li{margin:6px 0}.side a{color:#184e77;text-decoration-thickness:1px;text-underline-offset:2px}.tooltip{position:fixed;z-index:20;width:min(420px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:auto;display:none;background:#fff;border:1px solid #aeb8c8;border-radius:8px;box-shadow:0 18px 48px rgba(20,31,50,.24);padding:12px;pointer-events:auto}.tooltip.is-open{display:block}.tip-title{font-weight:700;margin:0 0 6px}.tip-title a{color:#2454a6;text-decoration-thickness:1px;text-underline-offset:2px}.tip-grid{display:grid;grid-template-columns:128px 1fr;gap:4px 8px;font-size:12px}.tip-grid dt{color:#667085}.tip-grid dd{margin:0;color:#17202f;overflow-wrap:anywhere}.tip-note{margin:8px 0 0;color:#475467;font-size:12px;white-space:normal;overflow-wrap:anywhere}.empty{display:none;position:absolute;inset:0;align-items:center;justify-content:center;color:#667085;font-size:14px}.empty.is-open{display:flex}.footer-note{max-width:1120px;margin:14px 0 0;color:#667085;font-size:12px}@media(max-width:1240px){.topbar{align-items:flex-start;flex-direction:column}.topbar>div{min-width:0;max-width:100%}.layout{grid-template-columns:minmax(0,1fr)}.side{max-width:none}.page{overflow-x:hidden}}@media(max-width:720px){.page{padding:16px 10px}.chart-card,.side{border-radius:6px}.chart-wrap{height:62vh;min-height:420px}.title{font-size:21px}.controls{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;width:100%;align-items:stretch}.segmented{width:100%}.segmented button{flex:1;padding:8px 6px}.action,.check,.legend-key,.rate-control{justify-content:center;min-width:0;font-size:12px;white-space:normal}.check{justify-content:flex-start}.rate-control input{width:7ch}.side{min-width:0}.axis-label{font-size:13px}.tick text{font-size:11px}}
+html{box-sizing:border-box;overflow-x:hidden}*,*:before,*:after{box-sizing:inherit}body{margin:0;overflow-x:hidden;background:#f7f7f5;color:#17202f;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}.page{min-height:100vh;width:100%;max-width:100vw;overflow-x:hidden;padding:22px clamp(14px,2.4vw,34px)}.topbar{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin:0 0 14px;width:100%;min-width:0}.title{margin:0;font-size:24px;letter-spacing:0}.subtitle{margin:4px 0 0;color:#667085;font-size:13px;overflow-wrap:anywhere;word-break:break-all}.controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px;max-width:100%}.segmented{display:inline-flex;border:1px solid #cfd6e2;border-radius:8px;overflow:hidden;background:#fff}.segmented button{border:0;border-right:1px solid #cfd6e2;background:#fff;color:#344054;padding:8px 10px;font:inherit;font-size:13px;cursor:pointer}.segmented button:last-child{border-right:0}.segmented button[aria-pressed=true]{background:#2454a6;color:#fff}.rate-control{display:inline-flex;align-items:center;gap:6px;border:1px solid #cfd6e2;border-radius:8px;background:#fff;color:#344054;padding:6px 8px;font-size:13px;white-space:nowrap}.rate-control input{width:9.5ch;border:0;border-bottom:1px solid #cfd6e2;border-radius:0;padding:2px 0;font:inherit;text-align:right;color:#17202f;background:transparent}.rate-control input:focus{outline:0;border-bottom-color:#2454a6}.action{border:1px solid #cfd6e2;border-radius:8px;background:#fff;color:#344054;padding:8px 10px;font:inherit;font-size:13px;cursor:pointer}.action:hover{border-color:#98a2b3;background:#f8fafc}.check,.legend-key{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #cfd6e2;border-radius:8px;padding:7px 9px;font-size:13px;white-space:nowrap}.check input{margin:0}.legend-key{color:#344054}.marker{display:inline-block;width:11px;height:11px;flex:0 0 auto}.marker.chemistry{background:#b6423a;border-radius:2px}.marker.crypto{background:#2454a6;border-radius:50%}.marker.other{width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:11px solid #d39b18}.marker.subroutine{width:12px;height:12px;background:#fff;border:2px solid #475467;transform:rotate(45deg)}.layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:14px;align-items:start;width:100%;min-width:0}.chart-card,.side{max-width:100%;background:#fff;border:1px solid #d6d6d6;border-radius:8px}.chart-card{min-width:0;overflow:hidden}.chart-wrap{position:relative;height:calc(100vh - 166px);min-height:560px}.chart{display:block;width:100%;height:100%;touch-action:none}.plot-bg{fill:#fff}.axis-label{fill:#111827;font-size:14px;font-weight:700}.tick text{fill:#374151;font-size:12px}.tick line{stroke:#e7e7e7;stroke-width:1}.runtime-guide line{stroke:#5f6b7a;stroke-width:1.15;stroke-dasharray:4 5;opacity:.72}.runtime-guide text{fill:#344054;font-size:12px;font-weight:650;paint-order:stroke;stroke:#fff;stroke-width:3px}.domain{stroke:#111827;stroke-width:1.35}.point{cursor:pointer;stroke:#fff;stroke-width:1.5;transition:r .12s ease,opacity .12s ease}.point.is-subroutine{fill:#fff;stroke:inherit;stroke-width:2.4;opacity:1}.point.is-muted{opacity:.18}.point.is-hovered,.point.is-pinned{stroke:#111827;stroke-width:2.5}.side{padding:14px;min-height:360px}.side h2{margin:0 0 8px;font-size:16px}.side p{margin:8px 0;color:#475467;font-size:13px}.side ul{margin:8px 0 0;padding-left:18px;color:#475467;font-size:13px}.side li{margin:6px 0}.side a{color:#184e77;text-decoration-thickness:1px;text-underline-offset:2px}.tooltip{position:fixed;z-index:20;width:min(420px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:auto;display:none;background:#fff;border:1px solid #aeb8c8;border-radius:8px;box-shadow:0 18px 48px rgba(20,31,50,.24);padding:12px;pointer-events:auto}.tooltip.is-open{display:block}.tooltip.is-pinned{border-color:#2454a6}.tip-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin:0 0 6px}.tip-title{font-weight:700;margin:0;min-width:0}.tip-title a{color:#2454a6;text-decoration-thickness:1px;text-underline-offset:2px}.tip-close{flex:0 0 auto;width:26px;height:26px;border:1px solid #cfd6e2;border-radius:50%;background:#fff;color:#344054;font-size:18px;line-height:20px;cursor:pointer}.tip-close:hover{background:#f8fafc;border-color:#98a2b3}.tip-grid{display:grid;grid-template-columns:128px 1fr;gap:4px 8px;font-size:12px}.tip-grid dt{color:#667085}.tip-grid dd{margin:0;color:#17202f;overflow-wrap:anywhere}.tip-note{margin:8px 0 0;color:#475467;font-size:12px;white-space:normal;overflow-wrap:anywhere}.empty{display:none;position:absolute;inset:0;align-items:center;justify-content:center;color:#667085;font-size:14px}.empty.is-open{display:flex}.footer-note{max-width:1120px;margin:14px 0 0;color:#667085;font-size:12px}@media(max-width:1240px){.topbar{align-items:flex-start;flex-direction:column}.topbar>div{min-width:0;max-width:100%}.layout{grid-template-columns:minmax(0,1fr)}.side{max-width:none}.page{overflow-x:hidden}}@media(max-width:720px){.page{padding:16px 10px}.chart-card,.side{border-radius:6px}.chart-wrap{height:62vh;min-height:420px}.title{font-size:21px}.controls{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;width:100%;align-items:stretch}.segmented{width:100%}.segmented button{flex:1;padding:8px 6px}.action,.check,.legend-key,.rate-control{justify-content:center;min-width:0;font-size:12px;white-space:normal}.check{justify-content:flex-start}.rate-control input{width:7ch}.side{min-width:0}.axis-label{font-size:13px}.tick text{font-size:11px}}
 """
     css += "\n.point.is-experiment{stroke:#111827;stroke-width:3;opacity:1}\n"
     script = f"""
@@ -1696,6 +1753,7 @@ const plot = document.querySelector(".plot");
 const tooltip = document.querySelector(".tooltip");
 const empty = document.querySelector(".empty");
 let tooltipHideTimer;
+let pinnedTip = false;
 function esc(value) {{
   return String(value ?? "").replace(/[&<>"']/g, ch => ({{"&":"&amp;","<":"&lt;",">":"&gt;","\\"":"&quot;","'":"&#39;"}}[ch]));
 }}
@@ -1849,19 +1907,41 @@ function render() {{
   plot.innerHTML = html;
   plot.querySelectorAll("g[data-i]").forEach(g => {{
     g.addEventListener("mouseenter", e => showTip(DATA[+g.dataset.i], e));
-    g.addEventListener("mousemove", e => positionTip(e));
+    g.addEventListener("mousemove", e => {{ if (!pinnedTip) positionTip(e); }});
     g.addEventListener("mouseleave", hideTip);
     g.addEventListener("focusin", e => showTip(DATA[+g.dataset.i], e));
+    g.addEventListener("click", e => pinTip(DATA[+g.dataset.i], e));
     g.setAttribute("tabindex", "0");
   }});
 }}
-function showTip(d, event) {{
+function clearPinnedPoint() {{
+  document.querySelectorAll(".point.is-pinned").forEach(point => point.classList.remove("is-pinned"));
+}}
+function setPinnedPoint(d) {{
+  clearPinnedPoint();
+  const index = DATA.indexOf(d);
+  document.querySelectorAll(`g[data-i="${{index}}"] .point`).forEach(point => point.classList.add("is-pinned"));
+}}
+function pinTip(d, event) {{
+  event.preventDefault();
+  event.stopPropagation();
+  pinnedTip = true;
+  setPinnedPoint(d);
+  showTip(d, event, true);
+}}
+function closeTip() {{
+  pinnedTip = false;
+  clearPinnedPoint();
+  tooltip.classList.remove("is-open", "is-pinned");
+}}
+function showTip(d, event, force = false) {{
+  if (pinnedTip && !force) return;
   const y = yValue(d);
   clearTimeout(tooltipHideTimer);
   const paperTitle = d.paperHref
     ? `<a href="${{esc(d.paperHref)}}" target="_blank" rel="noopener">${{esc(d.paper)}}</a>`
     : esc(d.paper);
-  tooltip.innerHTML = `<p class="tip-title">${{paperTitle}}</p>
+  tooltip.innerHTML = `<div class="tip-header"><p class="tip-title">${{paperTitle}}</p><button type="button" class="tip-close" data-close-tip aria-label="詳細を閉じる">×</button></div>
     <dl class="tip-grid">
       <dt>分類</dt><dd>${{esc(d.categoryLabel)}}</dd>
       <dt>問題</dt><dd>${{esc(d.problem)}}</dd>
@@ -1879,6 +1959,7 @@ function showTip(d, event) {{
     </dl>
     <p class="tip-note">${{esc(d.note || d.evidence || "")}}</p>`;
   tooltip.classList.add("is-open");
+  tooltip.classList.toggle("is-pinned", pinnedTip);
   positionTip(event);
 }}
 function positionTip(event) {{
@@ -1892,6 +1973,7 @@ function positionTip(event) {{
   tooltip.style.top = Math.max(pad, y) + "px";
 }}
 function hideTip() {{
+  if (pinnedTip) return;
   clearTimeout(tooltipHideTimer);
   tooltipHideTimer = setTimeout(() => tooltip.classList.remove("is-open"), 180);
 }}
@@ -2005,6 +2087,9 @@ function downloadCurrentTsv() {{
 }}
 tooltip.addEventListener("mouseenter", () => clearTimeout(tooltipHideTimer));
 tooltip.addEventListener("mouseleave", hideTip);
+tooltip.addEventListener("click", event => {{
+  if (event.target.closest("[data-close-tip]")) closeTip();
+}});
 document.querySelectorAll("[data-download]").forEach(btn => {{
   btn.addEventListener("click", () => downloadGraph(btn.dataset.download));
 }});
@@ -2083,8 +2168,8 @@ render();
         <li>Pauli rotation数、RZZ数、その他の論理ゲート数しか報告されていない行は、換算せずに報告値をそのまま縦軸に置いています。</li>
         <li>論理量子ビット数は論文内の報告値です。レジスタ、ancilla、layout、routing、factoryなどの含まれ方は論文により異なります。</li>
       </ul>
-      <p>上部のToffoli/usに処理レートを入れると、各点の縦軸値をそのレートで割った概算時間を右軸とホバー詳細に表示します。換算なしの報告論理ゲート数に対する時間表示は参考値です。</p>
-      <p>点にマウスを合わせると、論文、対象サイズ、見積もり種別、物理量子ビット数、実行時間、備考などの詳細を表示します。</p>
+      <p>上部のToffoli/usに処理レートを入れると、各点の縦軸値をそのレートで割った概算時間を右軸と詳細表示に表示します。換算なしの報告論理ゲート数に対する時間表示は参考値です。</p>
+      <p>点にマウスを合わせると詳細を表示し、クリックすると表示を固定できます。固定表示は×ボタンで閉じられます。</p>
       <p>誤りや追加情報の報告は <a href="https://github.com/kosukemtr/moonshot-website/issues/new?title=%E9%87%8F%E5%AD%90%E3%83%AA%E3%82%BD%E3%83%BC%E3%82%B9%E8%A6%8B%E7%A9%8D%E3%82%82%E3%82%8A%E3%82%B0%E3%83%A9%E3%83%95%E3%81%AE%E4%BF%AE%E6%AD%A3%E6%8F%90%E6%A1%88&amp;body=%23%23+%E4%BF%AE%E6%AD%A3%E3%81%97%E3%81%9F%E3%81%84%E7%82%B9%0A%0A%E4%BE%8B%3A+%E8%AB%96%E6%96%87%E5%90%8D%E3%80%81%E3%83%97%E3%83%AD%E3%83%83%E3%83%88%E7%82%B9%E3%80%81%E6%95%B0%E5%80%A4%E3%80%81%E6%8F%9B%E7%AE%97%E3%83%AB%E3%83%BC%E3%83%AB%E3%81%AA%E3%81%A9%0A%0A%23%23+%E8%A9%B2%E5%BD%93%E3%81%99%E3%82%8B%E8%AB%96%E6%96%87%E3%83%BB%E3%83%87%E3%83%BC%E3%82%BF%0A%0A-+%E8%AB%96%E6%96%87%3A%0A-+%E5%AF%BE%E8%B1%A1%E3%82%B5%E3%82%A4%E3%82%BA%3A%0A-+%E7%8F%BE%E5%9C%A8%E8%A1%A8%E7%A4%BA%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B%E5%80%A4%3A%0A-+%E6%AD%A3%E3%81%97%E3%81%84%E3%81%A8%E6%80%9D%E3%81%86%E5%80%A4%3A%0A%0A%23%23+%E6%A0%B9%E6%8B%A0%0A%0A%E8%AB%96%E6%96%87%E4%B8%AD%E3%81%AE%E3%83%9A%E3%83%BC%E3%82%B8%E3%80%81%E8%A1%A8%E3%80%81%E5%BC%8F%E3%80%81%E3%81%BE%E3%81%9F%E3%81%AF%E8%A3%9C%E8%B6%B3%E8%AA%AC%E6%98%8E%E3%81%B8%E3%81%AE%E3%83%AA%E3%83%B3%E3%82%AF%E3%82%92%E8%B2%BC%E3%81%A3%E3%81%A6%E3%81%8F%E3%81%A0%E3%81%95%E3%81%84%E3%80%82%0A%0A%23%23+%E8%A3%9C%E8%B6%B3%0A%0A%E5%BF%85%E8%A6%81%E3%81%AA%E3%82%89%E8%87%AA%E7%94%B1%E3%81%AB%E8%BF%BD%E8%A8%98%E3%81%97%E3%81%A6%E3%81%8F%E3%81%A0%E3%81%95%E3%81%84%E3%80%82%0A" target="_blank" rel="noopener">下書き入りのGitHub Issue</a> からお願いします。</p>
     </aside>
   </div>
@@ -2443,8 +2528,8 @@ def english_public_graph_html(html_text: str) -> str:
         ("中抜きの菱形は、block-encodingやQSVTなどのサブルーチン単体の資源見積もりで、問題全体のend-to-end資源ではない点です。", "Open diamonds mark subroutine-only resource estimates, such as block-encoding or QSVT subroutines, rather than end-to-end resources for the full problem."),
         ("Pauli rotation数、RZZ数、その他の論理ゲート数しか報告されていない行は、換算せずに報告値をそのまま縦軸に置いています。", "Rows that only report Pauli rotations, RZZ gates, or other logical gate counts are plotted as reported without conversion."),
         ("論理量子ビット数は論文内の報告値です。レジスタ、ancilla、layout、routing、factoryなどの含まれ方は論文により異なります。", "Logical qubit counts are the values reported in the papers. What is included, such as registers, ancillae, layout, routing, or factories, differs by paper."),
-        ("上部のToffoli/usに処理レートを入れると、各点の縦軸値をそのレートで割った概算時間を右軸とホバー詳細に表示します。換算なしの報告論理ゲート数に対する時間表示は参考値です。", "Enter a processing rate in Toffoli/us to show an approximate runtime on the right axis and in the hover details. Runtime labels for unconverted reported logical gate counts are only rough references."),
-        ("点にマウスを合わせると、論文、対象サイズ、見積もり種別、物理量子ビット数、実行時間、備考などの詳細を表示します。", "Hover over a point to see the paper, target size, estimate type, physical qubits, runtime, notes, and related details."),
+        ("上部のToffoli/usに処理レートを入れると、各点の縦軸値をそのレートで割った概算時間を右軸と詳細表示に表示します。換算なしの報告論理ゲート数に対する時間表示は参考値です。", "Enter a processing rate in Toffoli/us to show an approximate runtime on the right axis and in the point details. Runtime labels for unconverted reported logical gate counts are only rough references."),
+        ("点にマウスを合わせると詳細を表示し、クリックすると表示を固定できます。固定表示は×ボタンで閉じられます。", "Hover over a point to show details. Click a point to pin the details, and close the pinned panel with the × button."),
         ("誤りや追加情報の報告は ", "Please report corrections or additional information via "),
         (" からお願いします。", "."),
         ("下書き入りのGitHub Issue", "this prefilled GitHub Issue"),
@@ -2462,7 +2547,7 @@ def english_public_graph_html(html_text: str) -> str:
         ("RSA系は上記GNFS外挿で古典時間を生成します。", "For RSA entries, classical runtimes are generated using the GNFS extrapolation above."),
         ("RSA以外は、元データに古典計算時間または古典/量子時間比がある場合だけ表示します。", "For non-RSA entries, rows are shown only when the source data includes a classical runtime or a classical/quantum runtime ratio."),
         ("黒い太枠で強調した点は、元論文で実際に実験として実施されたエントリです。", "Points with a thick black outline are entries actually performed as experiments in the source paper."),
-        ("横軸は誤り訂正前の生デバイス性能を粗く表す補助指標として、物理量子ビット数を物理エラー率で割った値を使っています。誤り訂正なしのランダム量子回路サンプリング実験では、論文記載の代表的な同時2量子ビットゲートエラーを物理エラー率として使っています。点にマウスを合わせると、論文、対象、量子計算時間、古典計算時間、比、古典時間の扱いを表示します。", "The x-axis uses physical qubits divided by physical error rate as a rough auxiliary indicator of raw, pre-error-correction device performance. For random-circuit-sampling experiments without error correction, the representative simultaneous two-qubit gate error reported in the paper is used as the physical error rate. Hover over a point to see the paper, target, quantum runtime, classical runtime, ratio, and classical-runtime treatment."),
+        ("横軸は誤り訂正前の生デバイス性能を粗く表す補助指標として、物理量子ビット数を物理エラー率で割った値を使っています。誤り訂正なしのランダム量子回路サンプリング実験では、論文記載の代表的な同時2量子ビットゲートエラーを物理エラー率として使っています。点にマウスを合わせると詳細を表示し、クリックすると表示を固定できます。固定表示は×ボタンで閉じられます。", "The x-axis uses physical qubits divided by physical error rate as a rough auxiliary indicator of raw, pre-error-correction device performance. For random-circuit-sampling experiments without error correction, the representative simultaneous two-qubit gate error reported in the paper is used as the physical error rate. Hover over a point to show details. Click a point to pin the details, and close the pinned panel with the × button."),
         ("注: この図は古典/量子の大まかな速度比を見るための補助図です。RSAの古典時間は論文記載値ではなく、GNFS漸近主項をRSA-250実績に正規化した概算です。縦軸は10^25で表示を打ち切り、これを超える点は非表示にしています。縦軸の下限は表示対象データに合わせて自動で決まります。", "Note: this figure is an auxiliary view of rough classical/quantum speed ratios. RSA classical runtimes are not paper-reported values; they are estimates from the GNFS asymptotic leading term normalized to RSA-250. The y-axis is capped at 10^25, and points above this value are hidden. The lower y-axis bound is chosen automatically from the displayed data."),
         ("報告論理量子ビット数", "Reported logical qubits"),
         ("Toffoli換算または報告論理ゲート数", "Toffoli-equivalent or reported logical gates"),

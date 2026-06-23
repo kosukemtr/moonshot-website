@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Quantum Resource Estimate Graph</title>
 <style>
-html{box-sizing:border-box;overflow-x:hidden}*,*:before,*:after{box-sizing:inherit}body{margin:0;overflow-x:hidden;background:#f7f7f5;color:#17202f;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}.page{min-height:100vh;width:100%;max-width:100vw;overflow-x:hidden;padding:22px clamp(14px,2.4vw,34px)}.topbar{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin:0 0 14px;width:100%;min-width:0}.title{margin:0;font-size:24px;letter-spacing:0}.subtitle{margin:4px 0 0;color:#667085;font-size:13px;overflow-wrap:anywhere;word-break:break-all}.controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px;max-width:100%}.segmented{display:inline-flex;border:1px solid #cfd6e2;border-radius:8px;overflow:hidden;background:#fff}.segmented button{border:0;border-right:1px solid #cfd6e2;background:#fff;color:#344054;padding:8px 10px;font:inherit;font-size:13px;cursor:pointer}.segmented button:last-child{border-right:0}.segmented button[aria-pressed=true]{background:#2454a6;color:#fff}.rate-control{display:inline-flex;align-items:center;gap:6px;border:1px solid #cfd6e2;border-radius:8px;background:#fff;color:#344054;padding:6px 8px;font-size:13px;white-space:nowrap}.rate-control input{width:9.5ch;border:0;border-bottom:1px solid #cfd6e2;border-radius:0;padding:2px 0;font:inherit;text-align:right;color:#17202f;background:transparent}.rate-control input:focus{outline:0;border-bottom-color:#2454a6}.action{border:1px solid #cfd6e2;border-radius:8px;background:#fff;color:#344054;padding:8px 10px;font:inherit;font-size:13px;cursor:pointer}.action:hover{border-color:#98a2b3;background:#f8fafc}.check,.legend-key{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #cfd6e2;border-radius:8px;padding:7px 9px;font-size:13px;white-space:nowrap}.check input{margin:0}.legend-key{color:#344054}.marker{display:inline-block;width:11px;height:11px;flex:0 0 auto}.marker.chemistry{background:#b6423a;border-radius:2px}.marker.crypto{background:#2454a6;border-radius:50%}.marker.other{width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:11px solid #d39b18}.marker.subroutine{width:12px;height:12px;background:#fff;border:2px solid #475467;transform:rotate(45deg)}.layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:14px;align-items:start;width:100%;min-width:0}.chart-card,.side{max-width:100%;background:#fff;border:1px solid #d6d6d6;border-radius:8px}.chart-card{min-width:0;overflow:hidden}.chart-wrap{position:relative;height:calc(100vh - 166px);min-height:560px}.chart{display:block;width:100%;height:100%;touch-action:none}.plot-bg{fill:#fff}.axis-label{fill:#111827;font-size:14px;font-weight:700}.tick text{fill:#374151;font-size:12px}.tick line{stroke:#e7e7e7;stroke-width:1}.runtime-guide line{stroke:#5f6b7a;stroke-width:1.15;stroke-dasharray:4 5;opacity:.72}.runtime-guide text{fill:#344054;font-size:12px;font-weight:650;paint-order:stroke;stroke:#fff;stroke-width:3px}.domain{stroke:#111827;stroke-width:1.35}.point{cursor:pointer;stroke:#fff;stroke-width:1.5;transition:r .12s ease,opacity .12s ease}.point.is-subroutine{fill:#fff;stroke:inherit;stroke-width:2.4;opacity:1}.point.is-muted{opacity:.18}.point.is-hovered{stroke:#111827;stroke-width:2.5}.side{padding:14px;min-height:360px}.side h2{margin:0 0 8px;font-size:16px}.side p{margin:8px 0;color:#475467;font-size:13px}.side ul{margin:8px 0 0;padding-left:18px;color:#475467;font-size:13px}.side li{margin:6px 0}.side a{color:#184e77;text-decoration-thickness:1px;text-underline-offset:2px}.tooltip{position:fixed;z-index:20;width:min(420px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:auto;display:none;background:#fff;border:1px solid #aeb8c8;border-radius:8px;box-shadow:0 18px 48px rgba(20,31,50,.24);padding:12px;pointer-events:auto}.tooltip.is-open{display:block}.tip-title{font-weight:700;margin:0 0 6px}.tip-title a{color:#2454a6;text-decoration-thickness:1px;text-underline-offset:2px}.tip-grid{display:grid;grid-template-columns:128px 1fr;gap:4px 8px;font-size:12px}.tip-grid dt{color:#667085}.tip-grid dd{margin:0;color:#17202f;overflow-wrap:anywhere}.tip-note{margin:8px 0 0;color:#475467;font-size:12px;white-space:normal;overflow-wrap:anywhere}.empty{display:none;position:absolute;inset:0;align-items:center;justify-content:center;color:#667085;font-size:14px}.empty.is-open{display:flex}.footer-note{max-width:1120px;margin:14px 0 0;color:#667085;font-size:12px}@media(max-width:1240px){.topbar{align-items:flex-start;flex-direction:column}.topbar>div{min-width:0;max-width:100%}.layout{grid-template-columns:minmax(0,1fr)}.side{max-width:none}.page{overflow-x:hidden}}@media(max-width:720px){.page{padding:16px 10px}.chart-card,.side{border-radius:6px}.chart-wrap{height:62vh;min-height:420px}.title{font-size:21px}.controls{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;width:100%;align-items:stretch}.segmented{width:100%}.segmented button{flex:1;padding:8px 6px}.action,.check,.legend-key,.rate-control{justify-content:center;min-width:0;font-size:12px;white-space:normal}.check{justify-content:flex-start}.rate-control input{width:7ch}.side{min-width:0}.axis-label{font-size:13px}.tick text{font-size:11px}}
+html{box-sizing:border-box;overflow-x:hidden}*,*:before,*:after{box-sizing:inherit}body{margin:0;overflow-x:hidden;background:#f7f7f5;color:#17202f;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}.page{min-height:100vh;width:100%;max-width:100vw;overflow-x:hidden;padding:22px clamp(14px,2.4vw,34px)}.topbar{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin:0 0 14px;width:100%;min-width:0}.title{margin:0;font-size:24px;letter-spacing:0}.subtitle{margin:4px 0 0;color:#667085;font-size:13px;overflow-wrap:anywhere;word-break:break-all}.controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px;max-width:100%}.segmented{display:inline-flex;border:1px solid #cfd6e2;border-radius:8px;overflow:hidden;background:#fff}.segmented button{border:0;border-right:1px solid #cfd6e2;background:#fff;color:#344054;padding:8px 10px;font:inherit;font-size:13px;cursor:pointer}.segmented button:last-child{border-right:0}.segmented button[aria-pressed=true]{background:#2454a6;color:#fff}.rate-control{display:inline-flex;align-items:center;gap:6px;border:1px solid #cfd6e2;border-radius:8px;background:#fff;color:#344054;padding:6px 8px;font-size:13px;white-space:nowrap}.rate-control input{width:9.5ch;border:0;border-bottom:1px solid #cfd6e2;border-radius:0;padding:2px 0;font:inherit;text-align:right;color:#17202f;background:transparent}.rate-control input:focus{outline:0;border-bottom-color:#2454a6}.action{border:1px solid #cfd6e2;border-radius:8px;background:#fff;color:#344054;padding:8px 10px;font:inherit;font-size:13px;cursor:pointer}.action:hover{border-color:#98a2b3;background:#f8fafc}.check,.legend-key{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #cfd6e2;border-radius:8px;padding:7px 9px;font-size:13px;white-space:nowrap}.check input{margin:0}.legend-key{color:#344054}.marker{display:inline-block;width:11px;height:11px;flex:0 0 auto}.marker.chemistry{background:#b6423a;border-radius:2px}.marker.crypto{background:#2454a6;border-radius:50%}.marker.other{width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:11px solid #d39b18}.marker.subroutine{width:12px;height:12px;background:#fff;border:2px solid #475467;transform:rotate(45deg)}.layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:14px;align-items:start;width:100%;min-width:0}.chart-card,.side{max-width:100%;background:#fff;border:1px solid #d6d6d6;border-radius:8px}.chart-card{min-width:0;overflow:hidden}.chart-wrap{position:relative;height:calc(100vh - 166px);min-height:560px}.chart{display:block;width:100%;height:100%;touch-action:none}.plot-bg{fill:#fff}.axis-label{fill:#111827;font-size:14px;font-weight:700}.tick text{fill:#374151;font-size:12px}.tick line{stroke:#e7e7e7;stroke-width:1}.runtime-guide line{stroke:#5f6b7a;stroke-width:1.15;stroke-dasharray:4 5;opacity:.72}.runtime-guide text{fill:#344054;font-size:12px;font-weight:650;paint-order:stroke;stroke:#fff;stroke-width:3px}.domain{stroke:#111827;stroke-width:1.35}.point{cursor:pointer;stroke:#fff;stroke-width:1.5;transition:r .12s ease,opacity .12s ease}.point.is-subroutine{fill:#fff;stroke:inherit;stroke-width:2.4;opacity:1}.point.is-muted{opacity:.18}.point.is-hovered,.point.is-pinned{stroke:#111827;stroke-width:2.5}.side{padding:14px;min-height:360px}.side h2{margin:0 0 8px;font-size:16px}.side p{margin:8px 0;color:#475467;font-size:13px}.side ul{margin:8px 0 0;padding-left:18px;color:#475467;font-size:13px}.side li{margin:6px 0}.side a{color:#184e77;text-decoration-thickness:1px;text-underline-offset:2px}.tooltip{position:fixed;z-index:20;width:min(420px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:auto;display:none;background:#fff;border:1px solid #aeb8c8;border-radius:8px;box-shadow:0 18px 48px rgba(20,31,50,.24);padding:12px;pointer-events:auto}.tooltip.is-open{display:block}.tooltip.is-pinned{border-color:#2454a6}.tip-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin:0 0 6px}.tip-title{font-weight:700;margin:0;min-width:0}.tip-title a{color:#2454a6;text-decoration-thickness:1px;text-underline-offset:2px}.tip-close{flex:0 0 auto;width:26px;height:26px;border:1px solid #cfd6e2;border-radius:50%;background:#fff;color:#344054;font-size:18px;line-height:20px;cursor:pointer}.tip-close:hover{background:#f8fafc;border-color:#98a2b3}.tip-grid{display:grid;grid-template-columns:128px 1fr;gap:4px 8px;font-size:12px}.tip-grid dt{color:#667085}.tip-grid dd{margin:0;color:#17202f;overflow-wrap:anywhere}.tip-note{margin:8px 0 0;color:#475467;font-size:12px;white-space:normal;overflow-wrap:anywhere}.empty{display:none;position:absolute;inset:0;align-items:center;justify-content:center;color:#667085;font-size:14px}.empty.is-open{display:flex}.footer-note{max-width:1120px;margin:14px 0 0;color:#667085;font-size:12px}@media(max-width:1240px){.topbar{align-items:flex-start;flex-direction:column}.topbar>div{min-width:0;max-width:100%}.layout{grid-template-columns:minmax(0,1fr)}.side{max-width:none}.page{overflow-x:hidden}}@media(max-width:720px){.page{padding:16px 10px}.chart-card,.side{border-radius:6px}.chart-wrap{height:62vh;min-height:420px}.title{font-size:21px}.controls{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;width:100%;align-items:stretch}.segmented{width:100%}.segmented button{flex:1;padding:8px 6px}.action,.check,.legend-key,.rate-control{justify-content:center;min-width:0;font-size:12px;white-space:normal}.check{justify-content:flex-start}.rate-control input{width:7ch}.side{min-width:0}.axis-label{font-size:13px}.tick text{font-size:11px}}
 
 .point.is-experiment{stroke:#111827;stroke-width:3;opacity:1}
 </style>
@@ -53,8 +53,8 @@ html{box-sizing:border-box;overflow-x:hidden}*,*:before,*:after{box-sizing:inher
         <li>Rows that only report Pauli rotations, RZZ gates, or other logical gate counts are plotted as reported without conversion.</li>
         <li>Logical qubit counts are the values reported in the papers. What is included, such as registers, ancillae, layout, routing, or factories, differs by paper.</li>
       </ul>
-      <p>Enter a processing rate in Toffoli/us to show an approximate runtime on the right axis and in the hover details. Runtime labels for unconverted reported logical gate counts are only rough references.</p>
-      <p>Hover over a point to see the paper, target size, estimate type, physical qubits, runtime, notes, and related details.</p>
+      <p>Enter a processing rate in Toffoli/us to show an approximate runtime on the right axis and in the point details. Runtime labels for unconverted reported logical gate counts are only rough references.</p>
+      <p>Hover over a point to show details. Click a point to pin the details, and close the pinned panel with the × button.</p>
       <p>Please report corrections or additional information via <a href="https://github.com/kosukemtr/moonshot-website/issues/new?title=%E9%87%8F%E5%AD%90%E3%83%AA%E3%82%BD%E3%83%BC%E3%82%B9%E8%A6%8B%E7%A9%8D%E3%82%82%E3%82%8A%E3%82%B0%E3%83%A9%E3%83%95%E3%81%AE%E4%BF%AE%E6%AD%A3%E6%8F%90%E6%A1%88&amp;body=%23%23+%E4%BF%AE%E6%AD%A3%E3%81%97%E3%81%9F%E3%81%84%E7%82%B9%0A%0A%E4%BE%8B%3A+%E8%AB%96%E6%96%87%E5%90%8D%E3%80%81%E3%83%97%E3%83%AD%E3%83%83%E3%83%88%E7%82%B9%E3%80%81%E6%95%B0%E5%80%A4%E3%80%81%E6%8F%9B%E7%AE%97%E3%83%AB%E3%83%BC%E3%83%AB%E3%81%AA%E3%81%A9%0A%0A%23%23+%E8%A9%B2%E5%BD%93%E3%81%99%E3%82%8B%E8%AB%96%E6%96%87%E3%83%BB%E3%83%87%E3%83%BC%E3%82%BF%0A%0A-+%E8%AB%96%E6%96%87%3A%0A-+%E5%AF%BE%E8%B1%A1%E3%82%B5%E3%82%A4%E3%82%BA%3A%0A-+%E7%8F%BE%E5%9C%A8%E8%A1%A8%E7%A4%BA%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B%E5%80%A4%3A%0A-+%E6%AD%A3%E3%81%97%E3%81%84%E3%81%A8%E6%80%9D%E3%81%86%E5%80%A4%3A%0A%0A%23%23+%E6%A0%B9%E6%8B%A0%0A%0A%E8%AB%96%E6%96%87%E4%B8%AD%E3%81%AE%E3%83%9A%E3%83%BC%E3%82%B8%E3%80%81%E8%A1%A8%E3%80%81%E5%BC%8F%E3%80%81%E3%81%BE%E3%81%9F%E3%81%AF%E8%A3%9C%E8%B6%B3%E8%AA%AC%E6%98%8E%E3%81%B8%E3%81%AE%E3%83%AA%E3%83%B3%E3%82%AF%E3%82%92%E8%B2%BC%E3%81%A3%E3%81%A6%E3%81%8F%E3%81%A0%E3%81%95%E3%81%84%E3%80%82%0A%0A%23%23+%E8%A3%9C%E8%B6%B3%0A%0A%E5%BF%85%E8%A6%81%E3%81%AA%E3%82%89%E8%87%AA%E7%94%B1%E3%81%AB%E8%BF%BD%E8%A8%98%E3%81%97%E3%81%A6%E3%81%8F%E3%81%A0%E3%81%95%E3%81%84%E3%80%82%0A" target="_blank" rel="noopener">this prefilled GitHub Issue</a>.</p>
     </aside>
   </div>
@@ -81,6 +81,7 @@ const plot = document.querySelector(".plot");
 const tooltip = document.querySelector(".tooltip");
 const empty = document.querySelector(".empty");
 let tooltipHideTimer;
+let pinnedTip = false;
 function esc(value) {
   return String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[ch]));
 }
@@ -234,19 +235,41 @@ function render() {
   plot.innerHTML = html;
   plot.querySelectorAll("g[data-i]").forEach(g => {
     g.addEventListener("mouseenter", e => showTip(DATA[+g.dataset.i], e));
-    g.addEventListener("mousemove", e => positionTip(e));
+    g.addEventListener("mousemove", e => { if (!pinnedTip) positionTip(e); });
     g.addEventListener("mouseleave", hideTip);
     g.addEventListener("focusin", e => showTip(DATA[+g.dataset.i], e));
+    g.addEventListener("click", e => pinTip(DATA[+g.dataset.i], e));
     g.setAttribute("tabindex", "0");
   });
 }
-function showTip(d, event) {
+function clearPinnedPoint() {
+  document.querySelectorAll(".point.is-pinned").forEach(point => point.classList.remove("is-pinned"));
+}
+function setPinnedPoint(d) {
+  clearPinnedPoint();
+  const index = DATA.indexOf(d);
+  document.querySelectorAll(`g[data-i="${index}"] .point`).forEach(point => point.classList.add("is-pinned"));
+}
+function pinTip(d, event) {
+  event.preventDefault();
+  event.stopPropagation();
+  pinnedTip = true;
+  setPinnedPoint(d);
+  showTip(d, event, true);
+}
+function closeTip() {
+  pinnedTip = false;
+  clearPinnedPoint();
+  tooltip.classList.remove("is-open", "is-pinned");
+}
+function showTip(d, event, force = false) {
+  if (pinnedTip && !force) return;
   const y = yValue(d);
   clearTimeout(tooltipHideTimer);
   const paperTitle = d.paperHref
     ? `<a href="${esc(d.paperHref)}" target="_blank" rel="noopener">${esc(d.paper)}</a>`
     : esc(d.paper);
-  tooltip.innerHTML = `<p class="tip-title">${paperTitle}</p>
+  tooltip.innerHTML = `<div class="tip-header"><p class="tip-title">${paperTitle}</p><button type="button" class="tip-close" data-close-tip aria-label="詳細を閉じる">×</button></div>
     <dl class="tip-grid">
       <dt>Category</dt><dd>${esc(d.categoryLabel)}</dd>
       <dt>Problem</dt><dd>${esc(d.problem)}</dd>
@@ -264,6 +287,7 @@ function showTip(d, event) {
     </dl>
     <p class="tip-note">${esc(d.note || d.evidence || "")}</p>`;
   tooltip.classList.add("is-open");
+  tooltip.classList.toggle("is-pinned", pinnedTip);
   positionTip(event);
 }
 function positionTip(event) {
@@ -277,6 +301,7 @@ function positionTip(event) {
   tooltip.style.top = Math.max(pad, y) + "px";
 }
 function hideTip() {
+  if (pinnedTip) return;
   clearTimeout(tooltipHideTimer);
   tooltipHideTimer = setTimeout(() => tooltip.classList.remove("is-open"), 180);
 }
@@ -390,6 +415,9 @@ function downloadCurrentTsv() {
 }
 tooltip.addEventListener("mouseenter", () => clearTimeout(tooltipHideTimer));
 tooltip.addEventListener("mouseleave", hideTip);
+tooltip.addEventListener("click", event => {
+  if (event.target.closest("[data-close-tip]")) closeTip();
+});
 document.querySelectorAll("[data-download]").forEach(btn => {
   btn.addEventListener("click", () => downloadGraph(btn.dataset.download));
 });
