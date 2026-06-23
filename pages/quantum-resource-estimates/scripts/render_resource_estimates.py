@@ -78,6 +78,7 @@ PDF_SOURCE_MAP = {
     "2603.28627": "cain_etal_2026_shor_10000_reconfigurable_atomic_qubits.pdf",
     "2603.28846": "babbush_etal_2026_google_ethereum_ecdlp_whitepaper.pdf",
     "2604.21908": "kremer_dupuis_2026_quantum_no_advantage_peaked_circuit.pdf",
+    "2605.00745": "arxiv_2605_00745.pdf",
     "2605.04025": "hartnett_etal_2026_fermi_hubbard_digital_quantum_processor.pdf",
     "2605.03951": "xue_covey_2026_half_million_modular_atomic_processor.pdf",
     "2605.30967": "arxiv_2605_30967.pdf",
