@@ -1158,6 +1158,7 @@ render();
   <div class="topbar">
     <div>
       <h1 class="title">量子・古典計算時間比と生デバイス性能指標</h1>
+      <p class="subtitle">{AI_EXTRACTION_NOTICE}</p>
       <p class="subtitle">横軸は物理量子ビット数 / 物理エラー率、縦軸は古典計算時間 / 量子計算時間です。RSA系の古典時間はGNFS主項をRSA-250実績に合わせて外挿しています。</p>
     </div>
     <div class="controls" aria-label="graph controls">
