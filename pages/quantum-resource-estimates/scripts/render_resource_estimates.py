@@ -72,6 +72,7 @@ PDF_SOURCE_MAP = {
     "2510.25838": "gharibyan_etal_2025_heuristic_quantum_advantage_peaked_circuits.pdf",
     "2510.26547": "arxiv_2510_26547.pdf",
     "2509.08807": "zhuang_etal_2025_navier_stokes_quantum_advantage.pdf",
+    "2601.04621": "arxiv_2601_04621.pdf",
     "2602.11457": "webster_etal_2026_pinnacle_rsa2048_100k.pdf",
     "2603.22778v1": "arxiv_2603_22778v1.pdf",
     "2603.28627": "cain_etal_2026_shor_10000_reconfigurable_atomic_qubits.pdf",

@@ -8923,11 +8923,11 @@
       "論理エラー率推定根拠": "NA",
       "通信・その他仮定": "logical T-gate estimate only; no hardware/error-correction overhead assigned in Table I. Table II gives separate hardware-module examples for surface-code estimates, but they are not applied to these FeMoco Table I rows.",
       "数値根拠": "実装レベル: [Figure 2/Table I are logical T gates only and do not include hardware/error-correction overhead](https://arxiv.org/pdf/2404.16351#page=5)",
-      "備考": "Table Iは論理Tゲート数のみで、hardware/error-correction overheadは含まない。Table IIのsuperconducting/trapped ionパラメータは別のsurface-code物理見積もり例であり、このFeMoco Table I行には割り当てない。 状態準備: QPE成功確率は近似状態と真の固有状態のoverlapに依存する。QREChem初期版の表はinitial-state preparation overheadを含まず、十分なoverlapを持つ初期状態準備のoverheadは今後実装予定と述べる。",
-      "古典計算時間(s)": "NA",
+      "備考": "Table Iは論理Tゲート数のみで、hardware/error-correction overheadは含まない。Table IIのsuperconducting/trapped ionパラメータは別のsurface-code物理見積もり例であり、このFeMoco Table I行には割り当てない。 状態準備: QPE成功確率は近似状態と真の固有状態のoverlapに依存する。QREChem初期版の表はinitial-state preparation overheadを含まず、十分なoverlapを持つ初期状態準備のoverheadは今後実装予定と述べる。 古典比較: Zhai et al. 2026のLLDUC 76o/113e FeMo-co benchmarkを、このLi active space側に対応する古典基準として併記。",
+      "古典計算時間(s)": "8.244e4",
       "古典/量子時間比": "NA",
-      "古典計算仮定": "NA",
-      "古典計算根拠": "NA"
+      "古典計算仮定": "Zhai et al. 2026 FeMo-co LLDUC classical benchmark; ideal Frontier CPU+GPU FLOP normalization; UDMRG D=393000 two sweeps to 1 kcal/mol; practical implementation factors ignored as in the paper",
+      "古典計算根拠": "古典計算時間: [22.9 hours = 8.244e4 s for two sweeps variational DMRG with D=393000 under ideal Frontier FLOP normalization](https://arxiv.org/pdf/2601.04621#page=11); CPU core-hour scaling: [4.08e9 CPU core hours](https://arxiv.org/pdf/2601.04621#page=10); model: [76 orbital/152 qubit LLDUC FeMo-co resting-state model](https://arxiv.org/pdf/2601.04621#page=1)"
     },
     {
       "発表日（初出）": "2024-04-25",
@@ -8958,11 +8958,11 @@
       "論理エラー率推定根拠": "NA",
       "通信・その他仮定": "logical T-gate estimate only; no hardware/error-correction overhead assigned in Table I. Table II gives separate hardware-module examples for surface-code estimates, but they are not applied to these FeMoco Table I rows.",
       "数値根拠": "実装レベル: [Figure 2/Table I are logical T gates only and do not include hardware/error-correction overhead](https://arxiv.org/pdf/2404.16351#page=5)",
-      "備考": "Table Iは論理Tゲート数のみで、hardware/error-correction overheadは含まない。Table IIのsuperconducting/trapped ionパラメータは別のsurface-code物理見積もり例であり、このFeMoco Table I行には割り当てない。 状態準備: QPE成功確率は近似状態と真の固有状態のoverlapに依存する。QREChem初期版の表はinitial-state preparation overheadを含まず、十分なoverlapを持つ初期状態準備のoverheadは今後実装予定と述べる。",
-      "古典計算時間(s)": "NA",
+      "備考": "Table Iは論理Tゲート数のみで、hardware/error-correction overheadは含まない。Table IIのsuperconducting/trapped ionパラメータは別のsurface-code物理見積もり例であり、このFeMoco Table I行には割り当てない。 状態準備: QPE成功確率は近似状態と真の固有状態のoverlapに依存する。QREChem初期版の表はinitial-state preparation overheadを含まず、十分なoverlapを持つ初期状態準備のoverheadは今後実装予定と述べる。 古典比較: Zhai et al. 2026のLLDUC 76o/113e FeMo-co benchmarkを、このLi active space側に対応する古典基準として併記。",
+      "古典計算時間(s)": "8.244e4",
       "古典/量子時間比": "NA",
-      "古典計算仮定": "NA",
-      "古典計算根拠": "NA"
+      "古典計算仮定": "Zhai et al. 2026 FeMo-co LLDUC classical benchmark; ideal Frontier CPU+GPU FLOP normalization; UDMRG D=393000 two sweeps to 1 kcal/mol; practical implementation factors ignored as in the paper",
+      "古典計算根拠": "古典計算時間: [22.9 hours = 8.244e4 s for two sweeps variational DMRG with D=393000 under ideal Frontier FLOP normalization](https://arxiv.org/pdf/2601.04621#page=11); CPU core-hour scaling: [4.08e9 CPU core hours](https://arxiv.org/pdf/2601.04621#page=10); model: [76 orbital/152 qubit LLDUC FeMo-co resting-state model](https://arxiv.org/pdf/2601.04621#page=1)"
     },
     {
       "発表日（初出）": "2024-04-25",
@@ -8993,11 +8993,11 @@
       "論理エラー率推定根拠": "NA",
       "通信・その他仮定": "logical T-gate estimate only; no hardware/error-correction overhead assigned in Table I. Table II gives separate hardware-module examples for surface-code estimates, but they are not applied to these FeMoco Table I rows.",
       "数値根拠": "実装レベル: [Figure 2/Table I are logical T gates only and do not include hardware/error-correction overhead](https://arxiv.org/pdf/2404.16351#page=5)",
-      "備考": "Table Iは論理Tゲート数のみで、hardware/error-correction overheadは含まない。Table IIのsuperconducting/trapped ionパラメータは別のsurface-code物理見積もり例であり、このFeMoco Table I行には割り当てない。 状態準備: QPE成功確率は近似状態と真の固有状態のoverlapに依存する。QREChem初期版の表はinitial-state preparation overheadを含まず、十分なoverlapを持つ初期状態準備のoverheadは今後実装予定と述べる。",
-      "古典計算時間(s)": "NA",
+      "備考": "Table Iは論理Tゲート数のみで、hardware/error-correction overheadは含まない。Table IIのsuperconducting/trapped ionパラメータは別のsurface-code物理見積もり例であり、このFeMoco Table I行には割り当てない。 状態準備: QPE成功確率は近似状態と真の固有状態のoverlapに依存する。QREChem初期版の表はinitial-state preparation overheadを含まず、十分なoverlapを持つ初期状態準備のoverheadは今後実装予定と述べる。 古典比較: Zhai et al. 2026のLLDUC 76o/113e FeMo-co benchmarkを、このLi active space側に対応する古典基準として併記。",
+      "古典計算時間(s)": "8.244e4",
       "古典/量子時間比": "NA",
-      "古典計算仮定": "NA",
-      "古典計算根拠": "NA"
+      "古典計算仮定": "Zhai et al. 2026 FeMo-co LLDUC classical benchmark; ideal Frontier CPU+GPU FLOP normalization; UDMRG D=393000 two sweeps to 1 kcal/mol; practical implementation factors ignored as in the paper",
+      "古典計算根拠": "古典計算時間: [22.9 hours = 8.244e4 s for two sweeps variational DMRG with D=393000 under ideal Frontier FLOP normalization](https://arxiv.org/pdf/2601.04621#page=11); CPU core-hour scaling: [4.08e9 CPU core hours](https://arxiv.org/pdf/2601.04621#page=10); model: [76 orbital/152 qubit LLDUC FeMo-co resting-state model](https://arxiv.org/pdf/2601.04621#page=1)"
     },
     {
       "発表日（初出）": "2024-04-25",
@@ -9028,11 +9028,11 @@
       "論理エラー率推定根拠": "NA",
       "通信・その他仮定": "logical T-gate estimate only; no hardware/error-correction overhead assigned in Table I. Table II gives separate hardware-module examples for surface-code estimates, but they are not applied to these FeMoco Table I rows.",
       "数値根拠": "実装レベル: [Figure 2/Table I are logical T gates only and do not include hardware/error-correction overhead](https://arxiv.org/pdf/2404.16351#page=5)",
-      "備考": "Table Iは論理Tゲート数のみで、hardware/error-correction overheadは含まない。Table IIのsuperconducting/trapped ionパラメータは別のsurface-code物理見積もり例であり、このFeMoco Table I行には割り当てない。 状態準備: QPE成功確率は近似状態と真の固有状態のoverlapに依存する。QREChem初期版の表はinitial-state preparation overheadを含まず、十分なoverlapを持つ初期状態準備のoverheadは今後実装予定と述べる。",
-      "古典計算時間(s)": "NA",
+      "備考": "Table Iは論理Tゲート数のみで、hardware/error-correction overheadは含まない。Table IIのsuperconducting/trapped ionパラメータは別のsurface-code物理見積もり例であり、このFeMoco Table I行には割り当てない。 状態準備: QPE成功確率は近似状態と真の固有状態のoverlapに依存する。QREChem初期版の表はinitial-state preparation overheadを含まず、十分なoverlapを持つ初期状態準備のoverheadは今後実装予定と述べる。 古典比較: Zhai et al. 2026のLLDUC 76o/113e FeMo-co benchmarkを、このLi active space側に対応する古典基準として併記。",
+      "古典計算時間(s)": "8.244e4",
       "古典/量子時間比": "NA",
-      "古典計算仮定": "NA",
-      "古典計算根拠": "NA"
+      "古典計算仮定": "Zhai et al. 2026 FeMo-co LLDUC classical benchmark; ideal Frontier CPU+GPU FLOP normalization; UDMRG D=393000 two sweeps to 1 kcal/mol; practical implementation factors ignored as in the paper",
+      "古典計算根拠": "古典計算時間: [22.9 hours = 8.244e4 s for two sweeps variational DMRG with D=393000 under ideal Frontier FLOP normalization](https://arxiv.org/pdf/2601.04621#page=11); CPU core-hour scaling: [4.08e9 CPU core hours](https://arxiv.org/pdf/2601.04621#page=10); model: [76 orbital/152 qubit LLDUC FeMo-co resting-state model](https://arxiv.org/pdf/2601.04621#page=1)"
     },
     {
       "発表日（初出）": "2024-04-25",
