@@ -1,4 +1,4 @@
-参照	論理量子ビット(q)	物理量子ビット(q)	倍率	物理エラー率(fraction)	cycle/測定時間(s)	reaction time(s)	Toffoli数	仮定	読み方
+参照	論理量子ビット(q)	物理量子ビット(q)	倍率	物理エラー率(fraction)	QEC cycle time(s)	reaction time(s)	Toffoli数	仮定	読み方
 [Gidney 2025, RSA-2048](https://arxiv.org/pdf/2505.15917#page=20)	1.537e3	8.98e5	5.84e2	1e-3	1e-6	1e-5	6.5e9	surface code + yoked surface codes; square grid nearest-neighbor qubit architecture; physical modality not specified	データ保持だけでなく、レイアウト、工場、実行スケジュールを含むend-to-end寄りの倍率。倍率は1537基準と1399基準を併記。 論理量子ビット(q) option 1 / 倍率 option 1 物理量子ビット種は指定されていない。
 [Gidney 2025, RSA-2048](https://arxiv.org/pdf/2505.15917#page=20)	1.399e3	8.98e5	6.42e2	1e-3	1e-6	1e-5	6.5e9	surface code + yoked surface codes; square grid nearest-neighbor qubit architecture; physical modality not specified	データ保持だけでなく、レイアウト、工場、実行スケジュールを含むend-to-end寄りの倍率。倍率は1537基準と1399基準を併記。 論理量子ビット(q) option 2 / 倍率 option 2 物理量子ビット種は指定されていない。
 [Gidney and Ekerå 2021, RSA-2048](https://arxiv.org/pdf/1905.09749#page=3)	NA	2e7	NA	1e-3	1e-6	1e-5	NA	大量のCCZ state生成	8時間級に速くするためmagic-state工場と並列化が大きく、Gidney 2025より倍率がかなり大きい。論理量子ビットは式で与えられるため数値列ではNA。

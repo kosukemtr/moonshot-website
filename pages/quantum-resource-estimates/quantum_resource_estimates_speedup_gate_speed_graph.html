@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>量子・古典計算時間比と生デバイス性能指標</title>
+<title>量子・古典計算時間比とゲート速度込み生デバイス性能指標</title>
 <style>
 html{box-sizing:border-box;overflow-x:hidden}*,*:before,*:after{box-sizing:inherit}body{margin:0;overflow-x:hidden;background:#f7f7f5;color:#17202f;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}.page{min-height:100vh;width:100%;max-width:100vw;overflow-x:hidden;padding:22px clamp(14px,2.4vw,34px)}.topbar{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin:0 0 14px;width:100%;min-width:0}.title{margin:0;font-size:24px;letter-spacing:0}.subtitle{margin:4px 0 0;color:#667085;font-size:13px;overflow-wrap:anywhere}.controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px;max-width:100%}.action,.check{border:1px solid #cfd6e2;border-radius:8px;background:#fff;color:#344054;font:inherit;font-size:13px}.action{padding:8px 10px;cursor:pointer}.action:hover{border-color:#98a2b3;background:#f8fafc}.check{display:inline-flex;align-items:center;gap:6px;padding:7px 9px;white-space:nowrap}.check input{margin:0}.marker{display:inline-block;width:11px;height:11px;flex:0 0 auto}.marker.chemistry{background:#b6423a;border-radius:2px}.marker.crypto{background:#2454a6;border-radius:50%}.marker.other{width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:11px solid #d39b18}.layout{display:grid;grid-template-columns:minmax(0,1fr) 370px;gap:14px;align-items:start;width:100%;min-width:0}.chart-stack{display:grid;gap:14px;min-width:0}.chart-card,.side{max-width:100%;background:#fff;border:1px solid #d6d6d6;border-radius:8px}.chart-card{min-width:0;overflow:hidden}.chart-heading{margin:14px 16px 0;font-size:15px}.chart-note{margin:4px 16px 0;color:#667085;font-size:12px}.chart-wrap{position:relative;height:calc(100vh - 198px);min-height:520px}.chart{display:block;width:100%;height:100%;touch-action:none}.plot-bg{fill:#fff}.axis-label{fill:#111827;font-size:14px;font-weight:700}.tick text{fill:#374151;font-size:12px}.tick line{stroke:#e7e7e7;stroke-width:1}.runtime-guide line{stroke:#5f6b7a;stroke-width:1.15;stroke-dasharray:4 5;opacity:.72}.runtime-guide text{fill:#344054;font-size:12px;font-weight:650;paint-order:stroke;stroke:#fff;stroke-width:3px}.domain{stroke:#111827;stroke-width:1.35}.point{cursor:pointer;stroke:#fff;stroke-width:1.5;opacity:.9}.point.is-experiment{stroke:#111827;stroke-width:3;opacity:1}.point.is-hovered,.point.is-pinned{stroke:#111827;stroke-width:2.5;opacity:1}.ratio-one{stroke:#7a8699;stroke-width:1.2;stroke-dasharray:5 5}.ratio-one-label{fill:#667085;font-size:12px}.side{padding:14px;min-height:360px}.side h2{margin:0 0 8px;font-size:16px}.side h3{margin:16px 0 6px;font-size:14px}.side p{margin:8px 0;color:#475467;font-size:13px}.side ul{margin:8px 0 0;padding-left:18px;color:#475467;font-size:13px}.side li{margin:6px 0}.side a{color:#184e77;text-decoration-thickness:1px;text-underline-offset:2px}.formula{display:block;overflow:auto;background:#f8fafc;border:1px solid #e4e7ec;border-radius:6px;padding:8px;font-size:12px;color:#344054;white-space:nowrap}.ref-table{width:100%;border-collapse:collapse;margin-top:8px;font-size:12px}.ref-table th,.ref-table td{border-bottom:1px solid #e4e7ec;padding:5px 4px;text-align:right}.ref-table th:first-child,.ref-table td:first-child{text-align:left}.tooltip{position:fixed;z-index:20;width:min(440px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:auto;display:none;background:#fff;border:1px solid #aeb8c8;border-radius:8px;box-shadow:0 18px 48px rgba(20,31,50,.24);padding:12px;pointer-events:auto}.tooltip.is-open{display:block}.tooltip.is-pinned{border-color:#2454a6}.tip-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin:0 0 6px}.tip-title{font-weight:700;margin:0;min-width:0}.tip-title a{color:#2454a6;text-decoration-thickness:1px;text-underline-offset:2px}.tip-close{flex:0 0 auto;width:26px;height:26px;border:1px solid #cfd6e2;border-radius:50%;background:#fff;color:#344054;font-size:18px;line-height:20px;cursor:pointer}.tip-close:hover{background:#f8fafc;border-color:#98a2b3}.tip-grid{display:grid;grid-template-columns:140px 1fr;gap:4px 8px;font-size:12px}.tip-grid dt{color:#667085}.tip-grid dd{margin:0;color:#17202f;overflow-wrap:anywhere}.tip-note{margin:8px 0 0;color:#475467;font-size:12px;white-space:normal;overflow-wrap:anywhere}.empty{display:none;position:absolute;inset:0;align-items:center;justify-content:center;color:#667085;font-size:14px}.empty.is-open{display:flex}.footer-note{max-width:1120px;margin:14px 0 0;color:#667085;font-size:12px}@media(max-width:1240px){.topbar{align-items:flex-start;flex-direction:column}.topbar>div{min-width:0;max-width:100%}.layout{grid-template-columns:minmax(0,1fr)}.side{max-width:none}.page{overflow-x:hidden}}@media(max-width:720px){.page{padding:16px 10px}.chart-card,.side{border-radius:6px}.chart-heading{margin:12px 12px 0}.chart-note{margin:4px 12px 0}.chart-wrap{height:62vh;min-height:430px}.title{font-size:21px}.controls{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;width:100%;align-items:stretch}.action,.check{justify-content:center;min-width:0;font-size:12px;white-space:normal}.check{justify-content:flex-start}.side{min-width:0}.axis-label{font-size:13px}.tick text{font-size:11px}.tip-grid{grid-template-columns:118px 1fr}}
 
@@ -14,9 +14,9 @@ html{box-sizing:border-box;overflow-x:hidden}*,*:before,*:after{box-sizing:inher
 <main class="page">
   <div class="topbar">
     <div>
-      <h1 class="title">量子・古典計算時間比と生デバイス性能指標</h1>
+      <h1 class="title">量子・古典計算時間比とゲート速度込み生デバイス性能指標</h1>
       <p class="subtitle">データは論文を確認しながら整備していますが、AIによる情報抽出を含むため、一部に誤りがある可能性があります。間違いを見つけた場合は <a href="https://github.com/kosukemtr/moonshot-website/issues/new?title=%E9%87%8F%E5%AD%90%E3%83%AA%E3%82%BD%E3%83%BC%E3%82%B9%E8%A6%8B%E7%A9%8D%E3%82%82%E3%82%8A%E3%82%B0%E3%83%A9%E3%83%95%E3%81%AE%E4%BF%AE%E6%AD%A3%E6%8F%90%E6%A1%88&amp;body=%23%23+%E4%BF%AE%E6%AD%A3%E3%81%97%E3%81%9F%E3%81%84%E7%82%B9%0A%0A%E4%BE%8B%3A+%E8%AB%96%E6%96%87%E5%90%8D%E3%80%81%E3%83%97%E3%83%AD%E3%83%83%E3%83%88%E7%82%B9%E3%80%81%E6%95%B0%E5%80%A4%E3%80%81%E6%8F%9B%E7%AE%97%E3%83%AB%E3%83%BC%E3%83%AB%E3%81%AA%E3%81%A9%0A%0A%23%23+%E8%A9%B2%E5%BD%93%E3%81%99%E3%82%8B%E8%AB%96%E6%96%87%E3%83%BB%E3%83%87%E3%83%BC%E3%82%BF%0A%0A-+%E8%AB%96%E6%96%87%3A%0A-+%E5%AF%BE%E8%B1%A1%E3%82%B5%E3%82%A4%E3%82%BA%3A%0A-+%E7%8F%BE%E5%9C%A8%E8%A1%A8%E7%A4%BA%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B%E5%80%A4%3A%0A-+%E6%AD%A3%E3%81%97%E3%81%84%E3%81%A8%E6%80%9D%E3%81%86%E5%80%A4%3A%0A%0A%23%23+%E6%A0%B9%E6%8B%A0%0A%0A%E8%AB%96%E6%96%87%E4%B8%AD%E3%81%AE%E3%83%9A%E3%83%BC%E3%82%B8%E3%80%81%E8%A1%A8%E3%80%81%E5%BC%8F%E3%80%81%E3%81%BE%E3%81%9F%E3%81%AF%E8%A3%9C%E8%B6%B3%E8%AA%AC%E6%98%8E%E3%81%B8%E3%81%AE%E3%83%AA%E3%83%B3%E3%82%AF%E3%82%92%E8%B2%BC%E3%81%A3%E3%81%A6%E3%81%8F%E3%81%A0%E3%81%95%E3%81%84%E3%80%82%0A%0A%23%23+%E8%A3%9C%E8%B6%B3%0A%0A%E5%BF%85%E8%A6%81%E3%81%AA%E3%82%89%E8%87%AA%E7%94%B1%E3%81%AB%E8%BF%BD%E8%A8%98%E3%81%97%E3%81%A6%E3%81%8F%E3%81%A0%E3%81%95%E3%81%84%E3%80%82%0A" target="_blank" rel="noopener">下書き入りのGitHub Issue</a> からお知らせください。</p>
-      <p class="subtitle">横軸は物理量子ビット数 / 物理エラー率、縦軸は古典計算時間 / 量子計算時間です。RSA系の古典時間はGNFS主項をRSA-250実績に合わせて外挿しています。</p>
+      <p class="subtitle">横軸は物理量子ビット数 / 物理エラー率 × 物理操作速度(MHz)、縦軸は古典計算時間 / 量子計算時間です。RSA系の古典時間はGNFS主項をRSA-250実績に合わせて外挿しています。</p>
     </div>
     <div class="controls" aria-label="graph controls">
       <button type="button" class="action" data-download="svg">SVG保存</button>
@@ -31,10 +31,10 @@ html{box-sizing:border-box;overflow-x:hidden}*,*:before,*:after{box-sizing:inher
   <div class="layout">
     <div class="chart-stack">
       <section class="chart-card" aria-label="device performance and classical quantum runtime ratio scatter plot">
-        <h2 class="chart-heading">物理量子ビット数 / 物理エラー率</h2>
+        <h2 class="chart-heading">物理量子ビット数 / 物理エラー率 × 物理操作速度(MHz)</h2>
         <p class="chart-note">従来の生デバイス性能指標を横軸にした表示です。</p>
         <div class="chart-wrap">
-          <svg class="chart" role="img" aria-label="物理量子ビット数/物理エラー率と古典計算時間/量子計算時間比の散布図"><g class="plot"></g></svg>
+          <svg class="chart" role="img" aria-label="物理量子ビット数/物理エラー率×物理操作速度(MHz)と古典計算時間/量子計算時間比の散布図"><g class="plot"></g></svg>
           <div class="empty">表示できる点がありません。</div>
         </div>
       </section>
@@ -61,7 +61,7 @@ html{box-sizing:border-box;overflow-x:hidden}*,*:before,*:after{box-sizing:inher
       </table>
       <h3>表示する点</h3>
       <ul>
-        <li>1枚目は、量子計算時間、物理量子ビット数、物理エラー率がある行だけを表示します。</li>
+        <li>1枚目は、量子計算時間、物理量子ビット数、物理エラー率、physical gate time または physical measurement time がある行だけを表示します。</li>
         <li>2枚目は、さらに physical gate time または physical measurement time がある行だけを表示します。</li>
         <li>RSA系は上記GNFS外挿で古典時間を生成します。</li>
         <li>RSA以外は、元データに古典計算時間または古典/量子時間比がある場合だけ表示します。</li>
@@ -127,6 +127,10 @@ function ticks(lo, hi) {
   for (let e = lo; e <= hi; e++) out.push(Math.pow(10, e));
   return out;
 }
+function limitingOperationTime(d) { const times = [d.physicalGateTimeSeconds, d.physicalMeasurementTimeSeconds].filter(t => t > 0); return times.length ? Math.max(...times) : null; }
+function limitingOperationSpeedMHz(d) { const t = limitingOperationTime(d); return t == null ? null : 1 / t / 1e6; }
+function limitingOperationLabel(d) { const t = limitingOperationTime(d); if (t == null) return "NA"; if (d.physicalGateTimeSeconds === t && d.physicalMeasurementTimeSeconds === t) return "gate/measurement"; if (d.physicalMeasurementTimeSeconds === t) return "measurement"; return "gate"; }
+function deviceGatePerformance(d) { const speedMHz = limitingOperationSpeedMHz(d); return speedMHz == null ? null : d.devicePerformance * speedMHz; }
 function pointClass(d) {
   return "point" + (d.isExperiment ? " is-experiment" : "") + (d.isSubroutineOnly ? " is-subroutine" : "");
 }
@@ -171,6 +175,7 @@ function visibleData() {
     d.physicalQubits > 0 &&
     d.physicalErrorRate > 0 &&
     d.devicePerformance > 0 &&
+    deviceGatePerformance(d) > 0 &&
     d.classicalQuantumRuntimeRatio > 0 &&
     d.classicalQuantumRuntimeRatio <= Y_DISPLAY_MAX
   );
@@ -212,7 +217,7 @@ function render() {
   const data = visibleData();
   empty.classList.toggle("is-open", data.length === 0);
   if (!data.length) { plot.innerHTML = ""; return; }
-  const [xMin,xMax,xLo,xHi] = nicePow(Math.min(...data.map(d=>d.devicePerformance)), Math.max(...data.map(d=>d.devicePerformance)));
+  const [xMin,xMax,xLo,xHi] = nicePow(Math.min(...data.map(d=>deviceGatePerformance(d))), Math.max(...data.map(d=>deviceGatePerformance(d))));
   const [yMin,yMax,yLo,yHi] = nicePow(Math.min(...data.map(d=>d.classicalQuantumRuntimeRatio)), Math.max(...data.map(d=>d.classicalQuantumRuntimeRatio)));
   const sx = v => margin.left + (log10(v) - log10(xMin)) / (log10(xMax) - log10(xMin)) * innerW;
   const sy = v => margin.top + innerH - (log10(v) - log10(yMin)) / (log10(yMax) - log10(yMin)) * innerH;
@@ -231,10 +236,10 @@ function render() {
     html += `<text class="ratio-one-label" x="${margin.left+innerW-6}" y="${y-7}" text-anchor="end">古典=量子</text>`;
   }
   html += `<rect class="domain" x="${margin.left}" y="${margin.top}" width="${innerW}" height="${innerH}" fill="none"></rect>`;
-  html += `<text class="axis-label" x="${margin.left + innerW/2}" y="${height-24}" text-anchor="middle">物理量子ビット数 / 物理エラー率</text>`;
+  html += `<text class="axis-label" x="${margin.left + innerW/2}" y="${height-24}" text-anchor="middle">物理量子ビット数 / 物理エラー率 × 物理操作速度(MHz)</text>`;
   html += `<text class="axis-label" transform="translate(26 ${margin.top + innerH/2}) rotate(-90)" text-anchor="middle">古典計算時間 / 量子計算時間</text>`;
   data.forEach(d => {
-    const x = sx(d.devicePerformance);
+    const x = sx(deviceGatePerformance(d));
     const y = sy(d.classicalQuantumRuntimeRatio);
     const r = d.isExperiment ? 8 : 6.4;
     html += `<g data-i="${DATA.indexOf(d)}" style="fill:${colors[d.category] || colors.other}">${categoryShape(d,x,y,r)}</g>`;
@@ -339,7 +344,7 @@ function showTip(d, event, force = false) {
       <dt>見積もり</dt><dd>${esc(d.estimateType)}</dd>
       <dt>実験実施</dt><dd>${d.isExperiment ? "あり" : "なし"}</dd>
       <dt>物理量子ビット</dt><dd>${fmt(d.physicalQubits)}</dd>
-      <dt>物理量子ビット/物理エラー率</dt><dd>${fmt(d.devicePerformance)}</dd>
+      <dt>物理量子ビット/物理エラー率×物理操作速度(MHz)</dt><dd>${fmt(deviceGatePerformance(d))}</dd>
       <dt>速度込み生指標</dt><dd>${fmt(gateSpeedDevicePerformance(d))}</dd>
       <dt>量子計算時間</dt><dd>${fmtDuration(d.quantumRuntimeSeconds)}</dd>
       <dt>古典計算時間</dt><dd>${fmtDuration(d.classicalRuntimeSeconds)}</dd>
@@ -349,6 +354,8 @@ function showTip(d, event, force = false) {
       <dt>QEC cycle time</dt><dd>${fmt(d.cycleTimeSeconds)}</dd>
       <dt>physical gate time</dt><dd>${fmt(d.physicalGateTimeSeconds)}</dd>
       <dt>physical measurement time</dt><dd>${fmt(d.physicalMeasurementTimeSeconds)}</dd>
+      <dt>limiting operation</dt><dd>${esc(limitingOperationLabel(d))}</dd>
+      <dt>limiting speed(MHz)</dt><dd>${fmt(limitingOperationSpeedMHz(d))}</dd>
       <dt>limiting speed(MHz)</dt><dd>${fmt(limitingOperationSpeedMHz(d))} (${esc(limitingOperationLabel(d))})</dd>
       <dt>デバイス</dt><dd>${esc(d.device || "NA")}</dd>
       <dt>誤り訂正符号</dt><dd>${esc(d.errorCorrectionCode || "NA")}</dd>
@@ -401,7 +408,7 @@ function downloadGraph(format) {
   const source = graphSvgSource();
   const svgBlob = new Blob([source], { type: "image/svg+xml;charset=utf-8" });
   if (format === "svg") {
-    downloadBlob(svgBlob, "quantum_resource_estimates_speedup_graph.svg");
+    downloadBlob(svgBlob, "quantum_resource_estimates_speedup_gate_speed_graph.svg");
     return;
   }
   const url = URL.createObjectURL(svgBlob);
@@ -420,7 +427,7 @@ function downloadGraph(format) {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
     canvas.toBlob(blob => {
-      if (blob) downloadBlob(blob, "quantum_resource_estimates_speedup_graph.png");
+      if (blob) downloadBlob(blob, "quantum_resource_estimates_speedup_gate_speed_graph.png");
       URL.revokeObjectURL(url);
     }, "image/png");
   };
@@ -431,10 +438,10 @@ function tsvEscape(value) {
   return String(value ?? "NA").replace(/[\t\r\n]+/g, " ").trim();
 }
 function downloadCurrentTsv() {
-  const header = ["date","category","problem","paper","paper_url","target","estimate_type","is_experiment","physical_qubits","physical_error_rate","device_performance_physical_qubits_per_error_rate","quantum_runtime_seconds","classical_runtime_seconds","classical_quantum_runtime_ratio","classical_runtime_source","rsa_bits","device","error_correction_code","physical_qubit_type","note"];
-  const rows = visibleData().map(d => [d.date,d.categoryLabel,d.problem,d.paper,d.paperHref,d.target,d.estimateType,d.isExperiment ? 1 : 0,d.physicalQubits,d.physicalErrorRate,d.devicePerformance,d.quantumRuntimeSeconds,d.classicalRuntimeSeconds,d.classicalQuantumRuntimeRatio,d.classicalRuntimeSource,d.rsaBits,d.device,d.errorCorrectionCode,d.physicalQubitType,d.classicalAssumptions || d.note || d.evidence || ""]);
+  const header = ["date","category","problem","paper","paper_url","target","estimate_type","is_experiment","physical_qubits","physical_error_rate","device_performance_physical_qubits_per_error_rate_times_physical_operation_speed_mhz","quantum_runtime_seconds","classical_runtime_seconds","classical_quantum_runtime_ratio","classical_runtime_source","rsa_bits","device","error_correction_code","physical_qubit_type","note"];
+  const rows = visibleData().map(d => [d.date,d.categoryLabel,d.problem,d.paper,d.paperHref,d.target,d.estimateType,d.isExperiment ? 1 : 0,d.physicalQubits,d.physicalErrorRate,deviceGatePerformance(d),d.quantumRuntimeSeconds,d.classicalRuntimeSeconds,d.classicalQuantumRuntimeRatio,d.classicalRuntimeSource,d.rsaBits,d.device,d.errorCorrectionCode,d.physicalQubitType,d.classicalAssumptions || d.note || d.evidence || ""]);
   const text = [header, ...rows].map(row => row.map(tsvEscape).join("\t")).join("\n") + "\n";
-  downloadBlob(new Blob([text], { type: "text/tab-separated-values;charset=utf-8" }), "quantum_resource_estimates_speedup_graph_data.tsv");
+  downloadBlob(new Blob([text], { type: "text/tab-separated-values;charset=utf-8" }), "quantum_resource_estimates_speedup_gate_speed_graph_data.tsv");
 }
 tooltip.addEventListener("mouseenter", () => clearTimeout(tooltipHideTimer));
 tooltip.addEventListener("mouseleave", hideTip);

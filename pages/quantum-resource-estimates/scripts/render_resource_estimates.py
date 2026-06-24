@@ -22,6 +22,7 @@ GRAPH_HTML_EN_NAME = "quantum_resource_estimates_graph_en.html"
 PHYSICAL_GRAPH_HTML_NAME = "quantum_resource_estimates_physical_graph.html"
 SPEEDUP_GRAPH_HTML_NAME = "quantum_resource_estimates_speedup_graph.html"
 SPEEDUP_GRAPH_HTML_EN_NAME = "quantum_resource_estimates_speedup_graph_en.html"
+SPEEDUP_GATE_SPEED_GRAPH_HTML_NAME = "quantum_resource_estimates_speedup_gate_speed_graph.html"
 PREVIEW_DIR_NAME = "previews"
 FEEDBACK_ISSUE_URL = (
     "https://github.com/kosukemtr/moonshot-website/issues/new"
@@ -146,7 +147,9 @@ NUMERIC_ONLY_COLUMNS = {
     "時空間体積(qubit-days)",
     "物理エラー率(fraction)",
     "code distance",
-    "cycle/測定時間(s)",
+    "QEC cycle time(s)",
+    "physical gate time(s)",
+    "physical measurement time(s)",
     "reaction time(s)",
     "shot/run(count)",
     "retry risk(fraction)",
@@ -170,7 +173,9 @@ NUMERIC_CHECK_COLUMNS = [
     "時空間体積(qubit-days)",
     "物理エラー率(fraction)",
     "code distance",
-    "cycle/測定時間(s)",
+    "QEC cycle time(s)",
+    "physical gate time(s)",
+    "physical measurement time(s)",
     "reaction time(s)",
     "shot/run(count)",
     "retry risk(fraction)",
@@ -439,7 +444,7 @@ def normalize_numeric(field: str, value: float, unit: str) -> tuple[str, float, 
         return "spacetime_volume_qubit_days", value, "qubit_days"
     if field == "物理エラー率(fraction)":
         return "physical_error_rate", value, "fraction"
-    if field == "cycle/測定時間(s)" or field == "reaction time(s)":
+    if field in {"QEC cycle time(s)", "physical gate time(s)", "physical measurement time(s)", "reaction time(s)"}:
         return "time_seconds", value, "seconds"
     if field == "shot/run(count)":
         return "shots_or_runs", value, "count"
@@ -892,7 +897,9 @@ def physical_graph_points(header: list[str], rows: list[list[str]]) -> list[dict
                 "physicalQubits": physical,
                 "physicalErrorRate": error_rate,
                 "codeDistance": parse_optional_float(row_map.get("code distance", "NA")),
-                "cycleTimeSeconds": parse_optional_float(row_map.get("cycle/測定時間(s)", "NA")),
+                "cycleTimeSeconds": parse_optional_float(row_map.get("QEC cycle time(s)", "NA")),
+                "physicalGateTimeSeconds": parse_optional_float(row_map.get("physical gate time(s)", "NA")),
+                "physicalMeasurementTimeSeconds": parse_optional_float(row_map.get("physical measurement time(s)", "NA")),
                 "runtimeSeconds": runtime,
                 "classicalRuntimeSeconds": classical_runtime,
                 "classicalQuantumRuntimeRatio": classical_quantum_runtime_ratio(reported_ratio, classical_runtime, runtime),
@@ -962,7 +969,9 @@ def speedup_graph_points(header: list[str], rows: list[list[str]]) -> list[dict[
                 "classicalRuntimeSource": source,
                 "rsaBits": rsa_bits,
                 "codeDistance": parse_optional_float(row_map.get("code distance", "NA")),
-                "cycleTimeSeconds": parse_optional_float(row_map.get("cycle/測定時間(s)", "NA")),
+                "cycleTimeSeconds": parse_optional_float(row_map.get("QEC cycle time(s)", "NA")),
+                "physicalGateTimeSeconds": parse_optional_float(row_map.get("physical gate time(s)", "NA")),
+                "physicalMeasurementTimeSeconds": parse_optional_float(row_map.get("physical measurement time(s)", "NA")),
                 "device": row_map.get("デバイス", ""),
                 "errorCorrectionCode": row_map.get("誤り訂正符号", ""),
                 "physicalQubitType": row_map.get("物理量子ビット種", ""),
@@ -980,7 +989,7 @@ def build_speedup_graph_html(base: Path, header: list[str], rows: list[list[str]
     points_json = json.dumps(speedup_graph_points(header, rows), ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
     refs_json = json.dumps(speedup_reference_values(), ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
     css = """
-html{box-sizing:border-box;overflow-x:hidden}*,*:before,*:after{box-sizing:inherit}body{margin:0;overflow-x:hidden;background:#f7f7f5;color:#17202f;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}.page{min-height:100vh;width:100%;max-width:100vw;overflow-x:hidden;padding:22px clamp(14px,2.4vw,34px)}.topbar{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin:0 0 14px;width:100%;min-width:0}.title{margin:0;font-size:24px;letter-spacing:0}.subtitle{margin:4px 0 0;color:#667085;font-size:13px;overflow-wrap:anywhere}.controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px;max-width:100%}.action,.check{border:1px solid #cfd6e2;border-radius:8px;background:#fff;color:#344054;font:inherit;font-size:13px}.action{padding:8px 10px;cursor:pointer}.action:hover{border-color:#98a2b3;background:#f8fafc}.check{display:inline-flex;align-items:center;gap:6px;padding:7px 9px;white-space:nowrap}.check input{margin:0}.marker{display:inline-block;width:11px;height:11px;flex:0 0 auto}.marker.chemistry{background:#b6423a;border-radius:2px}.marker.crypto{background:#2454a6;border-radius:50%}.marker.other{width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:11px solid #d39b18}.layout{display:grid;grid-template-columns:minmax(0,1fr) 370px;gap:14px;align-items:start;width:100%;min-width:0}.chart-card,.side{max-width:100%;background:#fff;border:1px solid #d6d6d6;border-radius:8px}.chart-card{min-width:0;overflow:hidden}.chart-wrap{position:relative;height:calc(100vh - 168px);min-height:560px}.chart{display:block;width:100%;height:100%;touch-action:none}.plot-bg{fill:#fff}.axis-label{fill:#111827;font-size:14px;font-weight:700}.tick text{fill:#374151;font-size:12px}.tick line{stroke:#e7e7e7;stroke-width:1}.runtime-guide line{stroke:#5f6b7a;stroke-width:1.15;stroke-dasharray:4 5;opacity:.72}.runtime-guide text{fill:#344054;font-size:12px;font-weight:650;paint-order:stroke;stroke:#fff;stroke-width:3px}.domain{stroke:#111827;stroke-width:1.35}.point{cursor:pointer;stroke:#fff;stroke-width:1.5;opacity:.9}.point.is-experiment{stroke:#111827;stroke-width:3;opacity:1}.point.is-hovered,.point.is-pinned{stroke:#111827;stroke-width:2.5;opacity:1}.ratio-one{stroke:#7a8699;stroke-width:1.2;stroke-dasharray:5 5}.ratio-one-label{fill:#667085;font-size:12px}.side{padding:14px;min-height:360px}.side h2{margin:0 0 8px;font-size:16px}.side h3{margin:16px 0 6px;font-size:14px}.side p{margin:8px 0;color:#475467;font-size:13px}.side ul{margin:8px 0 0;padding-left:18px;color:#475467;font-size:13px}.side li{margin:6px 0}.side a{color:#184e77;text-decoration-thickness:1px;text-underline-offset:2px}.formula{display:block;overflow:auto;background:#f8fafc;border:1px solid #e4e7ec;border-radius:6px;padding:8px;font-size:12px;color:#344054;white-space:nowrap}.ref-table{width:100%;border-collapse:collapse;margin-top:8px;font-size:12px}.ref-table th,.ref-table td{border-bottom:1px solid #e4e7ec;padding:5px 4px;text-align:right}.ref-table th:first-child,.ref-table td:first-child{text-align:left}.tooltip{position:fixed;z-index:20;width:min(440px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:auto;display:none;background:#fff;border:1px solid #aeb8c8;border-radius:8px;box-shadow:0 18px 48px rgba(20,31,50,.24);padding:12px;pointer-events:auto}.tooltip.is-open{display:block}.tooltip.is-pinned{border-color:#2454a6}.tip-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin:0 0 6px}.tip-title{font-weight:700;margin:0;min-width:0}.tip-title a{color:#2454a6;text-decoration-thickness:1px;text-underline-offset:2px}.tip-close{flex:0 0 auto;width:26px;height:26px;border:1px solid #cfd6e2;border-radius:50%;background:#fff;color:#344054;font-size:18px;line-height:20px;cursor:pointer}.tip-close:hover{background:#f8fafc;border-color:#98a2b3}.tip-grid{display:grid;grid-template-columns:140px 1fr;gap:4px 8px;font-size:12px}.tip-grid dt{color:#667085}.tip-grid dd{margin:0;color:#17202f;overflow-wrap:anywhere}.tip-note{margin:8px 0 0;color:#475467;font-size:12px;white-space:normal;overflow-wrap:anywhere}.empty{display:none;position:absolute;inset:0;align-items:center;justify-content:center;color:#667085;font-size:14px}.empty.is-open{display:flex}.footer-note{max-width:1120px;margin:14px 0 0;color:#667085;font-size:12px}@media(max-width:1240px){.topbar{align-items:flex-start;flex-direction:column}.topbar>div{min-width:0;max-width:100%}.layout{grid-template-columns:minmax(0,1fr)}.side{max-width:none}.page{overflow-x:hidden}}@media(max-width:720px){.page{padding:16px 10px}.chart-card,.side{border-radius:6px}.chart-wrap{height:62vh;min-height:430px}.title{font-size:21px}.controls{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;width:100%;align-items:stretch}.action,.check{justify-content:center;min-width:0;font-size:12px;white-space:normal}.check{justify-content:flex-start}.side{min-width:0}.axis-label{font-size:13px}.tick text{font-size:11px}.tip-grid{grid-template-columns:118px 1fr}}
+html{box-sizing:border-box;overflow-x:hidden}*,*:before,*:after{box-sizing:inherit}body{margin:0;overflow-x:hidden;background:#f7f7f5;color:#17202f;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}.page{min-height:100vh;width:100%;max-width:100vw;overflow-x:hidden;padding:22px clamp(14px,2.4vw,34px)}.topbar{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin:0 0 14px;width:100%;min-width:0}.title{margin:0;font-size:24px;letter-spacing:0}.subtitle{margin:4px 0 0;color:#667085;font-size:13px;overflow-wrap:anywhere}.controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px;max-width:100%}.action,.check{border:1px solid #cfd6e2;border-radius:8px;background:#fff;color:#344054;font:inherit;font-size:13px}.action{padding:8px 10px;cursor:pointer}.action:hover{border-color:#98a2b3;background:#f8fafc}.check{display:inline-flex;align-items:center;gap:6px;padding:7px 9px;white-space:nowrap}.check input{margin:0}.marker{display:inline-block;width:11px;height:11px;flex:0 0 auto}.marker.chemistry{background:#b6423a;border-radius:2px}.marker.crypto{background:#2454a6;border-radius:50%}.marker.other{width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:11px solid #d39b18}.layout{display:grid;grid-template-columns:minmax(0,1fr) 370px;gap:14px;align-items:start;width:100%;min-width:0}.chart-stack{display:grid;gap:14px;min-width:0}.chart-card,.side{max-width:100%;background:#fff;border:1px solid #d6d6d6;border-radius:8px}.chart-card{min-width:0;overflow:hidden}.chart-heading{margin:14px 16px 0;font-size:15px}.chart-note{margin:4px 16px 0;color:#667085;font-size:12px}.chart-wrap{position:relative;height:calc(100vh - 198px);min-height:520px}.chart{display:block;width:100%;height:100%;touch-action:none}.plot-bg{fill:#fff}.axis-label{fill:#111827;font-size:14px;font-weight:700}.tick text{fill:#374151;font-size:12px}.tick line{stroke:#e7e7e7;stroke-width:1}.runtime-guide line{stroke:#5f6b7a;stroke-width:1.15;stroke-dasharray:4 5;opacity:.72}.runtime-guide text{fill:#344054;font-size:12px;font-weight:650;paint-order:stroke;stroke:#fff;stroke-width:3px}.domain{stroke:#111827;stroke-width:1.35}.point{cursor:pointer;stroke:#fff;stroke-width:1.5;opacity:.9}.point.is-experiment{stroke:#111827;stroke-width:3;opacity:1}.point.is-hovered,.point.is-pinned{stroke:#111827;stroke-width:2.5;opacity:1}.ratio-one{stroke:#7a8699;stroke-width:1.2;stroke-dasharray:5 5}.ratio-one-label{fill:#667085;font-size:12px}.side{padding:14px;min-height:360px}.side h2{margin:0 0 8px;font-size:16px}.side h3{margin:16px 0 6px;font-size:14px}.side p{margin:8px 0;color:#475467;font-size:13px}.side ul{margin:8px 0 0;padding-left:18px;color:#475467;font-size:13px}.side li{margin:6px 0}.side a{color:#184e77;text-decoration-thickness:1px;text-underline-offset:2px}.formula{display:block;overflow:auto;background:#f8fafc;border:1px solid #e4e7ec;border-radius:6px;padding:8px;font-size:12px;color:#344054;white-space:nowrap}.ref-table{width:100%;border-collapse:collapse;margin-top:8px;font-size:12px}.ref-table th,.ref-table td{border-bottom:1px solid #e4e7ec;padding:5px 4px;text-align:right}.ref-table th:first-child,.ref-table td:first-child{text-align:left}.tooltip{position:fixed;z-index:20;width:min(440px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:auto;display:none;background:#fff;border:1px solid #aeb8c8;border-radius:8px;box-shadow:0 18px 48px rgba(20,31,50,.24);padding:12px;pointer-events:auto}.tooltip.is-open{display:block}.tooltip.is-pinned{border-color:#2454a6}.tip-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin:0 0 6px}.tip-title{font-weight:700;margin:0;min-width:0}.tip-title a{color:#2454a6;text-decoration-thickness:1px;text-underline-offset:2px}.tip-close{flex:0 0 auto;width:26px;height:26px;border:1px solid #cfd6e2;border-radius:50%;background:#fff;color:#344054;font-size:18px;line-height:20px;cursor:pointer}.tip-close:hover{background:#f8fafc;border-color:#98a2b3}.tip-grid{display:grid;grid-template-columns:140px 1fr;gap:4px 8px;font-size:12px}.tip-grid dt{color:#667085}.tip-grid dd{margin:0;color:#17202f;overflow-wrap:anywhere}.tip-note{margin:8px 0 0;color:#475467;font-size:12px;white-space:normal;overflow-wrap:anywhere}.empty{display:none;position:absolute;inset:0;align-items:center;justify-content:center;color:#667085;font-size:14px}.empty.is-open{display:flex}.footer-note{max-width:1120px;margin:14px 0 0;color:#667085;font-size:12px}@media(max-width:1240px){.topbar{align-items:flex-start;flex-direction:column}.topbar>div{min-width:0;max-width:100%}.layout{grid-template-columns:minmax(0,1fr)}.side{max-width:none}.page{overflow-x:hidden}}@media(max-width:720px){.page{padding:16px 10px}.chart-card,.side{border-radius:6px}.chart-heading{margin:12px 12px 0}.chart-note{margin:4px 12px 0}.chart-wrap{height:62vh;min-height:430px}.title{font-size:21px}.controls{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;width:100%;align-items:stretch}.action,.check{justify-content:center;min-width:0;font-size:12px;white-space:normal}.check{justify-content:flex-start}.side{min-width:0}.axis-label{font-size:13px}.tick text{font-size:11px}.tip-grid{grid-template-columns:118px 1fr}}
 """
     css += "\n.point.is-experiment{stroke:#111827;stroke-width:3;opacity:1}\n"
     script = f"""
@@ -992,6 +1001,9 @@ const colors = {{ chemistry: "#b6423a", crypto: "#2454a6", other: "#d39b18" }};
 const state = {{ categories: new Set(["chemistry","crypto","other"]) }};
 const svg = document.querySelector(".chart");
 const plot = document.querySelector(".plot");
+const gateSpeedSvg = document.querySelector(".chart-gate-speed");
+const gateSpeedPlot = document.querySelector(".plot-gate-speed");
+const gateSpeedEmpty = document.querySelector(".empty-gate-speed");
 const tooltip = document.querySelector(".tooltip");
 const empty = document.querySelector(".empty");
 const refTableBody = document.querySelector("[data-ref-table]");
@@ -1082,6 +1094,28 @@ function visibleData() {{
     d.classicalQuantumRuntimeRatio <= Y_DISPLAY_MAX
   );
 }}
+function limitingOperationTime(d) {{
+  const times = [d.physicalGateTimeSeconds, d.physicalMeasurementTimeSeconds].filter(t => t > 0);
+  return times.length ? Math.max(...times) : null;
+}}
+function limitingOperationSpeedMHz(d) {{
+  const t = limitingOperationTime(d);
+  return t == null ? null : 1 / t / 1e6;
+}}
+function limitingOperationLabel(d) {{
+  const t = limitingOperationTime(d);
+  if (t == null) return "NA";
+  if (d.physicalGateTimeSeconds === t && d.physicalMeasurementTimeSeconds === t) return "gate/measurement";
+  if (d.physicalMeasurementTimeSeconds === t) return "measurement";
+  return "gate";
+}}
+function gateSpeedDevicePerformance(d) {{
+  const speedMHz = limitingOperationSpeedMHz(d);
+  return speedMHz == null ? null : d.devicePerformance * speedMHz;
+}}
+function visibleGateSpeedData() {{
+  return visibleData().filter(d => gateSpeedDevicePerformance(d) > 0);
+}}
 function renderReferenceTable() {{
   refTableBody.innerHTML = REFS.map(r => `<tr><td>RSA-${{r.bits}}</td><td>${{fmtCoreYears(r.coreYears)}}</td><td>${{fmtDuration(r.seconds)}}</td></tr>`).join("");
 }}
@@ -1135,6 +1169,60 @@ function render() {{
     g.setAttribute("tabindex", "0");
   }});
 }}
+function renderGateSpeed() {{
+  const rect = gateSpeedSvg.getBoundingClientRect();
+  const width = Math.max(320, rect.width || 900);
+  const height = Math.max(520, rect.height || 620);
+  gateSpeedSvg.setAttribute("viewBox", `0 0 ${{width}} ${{height}}`);
+  const isNarrow = width <= 520;
+  const margin = {{ left: isNarrow ? 74 : 90, right: isNarrow ? 34 : 34, top: 28, bottom: 76 }};
+  const innerW = width - margin.left - margin.right;
+  const innerH = height - margin.top - margin.bottom;
+  const data = visibleGateSpeedData();
+  gateSpeedEmpty.classList.toggle("is-open", data.length === 0);
+  if (!data.length) {{ gateSpeedPlot.innerHTML = ""; return; }}
+  const [xMin,xMax,xLo,xHi] = nicePow(Math.min(...data.map(d=>gateSpeedDevicePerformance(d))), Math.max(...data.map(d=>gateSpeedDevicePerformance(d))));
+  const [yMin,yMax,yLo,yHi] = nicePow(Math.min(...data.map(d=>d.classicalQuantumRuntimeRatio)), Math.max(...data.map(d=>d.classicalQuantumRuntimeRatio)));
+  const sx = v => margin.left + (log10(v) - log10(xMin)) / (log10(xMax) - log10(xMin)) * innerW;
+  const sy = v => margin.top + innerH - (log10(v) - log10(yMin)) / (log10(yMax) - log10(yMin)) * innerH;
+  let html = `<rect class="plot-bg" x="0" y="0" width="${{width}}" height="${{height}}"></rect>`;
+  for (const t of ticks(xLo, xHi)) {{
+    const x = sx(t);
+    html += `<g class="tick"><line x1="${{x}}" x2="${{x}}" y1="${{margin.top}}" y2="${{margin.top+innerH}}"></line>${{powTickLabel(t, `x="${{x}}" y="${{margin.top+innerH+24}}" text-anchor="middle"`)}}</g>`;
+  }}
+  for (const t of ticks(yLo, yHi)) {{
+    const y = sy(t);
+    html += `<g class="tick"><line x1="${{margin.left}}" x2="${{margin.left+innerW}}" y1="${{y}}" y2="${{y}}"></line>${{powTickLabel(t, `x="${{margin.left-10}}" y="${{y+4}}" text-anchor="end"`)}}</g>`;
+  }}
+  if (yMin <= 1 && yMax >= 1) {{
+    const y = sy(1);
+    html += `<line class="ratio-one" x1="${{margin.left}}" x2="${{margin.left+innerW}}" y1="${{y}}" y2="${{y}}"></line>`;
+    html += `<text class="ratio-one-label" x="${{margin.left+innerW-6}}" y="${{y-7}}" text-anchor="end">古典=量子</text>`;
+  }}
+  html += `<rect class="domain" x="${{margin.left}}" y="${{margin.top}}" width="${{innerW}}" height="${{innerH}}" fill="none"></rect>`;
+  html += `<text class="axis-label" x="${{margin.left + innerW/2}}" y="${{height-24}}" text-anchor="middle">物理量子ビット数 / 物理エラー率 × 物理操作速度(MHz)</text>`;
+  html += `<text class="axis-label" transform="translate(26 ${{margin.top + innerH/2}}) rotate(-90)" text-anchor="middle">古典計算時間 / 量子計算時間</text>`;
+  data.forEach(d => {{
+    const x = sx(gateSpeedDevicePerformance(d));
+    const y = sy(d.classicalQuantumRuntimeRatio);
+    const r = d.isExperiment ? 8 : 6.4;
+    html += `<g data-i="${{DATA.indexOf(d)}}" style="fill:${{colors[d.category] || colors.other}}">${{categoryShape(d,x,y,r)}}</g>`;
+  }});
+  html += renderSvgLegend(margin.left + 12, margin.top + 12, isNarrow, data);
+  gateSpeedPlot.innerHTML = html;
+  gateSpeedPlot.querySelectorAll("g[data-i]").forEach(g => {{
+    g.addEventListener("mouseenter", e => showTip(DATA[+g.dataset.i], e));
+    g.addEventListener("mousemove", e => {{ if (!pinnedTip) positionTip(e); }});
+    g.addEventListener("mouseleave", hideTip);
+    g.addEventListener("focusin", e => showTip(DATA[+g.dataset.i], e));
+    g.addEventListener("click", e => pinTip(DATA[+g.dataset.i], e));
+    g.setAttribute("tabindex", "0");
+  }});
+}}
+function renderAll() {{
+  render();
+  renderGateSpeed();
+}}
 function clearPinnedPoint() {{
   document.querySelectorAll(".point.is-pinned").forEach(point => point.classList.remove("is-pinned"));
 }}
@@ -1171,12 +1259,16 @@ function showTip(d, event, force = false) {{
       <dt>実験実施</dt><dd>${{d.isExperiment ? "あり" : "なし"}}</dd>
       <dt>物理量子ビット</dt><dd>${{fmt(d.physicalQubits)}}</dd>
       <dt>物理量子ビット/物理エラー率</dt><dd>${{fmt(d.devicePerformance)}}</dd>
+      <dt>速度込み生指標</dt><dd>${{fmt(gateSpeedDevicePerformance(d))}}</dd>
       <dt>量子計算時間</dt><dd>${{fmtDuration(d.quantumRuntimeSeconds)}}</dd>
       <dt>古典計算時間</dt><dd>${{fmtDuration(d.classicalRuntimeSeconds)}}</dd>
       <dt>古典/量子比</dt><dd>${{fmt(d.classicalQuantumRuntimeRatio)}}</dd>
       <dt>古典時間の扱い</dt><dd>${{esc(source)}}</dd>
       <dt>物理エラー率</dt><dd>${{fmt(d.physicalErrorRate)}}</dd>
-      <dt>cycle/測定時間</dt><dd>${{fmt(d.cycleTimeSeconds)}}</dd>
+      <dt>QEC cycle time</dt><dd>${{fmt(d.cycleTimeSeconds)}}</dd>
+      <dt>physical gate time</dt><dd>${{fmt(d.physicalGateTimeSeconds)}}</dd>
+      <dt>physical measurement time</dt><dd>${{fmt(d.physicalMeasurementTimeSeconds)}}</dd>
+      <dt>limiting speed(MHz)</dt><dd>${{fmt(limitingOperationSpeedMHz(d))}} (${{esc(limitingOperationLabel(d))}})</dd>
       <dt>デバイス</dt><dd>${{esc(d.device || "NA")}}</dd>
       <dt>誤り訂正符号</dt><dd>${{esc(d.errorCorrectionCode || "NA")}}</dd>
       <dt>物理量子ビット種</dt><dd>${{esc(d.physicalQubitType || "NA")}}</dd>
@@ -1276,12 +1368,12 @@ document.querySelectorAll("[data-category]").forEach(input => {{
   input.addEventListener("change", () => {{
     if (input.checked) state.categories.add(input.dataset.category);
     else state.categories.delete(input.dataset.category);
-    render();
+    renderAll();
   }});
 }});
-window.addEventListener("resize", render);
+window.addEventListener("resize", renderAll);
 renderReferenceTable();
-render();
+renderAll();
 </script>
 """
     return f"""<!doctype html>
@@ -1311,12 +1403,24 @@ render();
     </div>
   </div>
   <div class="layout">
-    <section class="chart-card" aria-label="device performance and classical quantum runtime ratio scatter plot">
-      <div class="chart-wrap">
-        <svg class="chart" role="img" aria-label="物理量子ビット数/物理エラー率と古典計算時間/量子計算時間比の散布図"><g class="plot"></g></svg>
-        <div class="empty">表示できる点がありません。</div>
-      </div>
-    </section>
+    <div class="chart-stack">
+      <section class="chart-card" aria-label="device performance and classical quantum runtime ratio scatter plot">
+        <h2 class="chart-heading">物理量子ビット数 / 物理エラー率</h2>
+        <p class="chart-note">従来の生デバイス性能指標を横軸にした表示です。</p>
+        <div class="chart-wrap">
+          <svg class="chart" role="img" aria-label="物理量子ビット数/物理エラー率と古典計算時間/量子計算時間比の散布図"><g class="plot"></g></svg>
+          <div class="empty">表示できる点がありません。</div>
+        </div>
+      </section>
+      <section class="chart-card" aria-label="gate speed adjusted device performance and classical quantum runtime ratio scatter plot">
+        <h2 class="chart-heading">物理量子ビット数 / 物理エラー率 × 物理操作速度(MHz)</h2>
+        <p class="chart-note">physical gate time と physical measurement time のうち遅い方を速度換算して使います。</p>
+        <div class="chart-wrap">
+          <svg class="chart chart-gate-speed" role="img" aria-label="物理量子ビット数/物理エラー率×物理操作速度(MHz)と古典計算時間/量子計算時間比の散布図"><g class="plot-gate-speed"></g></svg>
+          <div class="empty empty-gate-speed">表示できる点がありません。</div>
+        </div>
+      </section>
+    </div>
     <aside class="side">
       <h2>RSA古典時間の概算</h2>
       <p>RSA系の古典計算時間は、General Number Field Sieve (GNFS) の主項を使って概算しています。RSA modulusのbit長を b とし、N ≃ 2^b と近似します。</p>
@@ -1331,12 +1435,13 @@ render();
       </table>
       <h3>表示する点</h3>
       <ul>
-        <li>量子計算時間、物理量子ビット数、物理エラー率がある行だけを表示します。</li>
+        <li>1枚目は、量子計算時間、物理量子ビット数、物理エラー率がある行だけを表示します。</li>
+        <li>2枚目は、さらに physical gate time または physical measurement time がある行だけを表示します。</li>
         <li>RSA系は上記GNFS外挿で古典時間を生成します。</li>
         <li>RSA以外は、元データに古典計算時間または古典/量子時間比がある場合だけ表示します。</li>
         <li>黒い太枠で強調した点は、元論文で実際に実験として実施されたエントリです。</li>
       </ul>
-      <p>横軸は誤り訂正前の生デバイス性能を粗く表す補助指標として、物理量子ビット数を物理エラー率で割った値を使っています。誤り訂正なしのランダム量子回路サンプリング実験では、論文記載の代表的な同時2量子ビットゲートエラーを物理エラー率として使っています。点にマウスを合わせると詳細を表示し、クリックすると表示を固定できます。固定表示は×ボタンで閉じられます。</p>
+      <p>1枚目の横軸は、誤り訂正前の生デバイス性能を粗く表す補助指標として、物理量子ビット数を物理エラー率で割った値を使っています。2枚目ではその値に、physical gate time と physical measurement time のうち遅い方から求めた物理操作速度(MHz)を掛けています。点にマウスを合わせると詳細を表示し、クリックすると表示を固定できます。固定表示は×ボタンで閉じられます。</p>
     </aside>
   </div>
   <p class="footer-note">注: この図は古典/量子の大まかな速度比を見るための補助図です。RSAの古典時間は論文記載値ではなく、GNFS漸近主項をRSA-250実績に正規化した概算です。縦軸は10^25で表示を打ち切り、これを超える点は非表示にしています。縦軸の下限は表示対象データに合わせて自動で決まります。</p>
@@ -1346,6 +1451,81 @@ render();
 </body>
 </html>
 """
+
+
+def build_speedup_gate_speed_graph_html(base: Path, header: list[str], rows: list[list[str]]) -> str:
+    html_text = build_speedup_graph_html(base, header, rows)
+    replacements = [
+        (
+            "<title>量子・古典計算時間比と生デバイス性能指標</title>",
+            "<title>量子・古典計算時間比とゲート速度込み生デバイス性能指標</title>",
+        ),
+        (
+            '<h1 class="title">量子・古典計算時間比と生デバイス性能指標</h1>',
+            '<h1 class="title">量子・古典計算時間比とゲート速度込み生デバイス性能指標</h1>',
+        ),
+        (
+            "横軸は物理量子ビット数 / 物理エラー率、縦軸は古典計算時間 / 量子計算時間です。",
+            "横軸は物理量子ビット数 / 物理エラー率 × 物理操作速度(MHz)、縦軸は古典計算時間 / 量子計算時間です。",
+        ),
+        (
+            "物理量子ビット数/物理エラー率と古典計算時間/量子計算時間比の散布図",
+            "物理量子ビット数/物理エラー率×物理操作速度(MHz)と古典計算時間/量子計算時間比の散布図",
+        ),
+        (
+            "量子計算時間、物理量子ビット数、物理エラー率がある行だけを表示します。",
+            "量子計算時間、物理量子ビット数、物理エラー率、physical gate time または physical measurement time がある行だけを表示します。",
+        ),
+        (
+            "横軸は誤り訂正前の生デバイス性能を粗く表す補助指標として、物理量子ビット数を物理エラー率で割った値を使っています。",
+            "横軸は誤り訂正前の生デバイス性能を粗く表す補助指標として、物理量子ビット数を物理エラー率で割り、さらに physical gate time と physical measurement time のうち遅い方の速度(MHz)を掛けた値を使っています。",
+        ),
+        (
+            "物理量子ビット数 / 物理エラー率",
+            "物理量子ビット数 / 物理エラー率 × 物理操作速度(MHz)",
+        ),
+        (
+            "物理量子ビット/物理エラー率",
+            "物理量子ビット/物理エラー率×物理操作速度(MHz)",
+        ),
+        (
+            "device_performance_physical_qubits_per_error_rate",
+            "device_performance_physical_qubits_per_error_rate_times_physical_operation_speed_mhz",
+        ),
+        (
+            '"quantum_resource_estimates_speedup_graph.svg"',
+            '"quantum_resource_estimates_speedup_gate_speed_graph.svg"',
+        ),
+        (
+            '"quantum_resource_estimates_speedup_graph.png"',
+            '"quantum_resource_estimates_speedup_gate_speed_graph.png"',
+        ),
+        (
+            '"quantum_resource_estimates_speedup_graph_data.tsv"',
+            '"quantum_resource_estimates_speedup_gate_speed_graph_data.tsv"',
+        ),
+    ]
+    for old, new in replacements:
+        html_text = html_text.replace(old, new)
+    html_text = html_text.replace(
+        "function pointClass(d) {",
+        "function limitingOperationTime(d) { const times = [d.physicalGateTimeSeconds, d.physicalMeasurementTimeSeconds].filter(t => t > 0); return times.length ? Math.max(...times) : null; }\nfunction limitingOperationSpeedMHz(d) { const t = limitingOperationTime(d); return t == null ? null : 1 / t / 1e6; }\nfunction limitingOperationLabel(d) { const t = limitingOperationTime(d); if (t == null) return \"NA\"; if (d.physicalGateTimeSeconds === t && d.physicalMeasurementTimeSeconds === t) return \"gate/measurement\"; if (d.physicalMeasurementTimeSeconds === t) return \"measurement\"; return \"gate\"; }\nfunction deviceGatePerformance(d) { const speedMHz = limitingOperationSpeedMHz(d); return speedMHz == null ? null : d.devicePerformance * speedMHz; }\nfunction pointClass(d) {",
+        1,
+    )
+    html_text = html_text.replace(
+        "d.devicePerformance > 0 &&\n    d.classicalQuantumRuntimeRatio > 0",
+        "d.devicePerformance > 0 &&\n    deviceGatePerformance(d) > 0 &&\n    d.classicalQuantumRuntimeRatio > 0",
+    )
+    html_text = html_text.replace("d=>d.devicePerformance", "d=>deviceGatePerformance(d)")
+    html_text = html_text.replace("sx(d.devicePerformance)", "sx(deviceGatePerformance(d))")
+    html_text = html_text.replace("${fmt(d.devicePerformance)}", "${fmt(deviceGatePerformance(d))}")
+    html_text = html_text.replace(",d.devicePerformance,", ",deviceGatePerformance(d),")
+    html_text = html_text.replace(
+        "<dt>physical measurement time</dt><dd>${fmt(d.physicalMeasurementTimeSeconds)}</dd>",
+        "<dt>physical measurement time</dt><dd>${fmt(d.physicalMeasurementTimeSeconds)}</dd>\n      <dt>limiting operation</dt><dd>${esc(limitingOperationLabel(d))}</dd>\n      <dt>limiting speed(MHz)</dt><dd>${fmt(limitingOperationSpeedMHz(d))}</dd>",
+    )
+    html_text = html_text.replace("× 物理操作速度(MHz) × 物理操作速度(MHz)", "× 物理操作速度(MHz)")
+    return html_text
 
 
 def build_physical_graph_html(base: Path, header: list[str], rows: list[list[str]]) -> str:
@@ -1548,7 +1728,9 @@ function showTip(d, event, force = false) {{
       <dt>物理量子ビット</dt><dd>${{fmt(d.physicalQubits)}}</dd>
       <dt>論理量子ビット</dt><dd>${{fmt(d.logicalQubits)}}</dd>
       <dt>code distance</dt><dd>${{fmt(d.codeDistance)}}</dd>
-      <dt>cycle/測定時間(s)</dt><dd>${{fmt(d.cycleTimeSeconds)}}</dd>
+      <dt>QEC cycle time(s)</dt><dd>${{fmt(d.cycleTimeSeconds)}}</dd>
+      <dt>physical gate time(s)</dt><dd>${{fmt(d.physicalGateTimeSeconds)}}</dd>
+      <dt>physical measurement time(s)</dt><dd>${{fmt(d.physicalMeasurementTimeSeconds)}}</dd>
       <dt>実行時間</dt><dd>${{fmtDuration(d.runtimeSeconds)}}</dd>
       <dt>古典計算時間</dt><dd>${{fmtDuration(d.classicalRuntimeSeconds)}}</dd>
       <dt>古典/量子時間比</dt><dd>${{fmt(d.classicalQuantumRuntimeRatio)}}</dd>
@@ -1711,7 +1893,7 @@ renderAll();
       <p>横軸はいずれも必要物理量子ビット数です。上の図は実行時間、下の図は報告された論理ゲート数を縦軸にしています。</p>
       <ul>
         <li>物理量子ビット数は、論文が報告した総数または表中の対応する物理量子ビット総数です。</li>
-        <li>実行時間は論文内の報告値です。shot数、並列化、factory数、cycle/測定時間などの仮定は論文により異なります。</li>
+        <li>実行時間は論文内の報告値です。shot数、並列化、factory数、QEC cycle timeなどの仮定は論文により異なります。</li>
         <li>論理ゲート数は、Toffoli数、Tゲート数、Cliffordゲート数、その他論理ゲート数の順に、表にある最初の報告値をそのまま使っています。</li>
         <li>物理エラー率、routing、factory、memory、module間通信などの含まれ方は詳細表示で確認できます。</li>
       </ul>
@@ -2544,17 +2726,25 @@ def english_public_graph_html(html_text: str) -> str:
         ("bit長", "bits"),
         ("100万 core 秒換算", "seconds at 1M cores"),
         ("表示する点", "Displayed Points"),
+        ("従来の生デバイス性能指標を横軸にした表示です。", "This view uses the original raw device-performance indicator on the x-axis."),
+        ("physical gate time と physical measurement time のうち遅い方を速度換算して使います。", "This view uses the slower of the physical gate time and physical measurement time converted to a speed."),
+        ("1枚目は、量子計算時間、物理量子ビット数、物理エラー率がある行だけを表示します。", "The first graph shows only rows with quantum runtime, physical qubits, and physical error rate."),
+        ("2枚目は、さらに physical gate time または physical measurement time がある行だけを表示します。", "The second graph further requires a physical gate time or physical measurement time."),
         ("量子計算時間、物理量子ビット数、物理エラー率がある行だけを表示します。", "Only rows with quantum runtime, physical qubits, and physical error rate are shown."),
         ("RSA系は上記GNFS外挿で古典時間を生成します。", "For RSA entries, classical runtimes are generated using the GNFS extrapolation above."),
         ("RSA以外は、元データに古典計算時間または古典/量子時間比がある場合だけ表示します。", "For non-RSA entries, rows are shown only when the source data includes a classical runtime or a classical/quantum runtime ratio."),
         ("黒い太枠で強調した点は、元論文で実際に実験として実施されたエントリです。", "Points with a thick black outline are entries actually performed as experiments in the source paper."),
+        ("1枚目の横軸は、誤り訂正前の生デバイス性能を粗く表す補助指標として、物理量子ビット数を物理エラー率で割った値を使っています。2枚目ではその値に、physical gate time と physical measurement time のうち遅い方から求めた物理操作速度(MHz)を掛けています。点にマウスを合わせると詳細を表示し、クリックすると表示を固定できます。固定表示は×ボタンで閉じられます。", "The first graph uses physical qubits divided by physical error rate as a rough auxiliary indicator of raw, pre-error-correction device performance. The second graph multiplies that value by the physical operation speed in MHz, using the slower of physical gate time and physical measurement time. Hover over a point to show details. Click a point to pin the details, and close the pinned panel with the × button."),
+        ("1枚目の横軸は、誤り訂正前の生Device性能を粗く表す補助指標として、Physical qubits数をPhysical error rateで割った値を使っています。2枚目ではその値に、physical gate time と physical measurement time のうち遅い方から求めた物理操作速度(MHz)を掛けています。Hover over a point to show details. Click a point to pin the details, and close the pinned panel with the × button.</p>", "The first graph uses physical qubits divided by physical error rate as a rough auxiliary indicator of raw, pre-error-correction device performance. The second graph multiplies that value by the physical operation speed in MHz, using the slower of physical gate time and physical measurement time. Hover over a point to show details. Click a point to pin the details, and close the pinned panel with the × button.</p>"),
         ("横軸は誤り訂正前の生デバイス性能を粗く表す補助指標として、物理量子ビット数を物理エラー率で割った値を使っています。誤り訂正なしのランダム量子回路サンプリング実験では、論文記載の代表的な同時2量子ビットゲートエラーを物理エラー率として使っています。点にマウスを合わせると詳細を表示し、クリックすると表示を固定できます。固定表示は×ボタンで閉じられます。", "The x-axis uses physical qubits divided by physical error rate as a rough auxiliary indicator of raw, pre-error-correction device performance. For random-circuit-sampling experiments without error correction, the representative simultaneous two-qubit gate error reported in the paper is used as the physical error rate. Hover over a point to show details. Click a point to pin the details, and close the pinned panel with the × button."),
         ("注: この図は古典/量子の大まかな速度比を見るための補助図です。RSAの古典時間は論文記載値ではなく、GNFS漸近主項をRSA-250実績に正規化した概算です。縦軸は10^25で表示を打ち切り、これを超える点は非表示にしています。縦軸の下限は表示対象データに合わせて自動で決まります。", "Note: this figure is an auxiliary view of rough classical/quantum speed ratios. RSA classical runtimes are not paper-reported values; they are estimates from the GNFS asymptotic leading term normalized to RSA-250. The y-axis is capped at 10^25, and points above this value are hidden. The lower y-axis bound is chosen automatically from the displayed data."),
         ("報告論理量子ビット数", "Reported logical qubits"),
         ("Toffoli換算または報告論理ゲート数", "Toffoli-equivalent or reported logical gates"),
         ("概算時間", "Approx. runtime"),
+        ("物理量子ビット数 / 物理エラー率 × 物理操作速度(MHz)", "Physical qubits / physical error rate × physical operation speed (MHz)"),
         ("物理量子ビット数 / 物理エラー率", "Physical qubits / physical error rate"),
         ("古典計算時間 / 量子計算時間", "Classical runtime / quantum runtime"),
+        ("物理量子ビット数/物理エラー率×物理操作速度(MHz)と古典計算時間/量子計算時間比の散布図", "Scatter plot of physical qubits divided by physical error rate times physical operation speed (MHz), and classical/quantum runtime ratio"),
         ("物理量子ビット数/物理エラー率と古典計算時間/量子計算時間比の散布図", "Scatter plot of physical qubits divided by physical error rate and classical/quantum runtime ratio"),
         ("論理量子ビット数と論理ゲート数の散布図", "Scatter plot of logical qubits and logical gate counts"),
         ("古典=量子", "classical = quantum"),
@@ -2566,14 +2756,19 @@ def english_public_graph_html(html_text: str) -> str:
         ("論理量子ビット", "Logical qubits"),
         ("縦軸値", "Y-axis value"),
         ("レート換算時間", "Runtime from rate"),
+        ("物理量子ビット/物理エラー率×物理操作速度(MHz)", "Physical qubits / physical error rate × physical operation speed (MHz)"),
         ("物理量子ビット/物理エラー率", "Physical qubits / physical error rate"),
+        ("速度込み生指標", "Speed-adjusted raw indicator"),
+        ("limiting speed(MHz)", "Limiting speed (MHz)"),
         ("物理量子ビット", "Physical qubits"),
         ("量子計算時間", "Quantum runtime"),
         ("古典計算時間", "Classical runtime"),
         ("古典/量子比", "Classical/quantum ratio"),
         ("古典時間の扱い", "Classical runtime treatment"),
         ("物理エラー率", "Physical error rate"),
-        ("cycle/測定時間", "cycle/measurement time"),
+        ("QEC cycle time", "QEC cycle time"),
+        ("physical gate time", "physical gate time"),
+        ("physical measurement time", "physical measurement time"),
         ("実行時間(s)", "Runtime (s)"),
         ("デバイス", "Device"),
         ("誤り訂正符号", "Error-correction code"),
@@ -2601,6 +2796,10 @@ def english_public_graph_html(html_text: str) -> str:
     ]
     for old, new in replacements:
         html_text = html_text.replace(old, new)
+    html_text = html_text.replace(
+        "1枚目の横軸は、誤り訂正前の生Device性能を粗く表す補助指標として、Physical qubits数をPhysical error rateで割った値を使っています。2枚目ではその値に、physical gate time と physical measurement time のうち遅い方から求めた物理操作速度(MHz)を掛けています。Hover over a point to show details. Click a point to pin the details, and close the pinned panel with the × button.",
+        "The first graph uses physical qubits divided by physical error rate as a rough auxiliary indicator of raw, pre-error-correction device performance. The second graph multiplies that value by the physical operation speed in MHz, using the slower of physical gate time and physical measurement time. Hover over a point to show details. Click a point to pin the details, and close the pinned panel with the × button.",
+    )
     return html_text
 
 
@@ -2617,6 +2816,7 @@ def main() -> None:
     graph_html = build_graph_html(base, main_header, main_rows)
     physical_graph_html = build_physical_graph_html(base, main_header, main_rows)
     speedup_graph_html = build_speedup_graph_html(base, main_header, main_rows)
+    speedup_gate_speed_graph_html = build_speedup_gate_speed_graph_html(base, main_header, main_rows)
     graph_html_en = english_public_graph_html(graph_html)
     speedup_graph_html_en = english_public_graph_html(speedup_graph_html)
     validate_html(base, html_text)
@@ -2627,6 +2827,7 @@ def main() -> None:
     (base / PHYSICAL_GRAPH_HTML_NAME).write_text(physical_graph_html, encoding="utf-8")
     (base / SPEEDUP_GRAPH_HTML_NAME).write_text(speedup_graph_html, encoding="utf-8")
     (base / SPEEDUP_GRAPH_HTML_EN_NAME).write_text(speedup_graph_html_en, encoding="utf-8")
+    (base / SPEEDUP_GATE_SPEED_GRAPH_HTML_NAME).write_text(speedup_gate_speed_graph_html, encoding="utf-8")
     print(f"read {base / 'data' / ROWS_JSON_NAME}")
     print(f"wrote {base / 'data' / 'resource_estimates.tsv'}")
     print(f"wrote {base / 'data' / NUMERIC_JSON_NAME}")
@@ -2636,6 +2837,7 @@ def main() -> None:
     print(f"wrote {base / PHYSICAL_GRAPH_HTML_NAME}")
     print(f"wrote {base / SPEEDUP_GRAPH_HTML_NAME}")
     print(f"wrote {base / SPEEDUP_GRAPH_HTML_EN_NAME}")
+    print(f"wrote {base / SPEEDUP_GATE_SPEED_GRAPH_HTML_NAME}")
 
 
 if __name__ == "__main__":
